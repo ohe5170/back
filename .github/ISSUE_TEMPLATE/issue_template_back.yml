@@ -1,0 +1,40 @@
+name: "🚀 Feature: 신규 기능 구현"
+description: 새로운 기능이나 API 구현을 제안합니다.
+title: "[Feature] 서비스명 - 기능 요약"
+labels: ["enhancement", "backend"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 💡 기능 구현 제안
+        백엔드 서버에 추가될 새로운 기능에 대해 설명해주세요.
+  - type: input
+    id: service_name
+    attributes:
+      label: 서비스 도메인
+      placeholder: "예: User, Order, Payment 등"
+    validations:
+      required: true
+  - type: textarea
+    id: feature_description
+    attributes:
+      label: 상세 구현 내용
+      description: 어떤 로직이 필요한지 상세히 적어주세요.
+      placeholder: "DTO 설계, 비즈니스 로직 flow, 외부 API 연동 여부 등"
+  - type: textarea
+    id: todo_list
+    attributes:
+      label: 📅 To-Do List
+      description: 작업 단위를 나누어 작성해주세요.
+      placeholder: |
+        - [ ] 엔티티 설계 및 매핑
+        - [ ] 레포지토리 및 서비스 로직 구현
+        - [ ] API 컨트롤러 작업 및 스웨거 문서화
+        - [ ] 단위 테스트 작성
+  - type: checkboxed
+    id: check_list
+    attributes:
+      label: 체크리스트
+      options:
+        - label: 기존 코드와의 충돌 여부를 확인했나요?
+        - label: 팀 내 코딩 컨벤션을 준수하나요?
