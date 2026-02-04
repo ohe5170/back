@@ -21,7 +21,7 @@ body:
       label: 상세 구현 내용
       description: 어떤 로직이 필요한지 상세히 적어주세요.
       placeholder: "DTO 설계, 비즈니스 로직 flow, 외부 API 연동 여부 등"
-  - type: textarea
+  - type: checkboxes
     id: todo_list
     attributes:
       label: 📅 To-Do List
