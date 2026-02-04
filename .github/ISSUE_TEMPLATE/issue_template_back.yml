@@ -29,25 +29,17 @@ body:
       label: "🔗 API 명세 (필요 시)"
       description: "작업 예정인 API 경로와 HTTP Method를 적어주세요."
       placeholder: "GET /api/v1/members/profile"
-  - type: textarea
-    id: tasks
+- type: textarea
+    id: todo_list
     attributes:
-      label: "✅ To-Do List"
-      description: "진행 상황을 추적할 수 있도록 할 일을 쪼개주세요."
+      label: "✅ To-Do List (진행 상황)"
+      description: "이슈 생성 후, 작업이 완료될 때마다 체크([x])해주세요."
       value: |
-        - [ ] 엔티티 클래스 생성 및 매핑
-        - [ ] 레포지토리 인터페이스 정의
-        - [ ] 비즈니스 로직(Service) 구현
-        - [ ] 컨트롤러 및 DTO 작성
-        - [ ] 단위 테스트 작성 및 API 문서화(Swagger)
-  - type: checkboxes
-    id: checks
-    attributes:
-      label: "🏁 최종 확인"
-      options:
-        - label: "기존의 공통 API 응답 규격을 준수하였나요?"
-          required: true
-        - label: "팀 내 코딩 컨벤션(Lint)을 확인하였나요?"
-          required: true
-        - label: "로컬 환경에서 테스트가 완료되었나요?"
-          required: true
+        - [ ] 엔티티 설계 및 JPA 매핑 확인
+        - [ ] 비즈니스 로직(Service) 구현 및 예외 처리
+        - [ ] API 컨트롤러(Controller) 및 DTO 개발
+        - [ ] JUnit5 기반 단위 테스트 및 통합 테스트 작성
+        - [ ] API 문서화 (Swagger/RestDocs) 반영
+    validations:
+      required: true
+
