@@ -17,15 +17,3 @@ body:
       label: "📖 상세 요구사항"
       description: "어떤 로직이 필요한지 상세히 적어주세요."
       placeholder: "비즈니스 로직 Flow, 외부 API 연동 여부 등"
-  - type: checkboxes
-    id: todo_list
-    attributes:
-      label: "✅ To-Do List (작업 범위)"
-      description: "이번 이슈에서 진행할 작업 항목을 선택해주세요."
-      options:
-        - label: "엔티티(Entity) 설계 및 JPA 매핑"
-        - label: "비즈니스 로직(Service) 구현 및 예외 처리"
-        - label: "API 컨트롤러(Controller) 및 DTO 개발"
-        - label: "JUnit5 기반 단위 및 통합 테스트 작성"
-        - label: "Swagger/RestDocs API 문서화"
-        - label: "DB 스키마 변경(Migration) 필요 여부 확인"
