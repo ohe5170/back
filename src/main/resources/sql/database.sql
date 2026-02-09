@@ -21,7 +21,7 @@ create table tbl_user (
 create table tbl_auth (
     id bigint unsigned PRIMARY KEY,
     auth_provider varchar(100) default 'kakao',
-    constraint  fk_user_auth foreign key (id)
+    constraint fk_user_auth foreign key (id)
     references tbl_user(id)
 );
 
@@ -72,6 +72,7 @@ create table tbl_category (
     category_name varchar(100) NOT NULL
 );
 
+-- 세부 카테고리
 create table tbl_sub_category (
     id bigint unsigned PRIMARY KEY,
     category_name varchar(100) NOT NULL,
@@ -132,6 +133,45 @@ create table tbl_keyword (
     references tbl_user(id)
 );
 
+-- 배송지 테이블
+create table tbl_delivery (
+    id bigint unsigned PRIMARY KEY,
+    user_id bigint unsigned,
+    delivery_address varchar(255) not null,
+    delivery_detail_address varchar(255) not null,
+    delivery_phone varchar(100) not null,
+    delivery_is_main boolean default false,
+    delivery_message varchar(255) not null,
+    constraint fk_delivery_user foreign key (user_id)
+    references tbl_user(id)
+);
+
+-- 주문 테이블
+create table tbl_order (
+    id bigint unsigned primary key,
+    user_id bigint unsigned not null,
+    order_delivery_type enum('post', 'take'),
+    order_state enum('pending', 'complete') default 'pending',
+    order_purchase_date datetime default current_timestamp,
+    order_take_date datetime not null,
+    constraint fk_payment_user foreign key (user_id)
+    references tbl_user(id)
+);
+
+-- 결제 테이블
+# TODO
+
+-- 주문 상품 목록 테이블
+create table tbl_order_item (
+    id bigint unsigned primary key,
+    order_id bigint not null,
+    item_id bigint not null,
+    constraint fk_list_order foreign key (order_id)
+    references tbl_order(id),
+    constraint fk_list_item foreign key (item_id)
+    references tbl_item(id)
+);
+
 -- 후기 테이블
 create table tbl_review (
     id bigint unsigned PRIMARY KEY,
@@ -184,6 +224,7 @@ create table tbl_file_market (
 create table tbl_file_item (
     file_id bigint unsigned NOT NULL,
     item_id bigint unsigned NOT NULL,
+    file_item_type enum('thumbnail', 'desc', 'seller-info', 'refund') not null,
     constraint fk_file_item foreign key (file_id)
     references tbl_file(id),
     constraint fk_target_item foreign key (item_id)
