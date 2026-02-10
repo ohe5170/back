@@ -41,14 +41,14 @@ public class MarketMapperTests {
 
     @Test
     public void testSelectAll() {
-        List<MarketDTO> marketList = marketMapper.selectAll();
+        List<MarketVO> marketList = marketMapper.selectAll();
         log.info("{}.....", marketList);
     }
 
     @Test
     public void testSelectByRegion() {
         String marketRegion = "서울";
-        List<MarketDTO> foundMarkets = marketMapper.selectByRegion(marketRegion);
+        List<MarketVO> foundMarkets = marketMapper.selectByRegion(marketRegion);
         log.info("{}.......", foundMarkets);
     }
 

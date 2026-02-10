@@ -1,11 +1,9 @@
 package com.app.haetssal_jangteo.mapper;
 
-import com.app.haetssal_jangteo.common.enumeration.StoreState;
 import com.app.haetssal_jangteo.domain.StoreVO;
 import com.app.haetssal_jangteo.dto.StoreDTO;
 import org.apache.ibatis.annotations.Mapper;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 

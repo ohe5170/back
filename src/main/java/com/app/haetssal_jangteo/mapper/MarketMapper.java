@@ -13,10 +13,10 @@ public interface MarketMapper {
     public void insert(MarketDTO marketDTO);
 
 //    전체 장터들 검색
-    public List<MarketDTO> selectAll();
+    public List<MarketVO> selectAll();
 
 //    지역으로 장터들 검색
-    public List<MarketDTO> selectByRegion(String marketRegion);
+    public List<MarketVO> selectByRegion(String marketRegion);
 
 //    id 로 장터 검색
     public Optional<MarketVO> selectById(Long id);

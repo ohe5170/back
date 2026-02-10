@@ -2,7 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.haetssal_jangteo.mapper.ItemMapper">
     <insert id="insert">
-        insert into tbl_item (id, item_store_id, item_category_id, item_name, item_content)
-        values (#{id}, #{itemStoreId}, #{itemCategoryId}, #{itemName}, #{itemContent})
+        insert into tbl_item (id, item_store_id, item_category_id, item_name, item_price, item_stock, item_content)
+        values (#{id}, #{itemStoreId}, #{itemCategoryId}, #{itemName}, #{itemPrice}, #{itemStock}, #{itemContent})
     </insert>
+
+    <insert id="insertOption" useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_item_option (option_item_id, option_name, option_detail, option_price, option_stock)
+        values (#{optionItemId}, #{optionName}, #{optionDetail}, #{optionPrice}, #{optionStock})
+    </insert>
+
+    <update id="update">
+        update tbl_item
+        set item_name = #{itemName},
+            item_price = #{itemPrice},
+            item_stock = #{itemStock},
+            item_content = #{itemContent}
+        where id = #{id}
+    </update>
+    
+    <update id="updateState">
+        update tbl_item
+        set item_state = #{itemState}
+        where id = #{id}
+    </update>
+
+    <update id="updateViewCount">
+        update tbl_item
+        set item_view_count = item_view_count + 1
+        where id = #{id}
+    </update>
+
+    <select id="selectAll">
+        select id, item_store_id, item_category_id, item_name, item_type, item_stock, item_price, item_delivery_fee, item_content, item_state, item_view_count, created_datetime, updated_datetime
+        from tbl_item
+    </select>
+
+    <select id="selectAllOptions">
+        select id, option_item_id, option_name, option_detail, option_price, option_stock
+        from tbl_item_option
+        where option_item_id = #{optionItemId}
+    </select>
 </mapper>

@@ -6,7 +6,6 @@ create table tbl_user (
     user_email varchar(255) NOT NULL,
     user_password varchar(255),
     user_phone varchar(255) UNIQUE NOT NULL,
-    user_reg_type enum('haetssal', 'social') default 'haetssal',
     user_type enum('normal', 'seller', 'admin') default 'normal',
     user_name varchar(100) NOT NULL,
     user_intro longtext NOT NULL,
@@ -20,7 +19,7 @@ create table tbl_user (
 -- 소셜 회원 테이블
 create table tbl_auth (
     id bigint unsigned PRIMARY KEY,
-    auth_provider varchar(100) default 'kakao',
+    auth_provider enum('haetssal', 'social'),
     constraint fk_user_auth foreign key (id)
     references tbl_user(id)
 );
@@ -104,7 +103,7 @@ create table tbl_item (
 
 -- 상품 옵션 테이블
 create table tbl_item_option (
-    id bigint unsigned PRIMARY KEY,
+    id bigint unsigned auto_increment PRIMARY KEY,
     option_item_id bigint unsigned NOT NULL,
     option_name varchar(255) NOT NULL,
     option_detail longtext NOT NULL,
@@ -116,7 +115,7 @@ create table tbl_item_option (
 
 -- 첨부파일 테이블
 create table tbl_file (
-    id bigint unsigned PRIMARY KEY,
+    id bigint unsigned auto_increment PRIMARY KEY,
     file_type enum('image', 'document') NOT NULL,
     file_name varchar(255) NOT NULL,
     file_saved_path longtext NOT NULL,
@@ -127,7 +126,7 @@ create table tbl_file (
 
 -- 검색어 테이블
 create table tbl_keyword (
-    id bigint unsigned PRIMARY KEY,
+    id bigint unsigned auto_increment PRIMARY KEY,
     content varchar(255) NOT NULL,
     keyword_member_id bigint unsigned NOT NULL,
     constraint fk_keyword_user foreign key (keyword_member_id)
@@ -193,7 +192,7 @@ create table tbl_review (
 
 -- 찜 테이블
 create table tbl_like_item (
-    id bigint unsigned PRIMARY KEY,
+    id bigint unsigned auto_increment PRIMARY KEY,
     like_user_id bigint unsigned NOT NULL,
     like_item_id bigint unsigned NOT NULL,
     created_datetime datetime default current_timestamp,
