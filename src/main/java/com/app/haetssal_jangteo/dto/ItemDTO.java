@@ -4,6 +4,8 @@ import com.app.haetssal_jangteo.common.enumeration.State;
 import com.app.haetssal_jangteo.domain.ItemVO;
 import lombok.*;
 
+import java.util.List;
+
 @Getter @Setter @ToString
 @EqualsAndHashCode(of="id")
 @NoArgsConstructor

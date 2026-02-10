@@ -19,23 +19,23 @@ public class MarketMapperTests {
 
     @Test
     public void testInsert() {
-//        MarketDTO marketDTO = new MarketDTO();
-//        marketDTO.setMarketRegion("서울");
-//        marketDTO.setMarketName("market name1");
-//        marketDTO.setMarketLocation("seoul gosanjaro 10 gil");
+        MarketDTO marketDTO = new MarketDTO();
+        marketDTO.setMarketRegion("서울");
+        marketDTO.setMarketName("market name1");
+        marketDTO.setMarketLocation("seoul gosanjaro 10 gil");
 
-//        MarketDTO marketDTO2 = new MarketDTO();
-//        marketDTO2.setMarketRegion("서울");
-//        marketDTO2.setMarketName("market name2");
-//        marketDTO2.setMarketLocation("seoul gosanjaro 11 gil");
+        MarketDTO marketDTO2 = new MarketDTO();
+        marketDTO2.setMarketRegion("서울");
+        marketDTO2.setMarketName("market name2");
+        marketDTO2.setMarketLocation("seoul gosanjaro 11 gil");
 
         MarketDTO marketDTO3 = new MarketDTO();
         marketDTO3.setMarketRegion("경기");
         marketDTO3.setMarketName("market name3");
         marketDTO3.setMarketLocation("seoul gosanjaro 12 gil");
 
-//        marketMapper.insert(marketDTO);
-//        marketMapper.insert(marketDTO2);
+        marketMapper.insert(marketDTO);
+        marketMapper.insert(marketDTO2);
         marketMapper.insert(marketDTO3);
     }
 

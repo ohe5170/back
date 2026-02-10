@@ -7,7 +7,7 @@ create table tbl_user (
     user_password varchar(255),
     user_phone varchar(255) UNIQUE NOT NULL,
     user_reg_type enum('haetssal', 'social') default 'haetssal',
-    user_type enum('normal', 'seller', 'admin'),
+    user_type enum('normal', 'seller', 'admin') default 'normal',
     user_name varchar(100) NOT NULL,
     user_intro longtext NOT NULL,
     user_visit_count int default 1,
@@ -49,7 +49,7 @@ create table tbl_market (
 
 -- 가게 테이블
 create table tbl_store (
-    id bigint unsigned  PRIMARY KEY,
+    id bigint unsigned auto_increment PRIMARY KEY,
     store_market_id bigint unsigned NOT NULL,
     store_owner_id bigint unsigned NOT NULL,
     store_name varchar(255) NOT NULL,
