@@ -1,0 +1,14 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
+<!--<mapper namespace="com.app.haetssal_jangteo.mapper.AdminMapper">-->
+<!--    <insert id="insert">-->
+<!--        insert into tbl_item (item_market_id, item_category_id, item_name,item_type, item_stock, item_price, item_delivery_fee, item_content, item_state, item_view_count)-->
+<!--        values ( #{itemMarketId}, #{itemCategoryId}, #{itemName}, #{itemType}, #{itemStock}, #{itemPrice}, #{itemDeliveryFee}, #{itemContent}, #{itemState}, #{itemViewCount})-->
+<!--    </insert>-->
+
+<!--    <select id="selectById">-->
+<!--        select id, item_market_id, item_category_id, item_name, item_type, item_stock, item_price, item_delivery_fee, item_content, item_state, item_view_count-->
+<!--        from tbl_item-->
+<!--        where id = #{id}-->
+<!--    </select>-->
+<!--</mapper>-->
