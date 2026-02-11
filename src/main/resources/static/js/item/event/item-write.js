@@ -7,8 +7,10 @@ const itemNameInput = document.getElementById("itemName");
 const itemContentInput = document.getElementById("itemContent");
 // 상품 금액 input
 const itemPriceInput = document.getElementById("itemPrice");
+// 상품 수량 input
+const itemStockInput = document.getElementById("itemStock");
 // 상품 이미지 input
-const itemImagesInput = document.getElementById("itemImages");
+const itemImagesInput = document.getElementById("itemThumbnail");
 // 상품 설명 이미지 input
 const itemDescImagesInput = document.getElementById("itemDescImages");
 // 상품 판매자 설명 이미지 input
@@ -17,8 +19,12 @@ const itemSellerImagesInput = document.getElementById("itemSellerImages");
 const itemRefundImagesInput = document.getElementById("itemRefundImages");
 
 // 상품 카테고리
-const itemCategory = document.getElementById("item-category");
-const itemSubCategory = document.getElementById("item-sub-category");
+const itemCategory = document.getElementById("itemCategory");
+const itemSubCategory = document.getElementById("itemSubCategory");
+// 카테고리 값이 들어가는 input
+const itemCategoryIdInput = document.getElementById("itemCategoryId");
+const itemSubCategoryIdInput = document.getElementById("itemSubCategoryId");
+
 
 // 상품 카테고리 선택창
 const categoryA = document.querySelector(
@@ -31,19 +37,24 @@ const categoryB = document.querySelector(
 // 상품 이미지 프리뷰 부분
 const itemImageContainer = document.querySelector(".img-container");
 
-// 상품 정보 값
-let itemData = {
-    itemMarketId: "",
-    itemCategoryId: "",
+// 상품 리셋 버튼
+const itemThumbnailDiv = document.getElementById("item-image");
+const imageResetButton = itemThumbnailDiv.querySelector(".reset-btn");
+
+// 전송 전 검증 용 배열
+const itemInfo = {
     itemName: "",
+    itemCategoryId: "",
+    itemSubCategory: "",
     itemContent: "",
     itemPrice: "",
-    itemImages: [],
+    itemStock: "",
+    itemThumbnail: [],
     itemDescImages: [],
     itemSellerImages: [],
     itemRefundImages: [],
     itemOptions: [],
-};
+}
 
 // 상품 이름 input Event
 itemNameInput.addEventListener("input", (e) => {
@@ -58,7 +69,7 @@ itemNameInput.addEventListener("input", (e) => {
         formWrapper.style.border = "1px solid rgb(84, 84, 84)";
         valueCount.innerHTML = `${value.length}/20`;
 
-        itemData.itemName = value;
+        itemInfo.itemName = value;
     } else {
         message.classList.remove("off");
         formWrapper.style.border = "1px solid rgb(229, 60, 65)";
@@ -79,7 +90,11 @@ itemCategory.addEventListener("click", (e) => {
         category.addEventListener("click", (e) => {
             itemCategory.parentElement.classList.add("selected");
             itemCategory.value = category.innerHTML;
-            itemData.itemCategoryId = category.value;
+
+            // 값 저장
+            itemCategoryIdInput.value = category.value;
+            itemInfo.itemCategoryId = category.value;
+
             categoryA.classList.add("off");
             itemSubCategory
                 .closest(".category-select-box")
@@ -90,7 +105,6 @@ itemCategory.addEventListener("click", (e) => {
 
 // 상세 카테고리 Event
 itemSubCategory.addEventListener("click", (e) => {
-    if (!itemData.itemCategoryId) return;
 
     const categoryList = categoryB.querySelectorAll(
         ".each-category-item.item-b",
@@ -103,7 +117,11 @@ itemSubCategory.addEventListener("click", (e) => {
         category.addEventListener("click", (e) => {
             itemSubCategory.parentElement.classList.add("selected");
             itemSubCategory.value = category.innerHTML;
-            itemData.itemCategoryId = category.value;
+
+            // 값 저장
+            itemSubCategoryIdInput.value = category.value;
+            itemInfo.itemSubCategory = category.value;
+
             categoryB.classList.add("off");
         });
     });
@@ -122,7 +140,7 @@ itemContentInput.addEventListener("input", (e) => {
         formWrapper.style.border = "1px solid rgb(84, 84, 84)";
         valueCount.innerHTML = `${value.length}/50`;
 
-        itemData.itemContent = value;
+        itemInfo.itemContent = value;
     } else {
         message.classList.remove("off");
         formWrapper.style.border = "1px solid rgb(229, 60, 65)";
@@ -143,7 +161,8 @@ itemPriceInput.addEventListener("input", (e) => {
         message.classList.add("off");
         formWrapper.style.border = "1px solid rgb(84, 84, 84)";
         itemPriceInput.value = parseInt(numericValue).toLocaleString();
-        itemData.itemPrice = numericValue;
+
+        itemInfo.itemPrice = numericValue;
     } else {
         itemPriceInput.value = 0;
         message.classList.remove("off");
@@ -151,36 +170,60 @@ itemPriceInput.addEventListener("input", (e) => {
     }
 });
 
+// 상품 수량
+itemStockInput.addEventListener("input", (e) => {
+    const formWrapper = itemStockInput.closest(".form-wrap");
+    const guideDiv = formWrapper.nextElementSibling;
+    const message = guideDiv.firstElementChild;
+
+    let value = e.target.value;
+    const numericValue = value.replace(/,/g, "");
+
+    if (numericValue && !isNaN(numericValue)) {
+        message.classList.add("off");
+        formWrapper.style.border = "1px solid rgb(84, 84, 84)";
+        itemStockInput.value = parseInt(numericValue).toLocaleString();
+
+        itemInfo.itemStock = numericValue;
+    } else {
+        itemStockInput.value = 0;
+        message.classList.remove("off");
+        formWrapper.style.border = "1px solid rgb(229, 60, 65)";
+    }
+});
+
+
 // 상품 이미지 Event
 const MAX_ITEM_IMAGES = 5;
 itemImagesInput.addEventListener("change", (e) => {
     const files = Array.from(e.target.files);
 
     // 최대 5장 제한 체크
-    const remainingSlots = MAX_ITEM_IMAGES - itemData.itemImages.length;
+    const remainingSlots = MAX_ITEM_IMAGES - itemInfo.itemThumbnail.length;
     const addImages = files.slice(0, remainingSlots);
 
     if (files.length > remainingSlots) {
         alert(`최대 ${MAX_ITEM_IMAGES}장 까지만 등록할 수 있습니다.`);
+        return;
     }
 
-    itemData.itemImages.push(...addImages);
+    itemInfo.itemThumbnail.push(...addImages);
     itemImageContainer.nextElementSibling.classList.remove("off");
 
     renderImageCard();
 
-    itemImagesInput.value = "";
+    imageResetButton.classList.remove("off");
 });
 
 // 상품 이미지 Preview 카드 뿌리기
 function renderImageCard() {
     itemImageContainer.innerHTML = "";
 
-    if (itemData.itemImages.length === 0) {
+    if (itemInfo.itemThumbnail.length === 0) {
         itemImageContainer.nextElementSibling.classList.add("off");
     }
 
-    itemData.itemImages.forEach((img, i) => {
+    itemInfo.itemThumbnail.forEach((img, i) => {
         const reader = new FileReader();
 
         reader.onload = (e) => {
@@ -189,11 +232,6 @@ function renderImageCard() {
             imgBox.dataset.index = i;
 
             imgBox.innerHTML = `
-                <button class="img-delete-btn" data-index="${i}">
-                    <svg width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                        <path d="M504.6 148.5C515.9 134.9 514.1 114.7 500.5 103.4C486.9 92.1 466.7 93.9 455.4 107.5L320 270L184.6 107.5C173.3 93.9 153.1 92.1 139.5 103.4C125.9 114.7 124.1 134.9 135.4 148.5L278.3 320L135.4 491.5C124.1 505.1 125.9 525.3 139.5 536.6C153.1 547.9 173.3 546.1 184.6 532.5L320 370L455.4 532.5C466.7 546.1 486.9 547.9 500.5 536.6C514.1 525.3 515.9 505.1 504.6 491.5L361.7 320L504.6 148.5z"/>
-                    </svg>
-                </button>
                 <img src="${e.target.result}" alt="preview-${i}">
             `;
 
@@ -204,18 +242,17 @@ function renderImageCard() {
     });
 }
 
-// 상품 프리뷰 이미지 삭제 버튼
-itemImageContainer.addEventListener("click", (e) => {
-    const deleteBtn = e.target.closest(".img-delete-btn");
+// 이미지 초기화 버튼
+imageResetButton.addEventListener("click", (e) => {
+    e.preventDefault();
 
-    if (deleteBtn) {
-        const index = parseInt(deleteBtn.dataset.index);
+    itemImagesInput.value = "";
+    itemInfo.itemThumbnail = [];
 
-        itemData.itemImages.splice(index, 1);
+    renderImageCard();
 
-        renderImageCard();
-    }
-});
+    imageResetButton.classList.add("off");
+})
 
 // 상품 설명 이미지 Event 부분들
 const MAX_DESC_IMAGES = 3;
@@ -238,6 +275,7 @@ function handleImageUpload(files, targetArray, previewContainer) {
 
     if (files.length > remainingSlots) {
         alert(`최대 ${MAX_DESC_IMAGES}장까지만 업로드 가능합니다.`);
+        return;
     }
 
     targetArray.push(...filesToAdd);
@@ -259,11 +297,6 @@ function renderDescImage(imageArray, container) {
 
             imgBox.innerHTML = `
                 <img src="${e.target.result}" alt="preview-${i}">
-                <button class="img-delete-btn" data-index="${i}">
-                    <svg width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                        <path d="M504.6 148.5C515.9 134.9 514.1 114.7 500.5 103.4C486.9 92.1 466.7 93.9 455.4 107.5L320 270L184.6 107.5C173.3 93.9 153.1 92.1 139.5 103.4C125.9 114.7 124.1 134.9 135.4 148.5L278.3 320L135.4 491.5C124.1 505.1 125.9 525.3 139.5 536.6C153.1 547.9 173.3 546.1 184.6 532.5L320 370L455.4 532.5C466.7 546.1 486.9 547.9 500.5 536.6C514.1 525.3 515.9 505.1 504.6 491.5L361.7 320L504.6 148.5z"/>
-                    </svg>
-                </button>
             `;
 
             container.appendChild(imgBox);
@@ -271,62 +304,75 @@ function renderDescImage(imageArray, container) {
 
         reader.readAsDataURL(file);
     });
-
-    // input 초기화
-    const input = container
-        .closest(".uploader-container")
-        .querySelector('input[type="file"]');
-    if (input) input.value = "";
-}
-
-// 공통 삭제 함수
-function deletDescImages(e, imageArray, previewContainer) {
-    const deleteBtn = e.target.closest(".img-delete-btn");
-
-    if (deleteBtn) {
-        const index = parseInt(deleteBtn.dataset.index);
-        imageArray.splice(index, 1);
-        renderDescImage(imageArray, previewContainer);
-    }
 }
 
 // 상품 설명 이미지 이벤트
 itemDescImagesInput.addEventListener("change", (e) => {
     handleImageUpload(
         e.target.files,
-        itemData.itemDescImages,
+        itemInfo.itemDescImages,
         descPreviewContainer,
     );
-});
 
-descPreviewContainer.addEventListener("click", (e) => {
-    deletDescImages(e, itemData.itemDescImages, descPreviewContainer);
+    const resetBtn = descPreviewContainer.previousElementSibling.previousElementSibling.lastElementChild;
+    resetBtn.classList.remove("off");
+
+    resetBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        itemDescImagesInput.value = "";
+        itemInfo.itemDescImages = [];
+
+        renderDescImage(itemInfo.itemDescImages, descPreviewContainer);
+
+        resetBtn.classList.add("off");
+    })
 });
 
 // 판매자 소개 이미지 이벤트
 itemSellerImagesInput.addEventListener("change", (e) => {
     handleImageUpload(
         e.target.files,
-        itemData.itemSellerImages,
+        itemInfo.itemSellerImages,
         sellerPreviewContainer,
     );
-});
 
-sellerPreviewContainer.addEventListener("click", (e) => {
-    deletDescImages(e, itemData.itemSellerImages, sellerPreviewContainer);
+    const resetBtn = sellerPreviewContainer.previousElementSibling.previousElementSibling.lastElementChild;
+    resetBtn.classList.remove("off");
+
+    resetBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        itemSellerImagesInput.value = "";
+        itemInfo.itemSellerImages = [];
+
+        renderDescImage(itemInfo.itemSellerImages, sellerPreviewContainer);
+
+        resetBtn.classList.add("off");
+    })
 });
 
 // 환불/교환 정책 이미지 이벤트
 itemRefundImagesInput.addEventListener("change", (e) => {
     handleImageUpload(
         e.target.files,
-        itemData.itemRefundImages,
+        itemInfo.itemRefundImages,
         refundPreviewContainer,
     );
-});
 
-refundPreviewContainer.addEventListener("click", (e) => {
-    deletDescImages(e, itemData.itemRefundImages, refundPreviewContainer);
+    const resetBtn = refundPreviewContainer.previousElementSibling.previousElementSibling.lastElementChild;
+    resetBtn.classList.remove("off");
+
+    resetBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        itemRefundImagesInput.value = "";
+        itemInfo.itemRefundImages = [];
+
+        renderDescImage(itemInfo.itemRefundImages ,refundPreviewContainer);
+
+        resetBtn.classList.add("off");
+    })
 });
 
 // 이미지들 누르면 원본 크기로 보이게 하기
@@ -379,8 +425,31 @@ viewerBackdrop.addEventListener("click", (e) => {
     }
 });
 
-// 상품 옵션이 없으면 리스트 안 보이기
-if (itemData.itemOptions.length === 0) {
-    const optionList = document.querySelector(".item-option-list");
-    optionList.classList.add("off");
-}
+
+// 상품 등록
+submitButton.addEventListener("click", (e) => {
+    const itemForm = document.querySelector("form[name=itemDTO]");
+
+    const requiredFields = {
+        itemName: '상품명',
+        itemCategoryId: '카테고리',
+        itemContent: '상품 설명',
+        itemPrice: '가격',
+        itemStock: '재고'
+    };
+
+    // 유효성 검사
+    for (const [field, label] of Object.entries(requiredFields)) {
+        if (!itemInfo[field] || itemInfo[field].toString().trim() === '') {
+            alert(`${label}을(를) 입력해주세요.`);
+            return;
+        }
+    }
+
+    console.log(itemImagesInput.files);
+    console.log(itemDescImagesInput.files);
+    console.log(itemSellerImagesInput.files);
+    console.log(itemRefundImagesInput.files);
+
+    itemForm.submit();
+})

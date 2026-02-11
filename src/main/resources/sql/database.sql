@@ -6,8 +6,7 @@ create table tbl_user (
     user_email varchar(255) NOT NULL,
     user_password varchar(255),
     user_phone varchar(255) UNIQUE NOT NULL,
-    user_reg_type enum('haetssal', 'social') default 'haetssal',
-    user_type enum('normal', 'seller', 'admin'),
+    user_type enum('normal', 'seller', 'admin') default 'normal',
     user_name varchar(100) NOT NULL,
     user_intro longtext NOT NULL,
     user_visit_count int default 1,
@@ -20,7 +19,7 @@ create table tbl_user (
 -- 소셜 회원 테이블
 create table tbl_auth (
     id bigint unsigned PRIMARY KEY,
-    auth_provider varchar(100) default 'kakao',
+    auth_provider enum('haetssal', 'social'),
     constraint fk_user_auth foreign key (id)
     references tbl_user(id)
 );
@@ -38,7 +37,7 @@ create table tbl_seller (
 
 -- 장터 테이블
 create table tbl_market (
-    id bigint unsigned PRIMARY KEY,
+    id bigint unsigned auto_increment PRIMARY KEY,
     market_region varchar(100) NOT NULL,
     market_name varchar(255) NOT NULL,
     market_location varchar(255) NOT NULL,
@@ -49,7 +48,7 @@ create table tbl_market (
 
 -- 가게 테이블
 create table tbl_store (
-    id bigint unsigned PRIMARY KEY,
+    id bigint unsigned auto_increment PRIMARY KEY,
     store_market_id bigint unsigned NOT NULL,
     store_owner_id bigint unsigned NOT NULL,
     store_name varchar(255) NOT NULL,
@@ -83,50 +82,54 @@ create table tbl_sub_category (
 
 -- 상품 테이블
 create table tbl_item (
-    id bigint unsigned PRIMARY KEY,
-    item_market_id bigint unsigned NOT NULL,
+    id bigint unsigned auto_increment PRIMARY KEY,
+    item_store_id bigint unsigned NOT NULL,
     item_category_id bigint unsigned NOT NULL,
+    item_subcategory_id bigint unsigned,
     item_name varchar(255) NOT NULL,
     item_type varchar(100) NOT NULL default 'normal',
-    item_stock int default 0,
-    item_price int default 0,
-    item_delivery_fee int default 0,
+    item_stock varchar(255) default 0,
+    item_price varchar(255) default 0,
+    item_delivery_fee varchar(255) default 0,
     item_content longtext NOT NULL,
     item_state enum('active', 'inactive') default 'active',
     item_view_count int default 0,
     created_datetime datetime default current_timestamp,
     updated_datetime datetime default current_timestamp,
-    constraint fk_item_market foreign key (item_market_id)
-    references tbl_market(id),
+    constraint fk_item_store foreign key (item_store_id)
+    references tbl_store(id),
     constraint fk_item_category foreign key (item_category_id)
-    references tbl_category(id)
+    references tbl_category(id),
+    constraint fk_item_subcategory foreign key (item_subcategory_id)
+    references tbl_sub_category(id)
 );
 
 -- 상품 옵션 테이블
 create table tbl_item_option (
-    id bigint unsigned PRIMARY KEY,
+    id bigint unsigned auto_increment PRIMARY KEY,
     option_item_id bigint unsigned NOT NULL,
     option_name varchar(255) NOT NULL,
     option_detail longtext NOT NULL,
-    option_price int default 0,
+    option_price varchar(255) default 0,
+    option_stock varchar(255) default 0,
     constraint fk_option_item foreign key (option_item_id)
     references tbl_item(id)
 );
 
 -- 첨부파일 테이블
 create table tbl_file (
-    id bigint unsigned PRIMARY KEY,
+    id bigint unsigned auto_increment PRIMARY KEY,
     file_type enum('image', 'document') NOT NULL,
     file_name varchar(255) NOT NULL,
-    file_saved_path longtext NOT NULL,
-    file_origin_path longtext NOT NULL,
-    file_size bigint,
+    file_origin_name varchar(255) NOT NULL,
+    file_saved_path varchar(255) NOT NULL,
+    file_size varchar(255),
     created_datetime datetime default current_timestamp
 );
 
 -- 검색어 테이블
 create table tbl_keyword (
-    id bigint unsigned PRIMARY KEY,
+    id bigint unsigned auto_increment PRIMARY KEY,
     content varchar(255) NOT NULL,
     keyword_member_id bigint unsigned NOT NULL,
     constraint fk_keyword_user foreign key (keyword_member_id)
@@ -164,8 +167,8 @@ create table tbl_order (
 -- 주문 상품 목록 테이블
 create table tbl_order_item (
     id bigint unsigned primary key,
-    order_id bigint not null,
-    item_id bigint not null,
+    order_id bigint unsigned not null,
+    item_id bigint unsigned not null,
     constraint fk_list_order foreign key (order_id)
     references tbl_order(id),
     constraint fk_list_item foreign key (item_id)
@@ -192,7 +195,7 @@ create table tbl_review (
 
 -- 찜 테이블
 create table tbl_like_item (
-    id bigint unsigned PRIMARY KEY,
+    id bigint unsigned auto_increment PRIMARY KEY,
     like_user_id bigint unsigned NOT NULL,
     like_item_id bigint unsigned NOT NULL,
     created_datetime datetime default current_timestamp,
@@ -213,46 +216,55 @@ create table tbl_report (
 # -----------------------------------
 # 첨부파일 관련 table
 create table tbl_file_market (
-    file_id bigint unsigned NOT NULL,
+    id bigint unsigned NOT NULL,
     market_id bigint unsigned NOT NULL,
-    constraint fk_file_market foreign key (file_id)
+    constraint fk_file_market foreign key (id)
     references tbl_file(id),
     constraint fk_target_market foreign key (market_id)
     references tbl_market(id)
 );
 
+create table tbl_file_store (
+    id bigint unsigned NOT NULL,
+    store_id bigint unsigned NOT NULL,
+    constraint fk_file_store foreign key (id)
+    references tbl_file(id),
+    constraint fk_target_store foreign key (store_id)
+    references tbl_store(id)
+);
+
 create table tbl_file_item (
-    file_id bigint unsigned NOT NULL,
+    id bigint unsigned NOT NULL,
     item_id bigint unsigned NOT NULL,
     file_item_type enum('thumbnail', 'desc', 'seller-info', 'refund') not null,
-    constraint fk_file_item foreign key (file_id)
+    constraint fk_file_item foreign key (id)
     references tbl_file(id),
     constraint fk_target_item foreign key (item_id)
     references tbl_item(id)
 );
 
 create table tbl_file_user (
-    file_id bigint unsigned NOT NULL,
+    id bigint unsigned NOT NULL,
     user_id bigint unsigned NOT NULL,
-    constraint fk_file_user foreign key (file_id)
+    constraint fk_file_user foreign key (id)
     references tbl_file(id),
     constraint fk_target_user foreign key (user_id)
     references tbl_user(id)
 );
 
 create table tbl_file_report (
-    file_id bigint unsigned NOT NULL,
+    id bigint unsigned NOT NULL,
     report_id bigint unsigned NOT NULL,
-    constraint fk_file_report foreign key (file_id)
+    constraint fk_file_report foreign key (id)
     references tbl_file(id),
     constraint fk_target_report foreign key (report_id)
     references tbl_report(id)
 );
 
 create table tbl_file_review (
-    file_id bigint unsigned NOT NULL,
+    id bigint unsigned NOT NULL,
     report_id bigint unsigned NOT NULL,
-    constraint fk_file_review foreign key (file_id)
+    constraint fk_file_review foreign key (id)
     references tbl_file(id),
     constraint fk_target_review foreign key (report_id)
     references tbl_review(id)

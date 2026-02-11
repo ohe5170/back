@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.haetssal_jangteo.mapper.StoreMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_store (store_market_id, store_owner_id, store_name, store_intro, store_address)
+        values (#{storeMarketId}, #{storeOwnerId}, #{storeName}, #{storeIntro}, #{storeAddress});
+    </insert>
+
+    <select id="selectAll">
+        select id, store_market_id, store_owner_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
+        from tbl_store
+    </select>
+
+    <select id="selectByMarketId">
+        select id, store_market_id, store_owner_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
+        from tbl_store
+        where store_market_id = #{storeMarketId}
+    </select>
+
+    <select id="selectById">
+        select id, store_market_id, store_owner_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
+        from tbl_store
+        where id = #{id}
+    </select>
+
+    <select id="selectByStoreName">
+        select id, store_market_id, store_owner_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
+        from tbl_store
+        where store_name = #{storeName}
+    </select>
+
+    <select id="selectByStoreOwnerId">
+        select id, store_market_id, store_owner_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
+        from tbl_store
+        where store_owner_id = #{storeOwnerId}
+    </select>
+
+    <update id="update">
+        update tbl_store
+        set store_name = #{storeName},
+            store_intro = #{storeIntro},
+            updated_datetime = current_timestamp
+        where id = #{id}
+    </update>
+
+    <update id="updateState">
+        update tbl_store
+        set store_state = #{storeState}
+        where id = #{id}
+    </update>
+
+    <update id="updateIsConfirmed">
+        update tbl_store
+        set store_is_confirmed = #{storeIsConfirmed}
+        where id = #{id}
+    </update>
+</mapper>
