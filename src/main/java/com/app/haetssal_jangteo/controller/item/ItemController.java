@@ -6,19 +6,19 @@ import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/item/**")
 @RequiredArgsConstructor
 public class ItemController {
-    private final ItemService itemService;
     private final HttpSession session;
+    private final ItemService itemService;
 
     @GetMapping("/write")
     public String goToWriteForm() {
@@ -26,7 +26,9 @@ public class ItemController {
     }
 
     @PostMapping("/write")
-    public RedirectView write(ItemDTO itemDTO, RedirectAttributes redirectAttributes) {
+    public RedirectView write(ItemDTO itemDTO,
+//                              @RequestParam("file") ArrayList<MultipartFile> multipartFile,
+                              RedirectAttributes redirectAttributes) {
         itemService.save(itemDTO);
         redirectAttributes.addAttribute("id", itemDTO.getId());
         return new RedirectView("/detail");

@@ -12,6 +12,6 @@ public class ItemOptionVO {
     private Long optionItemId;
     private String optionName;
     private String optionDetail;
-    private int optionPrice;
-    private int optionStock;
+    private String optionPrice;
+    private String optionStock;
 }

@@ -82,14 +82,15 @@ create table tbl_sub_category (
 
 -- 상품 테이블
 create table tbl_item (
-    id bigint unsigned PRIMARY KEY,
+    id bigint unsigned auto_increment PRIMARY KEY,
     item_store_id bigint unsigned NOT NULL,
     item_category_id bigint unsigned NOT NULL,
+    item_subcategory_id bigint unsigned,
     item_name varchar(255) NOT NULL,
     item_type varchar(100) NOT NULL default 'normal',
-    item_stock int default 0,
-    item_price int default 0,
-    item_delivery_fee int default 0,
+    item_stock varchar(255) default 0,
+    item_price varchar(255) default 0,
+    item_delivery_fee varchar(255) default 0,
     item_content longtext NOT NULL,
     item_state enum('active', 'inactive') default 'active',
     item_view_count int default 0,
@@ -98,7 +99,9 @@ create table tbl_item (
     constraint fk_item_store foreign key (item_store_id)
     references tbl_store(id),
     constraint fk_item_category foreign key (item_category_id)
-    references tbl_category(id)
+    references tbl_category(id),
+    constraint fk_item_subcategory foreign key (item_subcategory_id)
+    references tbl_sub_category(id)
 );
 
 -- 상품 옵션 테이블
@@ -107,8 +110,8 @@ create table tbl_item_option (
     option_item_id bigint unsigned NOT NULL,
     option_name varchar(255) NOT NULL,
     option_detail longtext NOT NULL,
-    option_price int default 0,
-    option_stock int default 0,
+    option_price varchar(255) default 0,
+    option_stock varchar(255) default 0,
     constraint fk_option_item foreign key (option_item_id)
     references tbl_item(id)
 );
@@ -118,9 +121,9 @@ create table tbl_file (
     id bigint unsigned auto_increment PRIMARY KEY,
     file_type enum('image', 'document') NOT NULL,
     file_name varchar(255) NOT NULL,
-    file_saved_path longtext NOT NULL,
-    file_origin_path longtext NOT NULL,
-    file_size bigint,
+    file_origin_name varchar(255) NOT NULL,
+    file_saved_path varchar(255) NOT NULL,
+    file_size varchar(255),
     created_datetime datetime default current_timestamp
 );
 

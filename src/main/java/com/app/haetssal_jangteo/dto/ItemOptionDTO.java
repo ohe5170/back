@@ -11,8 +11,8 @@ public class ItemOptionDTO {
     private Long optionItemId;
     private String optionName;
     private String optionDetail;
-    private int optionPrice;
-    private int optionStock;
+    private String optionPrice;
+    private String optionStock;
 
     public ItemOptionVO toVO() {
         return ItemOptionVO.builder()

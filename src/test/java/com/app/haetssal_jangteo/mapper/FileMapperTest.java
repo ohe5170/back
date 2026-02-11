@@ -24,7 +24,7 @@ public class FileMapperTest {
         fileItemDTO.setFileName("123123");
         fileItemDTO.setFileSavedPath("../../path");
         fileItemDTO.setFileOriginPath("../../oripath");
-        fileItemDTO.setFileSize(100L);
+        fileItemDTO.setFileSize("100L");
 
         fileItemDTO.setItemId(1L);
         fileItemDTO.setFileItemType(FileItemType.THUMBNAIL);

@@ -26,8 +26,8 @@ public class ItemMapperTest {
         itemDTO.setItemStoreId(2L);
         itemDTO.setItemCategoryId(100L);
         itemDTO.setItemName("사과 박스");
-        itemDTO.setItemPrice(15000);
-        itemDTO.setItemStock(40);
+        itemDTO.setItemPrice("15000");
+        itemDTO.setItemStock("40");
         itemDTO.setItemContent("사과 1 BOX (10KG)");
 
         itemMapper.insert(itemDTO);
@@ -39,29 +39,29 @@ public class ItemMapperTest {
         itemOptionDTO.setOptionItemId(1L);
         itemOptionDTO.setOptionName("옵션1");
         itemOptionDTO.setOptionDetail("사과 박스 1 BOX (16KG)");
-        itemOptionDTO.setOptionPrice(20000);
-        itemOptionDTO.setOptionStock(15);
+        itemOptionDTO.setOptionPrice("20000");
+        itemOptionDTO.setOptionStock("15");
 
         ItemOptionDTO itemOptionDTO2 = new ItemOptionDTO();
         itemOptionDTO2.setOptionItemId(1L);
         itemOptionDTO2.setOptionName("옵션2");
         itemOptionDTO2.setOptionDetail("사과 박스 1 BOX (16KG)");
-        itemOptionDTO2.setOptionPrice(25000);
-        itemOptionDTO2.setOptionStock(20);
+        itemOptionDTO2.setOptionPrice("25000");
+        itemOptionDTO2.setOptionStock("20");
 
         ItemOptionDTO itemOptionDTO3 = new ItemOptionDTO();
         itemOptionDTO3.setOptionItemId(1L);
         itemOptionDTO3.setOptionName("옵션3");
         itemOptionDTO3.setOptionDetail("사과 박스 1 BOX (16KG)");
-        itemOptionDTO3.setOptionPrice(30000);
-        itemOptionDTO3.setOptionStock(35);
+        itemOptionDTO3.setOptionPrice("30000");
+        itemOptionDTO3.setOptionStock("35");
 
         ItemOptionDTO itemOptionDTO4 = new ItemOptionDTO();
         itemOptionDTO4.setOptionItemId(1L);
         itemOptionDTO4.setOptionName("옵션4");
         itemOptionDTO4.setOptionDetail("사과 박스 1 BOX (16KG)");
-        itemOptionDTO4.setOptionPrice(35000);
-        itemOptionDTO4.setOptionStock(30);
+        itemOptionDTO4.setOptionPrice("35000");
+        itemOptionDTO4.setOptionStock("30");
 
         itemMapper.insertOption(itemOptionDTO);
         itemMapper.insertOption(itemOptionDTO2);
@@ -74,8 +74,8 @@ public class ItemMapperTest {
         ItemDTO itemDTO = new ItemDTO();
         itemDTO.setId(1L);
         itemDTO.setItemName("배 박스");
-        itemDTO.setItemPrice(20000);
-        itemDTO.setItemStock(20);
+        itemDTO.setItemPrice("20000");
+        itemDTO.setItemStock("20");
         itemDTO.setItemContent("배 1 BOX (10KG)");
 
         itemMapper.update(itemDTO);

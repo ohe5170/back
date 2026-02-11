@@ -898,76 +898,68 @@ svg:not(:root) {
     gap: 8px;
 }
 
-.option-card-wrapper {
-    position: relative;
-    overflow: hidden;
-}
-
-.option-card-container {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: auto;
-    left: 0%;
-    border-radius: 5px;
-    border: 1px solid rgb(228, 228, 228);
-    opacity: 1;
-    overflow-x: hidden;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 4px 0px;
-}
-
-.option-card-container:hover {
-    cursor: pointer;
-}
-
-.option-card {
-    padding: 20px;
-}
-
-.price-wrap {
-    display: flex;
-    align-items: center;
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 120%;
-    margin: 0px 0px 2px;
-}
-
-.option-name {
-    margin-top: 6px;
-    font-size: 13px;
-    font-weight: normal;
-    line-height: 120%;
-    padding-left: 0px;
-    overflow-wrap: break-word;
-}
-
-.option-explain {
-    color: rgb(158, 158, 158);
-}
-
-.item-list {
+.option-group {
     position: relative;
     display: flex;
     flex-direction: column;
-    font-size: 12px;
-    line-height: 19px;
-    letter-spacing: -0.01em;
-    margin: 0px;
-    margin-top: 5px;
-    font-weight: normal;
-    font-family: "Pretendard", sans-serif;
-    list-style: none;
+    width: 300px;
+    height: 120px;
+    border: 1px solid rgb(201, 201, 201);
+    padding: 15px;
+    background: white;
+    border-radius: 4px;
 }
 
-.option-text {
-    display: block;
+.option-group:hover {
+    cursor: pointer;
+}
+
+.option-group h4 {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 22px;
+    margin-bottom: 2px;
+}
+
+.option-group-upper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    width: 100%;
+}
+
+.option-group-bottom {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+
+.option-name {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 22px;
+}
+
+.option-detail {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 22px;
+    background: none;
+}
+
+.option-price {
     font-size: 14px;
-    font-weight: bold;
-    line-height: 150%;
-    color: rgb(28, 28, 28);
-    margin-bottom: 0.5rem;
+    font-weight: 400;
+    line-height: 22px;
+    background: none;
+}
+
+.option-stock {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 22px;
+    background: none;
 }
 
 .option-delete-button {

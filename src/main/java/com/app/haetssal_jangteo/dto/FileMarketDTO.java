@@ -16,7 +16,7 @@ public class FileMarketDTO {
     private String fileName;
     private String fileSavedPath;
     private String fileOriginPath;
-    private Long fileSize;
+    private String fileSize;
     private String createdDatetime;
 
     private Long marketId;

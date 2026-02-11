@@ -13,11 +13,12 @@ public class ItemVO extends Period {
     private Long id;
     private Long itemStoreId;
     private Long itemCategoryId;
+    private Long itemSubCategoryId;
     private String itemName;
     private String itemType;
-    private int itemStock;
-    private int itemPrice;
-    private int itemDeliveryFee;
+    private String itemStock;
+    private String itemPrice;
+    private String itemDeliveryFee;
     private String itemContent;
     private State itemState;
     private int itemViewCount;

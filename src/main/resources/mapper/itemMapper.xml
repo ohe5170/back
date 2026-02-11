@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.haetssal_jangteo.mapper.ItemMapper">
-    <insert id="insert">
-        insert into tbl_item (id, item_store_id, item_category_id, item_name, item_price, item_stock, item_content)
-        values (#{id}, #{itemStoreId}, #{itemCategoryId}, #{itemName}, #{itemPrice}, #{itemStock}, #{itemContent})
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_item (id, item_store_id, item_category_id, item_subcategory_id, item_name, item_price, item_stock, item_content)
+        values (#{id}, #{itemStoreId}, #{itemCategoryId}, #{itemSubCategoryId}, #{itemName}, #{itemPrice}, #{itemStock}, #{itemContent})
     </insert>
 
     <insert id="insertOption" useGeneratedKeys="true" keyProperty="id">

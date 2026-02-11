@@ -8,6 +8,13 @@ spring:
     username: haetssal_jangteo
     password: 1234
 
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 10MB
+      max-file-size: 5MB
+      max-request-size: 15MB
+
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
