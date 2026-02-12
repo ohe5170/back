@@ -10,7 +10,7 @@ public enum User {
 
     private String value;
 
-    private static final Map<String, User> STATUS_MAP =
+    private static final Map<String, User> USER_MAP =
             Arrays.stream(User.values()).collect(Collectors.toMap(User::getValue, Function.identity()));
 
     User(String value) {
@@ -18,7 +18,7 @@ public enum User {
     }
 
     public static User getUser(String value) {
-        return STATUS_MAP.get(value);
+        return USER_MAP.get(value);
     }
 
     public String getValue() {

@@ -23,9 +23,7 @@ where file_type = 'image';
 
 select * from tbl_user;
 
-# 뷰 조회 확인
-select * from vw_file_item
-where item_id = 3;
+select * from tbl_auth;
 
 # 확인용 유저 샘플
 insert into tbl_user (id, user_email, user_phone, user_name, user_intro)

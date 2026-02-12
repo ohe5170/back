@@ -1,4 +1,4 @@
-package com.app.haetssal_jangteo.repository;
+package com.app.haetssal_jangteo.repository.user;
 
 import com.app.haetssal_jangteo.domain.OAuthVO;
 import com.app.haetssal_jangteo.dto.UserDTO;
@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class UserDAO {
+//    주입!
     private final UserMapper userMapper;
 
 //    이메일 검사

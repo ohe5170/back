@@ -2,7 +2,7 @@ package com.app.haetssal_jangteo.domain;
 
 import com.app.haetssal_jangteo.audit.Period;
 import com.app.haetssal_jangteo.common.enumeration.Provider;
-import com.app.haetssal_jangteo.common.enumeration.Status;
+import com.app.haetssal_jangteo.common.enumeration.State;
 import com.app.haetssal_jangteo.common.enumeration.User;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -23,6 +23,6 @@ public class UserVO extends Period {
     private String userIntro;
     private int userVisitCount;
     private String userLatestLogin;
-    private Status userState;
+    private State userState;
 
 }
