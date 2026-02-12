@@ -52,3 +52,9 @@ values (1, '과일');
 
 select id from tbl_category;
 
+insert into tbl_category (id, category_name)
+values (1, '과일');
+
+insert into tbl_market (id, market_name, market_region, market_location, market_state)
+values (1, '가락시장', '서울', '가락동', 'active');
+
