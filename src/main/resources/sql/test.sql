@@ -23,9 +23,7 @@ where file_type = 'image';
 
 select * from tbl_user;
 
-# 뷰 조회 확인
-select * from vw_file_item
-where item_id = 3;
+select * from tbl_auth;
 
 # 확인용 유저 샘플
 insert into tbl_user (id, user_email, user_phone, user_name, user_intro)
@@ -53,4 +51,10 @@ insert into tbl_category (id, category_name)
 values (1, '과일');
 
 select id from tbl_category;
+
+insert into tbl_category (id, category_name)
+values (1, '과일');
+
+insert into tbl_market (id, market_name, market_region, market_location, market_state)
+values (1, '가락시장', '서울', '가락동', 'active');
 

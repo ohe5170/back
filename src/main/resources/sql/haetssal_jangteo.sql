@@ -2,7 +2,7 @@ use haetssal_jangteo;
 
 -- 회원 테이블
 create table tbl_user (
-                          id bigint unsigned PRIMARY KEY,
+                          id bigint unsigned auto_increment PRIMARY KEY,
                           user_email varchar(255) NOT NULL,
                           user_password varchar(255),
                           user_phone varchar(255) UNIQUE NOT NULL,
@@ -46,12 +46,11 @@ create table tbl_market (
                             created_datetime datetime default current_timestamp,
                             updated_datetime datetime default current_timestamp
 );
-insert into tbl_market (id, market_name, market_region, market_location, market_state)
-values (1, '가락시장', '서울', '가락동', 'active');
+
 
 -- 가게 테이블
 create table tbl_store (
-                           id bigint unsigned PRIMARY KEY,
+                           id bigint unsigned auto_increment PRIMARY KEY,
                            store_market_id bigint unsigned NOT NULL,
                            store_owner_id bigint unsigned NOT NULL,
                            store_name varchar(255) NOT NULL,
@@ -73,8 +72,7 @@ create table tbl_category (
                               id bigint unsigned PRIMARY KEY,
                               category_name varchar(100) NOT NULL
 );
-insert into tbl_category (id, category_name)
-values (1, '과일');
+
 
 
 create table tbl_sub_category (
@@ -133,7 +131,7 @@ create table tbl_file (
 
 -- 검색어 테이블
 create table tbl_keyword (
-                             id bigint unsigned PRIMARY KEY,
+                             id bigint unsigned auto_increment PRIMARY KEY,
                              content varchar(255) NOT NULL,
                              keyword_member_id bigint unsigned NOT NULL,
                              constraint fk_keyword_user foreign key (keyword_member_id)
@@ -162,7 +160,7 @@ create table tbl_review (
 
 -- 찜 테이블
 create table tbl_like_item (
-                               id bigint unsigned PRIMARY KEY,
+                               id bigint unsigned auto_increment PRIMARY KEY,
                                like_user_id bigint unsigned NOT NULL,
                                like_item_id bigint unsigned NOT NULL,
                                created_datetime datetime default current_timestamp,
@@ -174,7 +172,7 @@ create table tbl_like_item (
 
 -- 신고 테이블
 create table tbl_report (
-                            id bigint unsigned PRIMARY KEY,
+                            id bigint unsigned auto_increment PRIMARY KEY,
                             report_type enum('market', 'seller', 'report') default 'report',
                             report_reporter_id bigint unsigned NOT NULL,
                             created_datetime datetime default current_timestamp
