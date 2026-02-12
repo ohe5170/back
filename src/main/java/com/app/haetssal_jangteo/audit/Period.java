@@ -1,9 +1,15 @@
 package com.app.haetssal_jangteo.audit;
 
-import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Getter @ToString
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Getter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
 public abstract class Period {

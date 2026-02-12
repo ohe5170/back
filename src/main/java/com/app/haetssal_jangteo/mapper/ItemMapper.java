@@ -1,11 +1,13 @@
 package com.app.haetssal_jangteo.mapper;
 
 import com.app.haetssal_jangteo.domain.ItemOptionVO;
+import com.app.haetssal_jangteo.domain.ItemVO;
 import com.app.haetssal_jangteo.dto.ItemDTO;
 import com.app.haetssal_jangteo.dto.ItemOptionDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface ItemMapper {
@@ -27,10 +29,11 @@ public interface ItemMapper {
 //    전체 상품 조회
     public List<ItemDTO> selectAll();
 
-//    상품 옵션 전체 조회
-    public List<ItemOptionVO> selectAllOptions(Long optionItemId);
-
 //    상품 id로 상품 하나 조회
+    public Optional<ItemVO> selectById(Long id);
+
+//    상품 id로 해당 상품 옵션 전체 조회
+    public List<ItemOptionVO> selectAllOptions(Long optionItemId);
 
 //    회원 id로 상품들 조회
 

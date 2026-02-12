@@ -1,5 +1,6 @@
 package com.app.haetssal_jangteo.mapper;
 
+import com.app.haetssal_jangteo.common.enumeration.FileItemType;
 import com.app.haetssal_jangteo.common.enumeration.Filetype;
 import com.app.haetssal_jangteo.dto.FileDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +19,10 @@ public class FileMapperTest {
     public void testInsert() {
         FileDTO fileDTO = new FileDTO();
         fileDTO.setFileType(Filetype.IMAGE);
-        fileDTO.setFileName("123123");
-        fileDTO.setFileOriginName("originName");
+        fileDTO.setFileName("userProfile");
+        fileDTO.setFileOriginName("originProfile");
         fileDTO.setFileSavedPath("../../path");
-        fileDTO.setFileSize("100L");
+        fileDTO.setFileSize("10000");
 
         fileMapper.insert(fileDTO);
     }
