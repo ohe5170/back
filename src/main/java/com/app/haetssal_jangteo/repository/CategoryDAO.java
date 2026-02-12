@@ -1,4 +1,4 @@
-package com.app.haetssal_jangteo.repository.category;
+package com.app.haetssal_jangteo.repository;
 
 import com.app.haetssal_jangteo.domain.CategoryVO;
 import com.app.haetssal_jangteo.domain.SubCategoryVO;

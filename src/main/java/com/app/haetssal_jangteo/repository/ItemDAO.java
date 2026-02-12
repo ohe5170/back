@@ -1,4 +1,4 @@
-package com.app.haetssal_jangteo.repository.item;
+package com.app.haetssal_jangteo.repository;
 
 import com.app.haetssal_jangteo.dto.ItemDTO;
 import com.app.haetssal_jangteo.dto.ItemOptionDTO;

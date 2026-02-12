@@ -1,8 +1,6 @@
 package com.app.haetssal_jangteo.mapper;
 
 import com.app.haetssal_jangteo.domain.ItemOptionVO;
-import com.app.haetssal_jangteo.domain.ItemVO;
-import com.app.haetssal_jangteo.dto.FileItemDTO;
 import com.app.haetssal_jangteo.dto.ItemDTO;
 import com.app.haetssal_jangteo.dto.ItemOptionDTO;
 import org.apache.ibatis.annotations.Mapper;

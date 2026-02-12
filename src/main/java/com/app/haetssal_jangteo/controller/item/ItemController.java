@@ -3,7 +3,6 @@ package com.app.haetssal_jangteo.controller.item;
 import com.app.haetssal_jangteo.dto.ItemDTO;
 import com.app.haetssal_jangteo.service.item.ItemService;
 import jakarta.servlet.http.HttpSession;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

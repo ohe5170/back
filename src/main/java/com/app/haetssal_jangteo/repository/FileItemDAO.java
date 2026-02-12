@@ -1,4 +1,4 @@
-package com.app.haetssal_jangteo.repository.file;
+package com.app.haetssal_jangteo.repository;
 
 import com.app.haetssal_jangteo.domain.FileItemVO;
 import com.app.haetssal_jangteo.mapper.FileItemMapper;

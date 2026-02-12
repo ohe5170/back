@@ -106,54 +106,6 @@ create table tbl_item (
                               references tbl_category(id)
 );
 
-insert into tbl_item (
-    id,
-    item_market_id,
-    item_category_id,
-    item_name,
-    item_type,
-    item_stock,
-    item_price,
-    item_delivery_fee,
-    item_content,
-    item_state
-) values (
-             1,
-             1,
-             1,
-             '사과',
-             'normal',
-             10,
-             10000,
-             2500,
-             '사과입니다.',
-             'active'
-         );
-
-insert into tbl_item (
-    id,
-    item_market_id,
-    item_category_id,
-    item_name,
-    item_type,
-    item_stock,
-    item_price,
-    item_delivery_fee,
-    item_content,
-    item_state
-) values (
-             2,
-             1,
-             1,
-             '감귤',
-             'normal',
-             10,
-             10000,
-             2500,
-             '감귤입니다.',
-             'active'
-         );
-
 -- 상품 옵션 테이블
 create table tbl_item_option (
                                  id bigint unsigned PRIMARY KEY,

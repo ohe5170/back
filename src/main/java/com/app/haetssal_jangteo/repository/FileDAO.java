@@ -1,11 +1,8 @@
-package com.app.haetssal_jangteo.repository.file;
+package com.app.haetssal_jangteo.repository;
 
-import com.app.haetssal_jangteo.domain.FileItemVO;
 import com.app.haetssal_jangteo.dto.FileDTO;
-import com.app.haetssal_jangteo.dto.FileItemDTO;
 import com.app.haetssal_jangteo.mapper.FileMapper;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.springframework.stereotype.Repository;
 
 @Repository

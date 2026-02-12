@@ -22,7 +22,7 @@ public class ItemMapperTest {
     @Test
     public void testInsert() {
         ItemDTO itemDTO = new ItemDTO();
-        itemDTO.setId(1L);
+        itemDTO.setId(4L);
         itemDTO.setItemStoreId(2L);
         itemDTO.setItemCategoryId(100L);
         itemDTO.setItemName("사과 박스");

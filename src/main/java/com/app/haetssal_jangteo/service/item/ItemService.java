@@ -2,15 +2,14 @@ package com.app.haetssal_jangteo.service.item;
 
 import com.app.haetssal_jangteo.common.enumeration.FileItemType;
 import com.app.haetssal_jangteo.common.enumeration.Filetype;
-import com.app.haetssal_jangteo.domain.CategoryVO;
 import com.app.haetssal_jangteo.dto.FileDTO;
 import com.app.haetssal_jangteo.dto.FileItemDTO;
 import com.app.haetssal_jangteo.dto.ItemDTO;
 import com.app.haetssal_jangteo.dto.ItemOptionDTO;
-import com.app.haetssal_jangteo.repository.category.CategoryDAO;
-import com.app.haetssal_jangteo.repository.file.FileDAO;
-import com.app.haetssal_jangteo.repository.file.FileItemDAO;
-import com.app.haetssal_jangteo.repository.item.ItemDAO;
+import com.app.haetssal_jangteo.repository.CategoryDAO;
+import com.app.haetssal_jangteo.repository.FileDAO;
+import com.app.haetssal_jangteo.repository.FileItemDAO;
+import com.app.haetssal_jangteo.repository.ItemDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
