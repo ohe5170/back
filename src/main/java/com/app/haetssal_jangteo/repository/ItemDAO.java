@@ -1,5 +1,7 @@
 package com.app.haetssal_jangteo.repository;
 
+import com.app.haetssal_jangteo.domain.ItemOptionVO;
+import com.app.haetssal_jangteo.domain.ItemVO;
 import com.app.haetssal_jangteo.dto.ItemDTO;
 import com.app.haetssal_jangteo.dto.ItemOptionDTO;
 import com.app.haetssal_jangteo.mapper.ItemMapper;
@@ -7,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,6 +24,16 @@ public class ItemDAO {
 //    상품 옵션 등록
     public void saveOption(ItemOptionDTO option) {
         itemMapper.insertOption(option);
+    }
+
+//    상품 id로 상품 하나 조회
+    public Optional<ItemVO> findById(Long id) {
+        return itemMapper.selectById(id);
+    }
+
+//    상품 id로 해당 상품 옵션들 조회
+    public List<ItemOptionVO> findOptionsById(Long id) {
+        return itemMapper.selectAllOptions(id);
     }
 
 //    상품 전체 조회

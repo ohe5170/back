@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @Slf4j
@@ -22,7 +23,6 @@ public class ItemMapperTest {
     @Test
     public void testInsert() {
         ItemDTO itemDTO = new ItemDTO();
-        itemDTO.setId(4L);
         itemDTO.setItemStoreId(2L);
         itemDTO.setItemCategoryId(100L);
         itemDTO.setItemName("사과 박스");
@@ -99,6 +99,12 @@ public class ItemMapperTest {
     public void testSelectAll() {
         List<ItemDTO> itemList = itemMapper.selectAll();
         log.info("{}.......", itemList);
+    }
+
+    @Test
+    public void testSelectById() {
+        Optional<ItemVO> foundItem = itemMapper.selectById(3L);
+        log.info("{}...........", foundItem);
     }
 
     @Test

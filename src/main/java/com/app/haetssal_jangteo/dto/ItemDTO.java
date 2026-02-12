@@ -24,8 +24,8 @@ public class ItemDTO {
     private Long itemSubCategoryId;
     private String itemName;
     private String itemType;
-    private String itemStock;
     private String itemPrice;
+    private String itemStock;
     private String itemDeliveryFee;
     private String itemContent;
     private State itemState;
@@ -33,8 +33,11 @@ public class ItemDTO {
     private String createdDatetime;
     private String updatedDatetime;
 
+
 //    상품 옵션들
     private List<ItemOptionDTO> itemOptions = new ArrayList<>();
+//    상품 이미지들
+    private List<FileItemDTO> itemFiles = new ArrayList<>();
 
 //    toVO
     public ItemVO toVO() {

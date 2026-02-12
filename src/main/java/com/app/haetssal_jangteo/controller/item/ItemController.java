@@ -37,8 +37,8 @@ public class ItemController {
     }
 
     @GetMapping("/detail")
-    public void goToDetail(Long id) {
-        return;
+    public String goToDetail(Long id) {
+        return "/item/item-detail";
     }
 
 

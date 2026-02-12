@@ -37,6 +37,12 @@
         from tbl_item
     </select>
 
+    <select id="selectById">
+        select id, item_store_id, item_category_id, item_subcategory_id, item_name, item_type, item_stock, item_price, item_delivery_fee, item_content, item_state, item_view_count, created_datetime, updated_datetime
+        from tbl_item
+        where id = #{id}
+    </select>
+
     <select id="selectAllOptions">
         select id, option_item_id, option_name, option_detail, option_price, option_stock
         from tbl_item_option

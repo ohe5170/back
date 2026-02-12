@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 @Slf4j
 public class FileItemMapperTest {
@@ -22,5 +24,17 @@ public class FileItemMapperTest {
         fileItemDTO.setFileItemType(FileItemType.THUMBNAIL);
 
         fileItemMapper.insert(fileItemDTO.toFileItemVO());
+    }
+
+    @Test
+    public void testSelectImagesByItemId() {
+        List<FileItemDTO> foundImages = fileItemMapper.selectImagesByItemId(3L);
+        log.info("{}.........", foundImages);
+    }
+
+    @Test
+    public void testSelectImagesByIdAndFIleItemType() {
+        List<FileItemDTO> foundImages = fileItemMapper.selectImagesByIdAndFileItemType(3L, "seller-info");
+        log.info("{}.....", foundImages);
     }
 }

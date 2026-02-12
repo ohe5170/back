@@ -33,8 +33,8 @@ public class AdminMapperTest {
 
     @Test
     public void testSelectById() {
-        Optional<ItemVO> founditem = adminMapper.selectById(1L);
-        log.info("{}........", founditem);
+        Optional<ItemVO> foundItem = adminMapper.selectById(1L);
+        log.info("{}........", foundItem);
     }
 }
 
