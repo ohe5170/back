@@ -21,7 +21,7 @@ public class UserMapperTests {
     @Test
     public void insertTest() {
         UserDTO userDTO = new UserDTO();
-        userDTO.setId(2L);
+
         userDTO.setUserEmail("sokkomann@google.com");
         userDTO.setUserPassword("1234");
         userDTO.setUserPhone("01000000000");

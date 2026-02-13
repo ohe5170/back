@@ -32,9 +32,9 @@ values (1, 'example@example.com', '01012345678', '홍길동', '설명1');
 
 select id from tbl_store;
 
-insert into tbl_market (
-    market_region, market_name, market_location)
-values ('서울','가락시장','송파구');
+# insert into tbl_market (
+#     market_region, market_name, market_location)
+# values ('서울','가락시장','송파구');
 
 
 insert into tbl_store (
@@ -55,6 +55,6 @@ select id from tbl_category;
 insert into tbl_category (id, category_name)
 values (1, '과일');
 
-insert into tbl_market (id, market_name, market_region, market_location, market_state)
-values (1, '가락시장', '서울', '가락동', 'active');
+# insert into tbl_market (id, market_name, market_region, market_location, market_state)
+# values (1, '가락시장', '서울', '가락동', 'active');
 

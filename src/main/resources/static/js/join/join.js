@@ -16,6 +16,9 @@ const timerSpan = document.querySelector(".JoinPage-Timer");
 // 가입하기 버튼
 const joinBtn = document.querySelector(".JoinPage-JoinButton");
 
+// 이메일인증 버튼
+// const emailCheckBtn = document.querySelector(".emailCheckBtn");
+
 // 회원가입 정보 담는 변수
 let joinInfo = {
     email: "",
@@ -26,6 +29,7 @@ let joinInfo = {
 
 // 확인용 값
 let emailChk = false;
+let isEmailAvailable = false;
 let passChk = false;
 
 // 이메일 정규식
@@ -38,24 +42,38 @@ emailInput.addEventListener("keyup", (e) => {
     const errorSpan = emailInput.nextElementSibling;
 
     if (regEmail.test(e.target.value)) {
+
         emailInput.style.border = "1px solid rgb(99, 156, 99)";
         errorSpan.style.color = "rgb(99, 156, 99)";
         errorSpan.innerHTML = "올바른 이메일 형식입니다";
-
-        confirmBtn.classList.remove("off");
+        emailChk = true;
+        return;
     } else {
         emailInput.style.border = "1px solid rgb(255, 87, 87)";
         errorSpan.style.color = "rgb(255, 87, 87)";
         errorSpan.innerHTML = "올바르지 않은 이메일 형식입니다";
+        emailChk = false;
         return;
     }
+});
+
+// // 블러줄때 이멜중복 검사
+emailInput.addEventListener("blur", (e) => {
+    const errorSpan = emailInput.nextElementSibling;
+    if (!regEmail.test(e.target.value)) return;
+
+    userService.checkEmail(e.target.value, (isAvailable) => {
+        isEmailAvailable = isAvailable;
+        confirmBtn.style['pointer-events'] = isAvailable ? "auto" : "none";
+        errorSpan.style.color = isAvailable ? "rgb(99, 156, 99)" : "rgb(255, 87, 87)";
+        errorSpan.textContent = isAvailable ? "사용 가능한 이메일입니다." : "이미 사용중인 이메일입니다.";
+    });
 });
 
 // 타이머를 담을 변수 선언
 let timerInterval;
 
 confirmBtn.addEventListener("click", (e) => {
-    // 여기에 인증코드 요청 관련 로직 작성
 
     // 버튼을 눌렀을 때, 시간이 돌고 있었다면 초기화
     if (timerInterval) clearInterval(timerInterval);
@@ -223,9 +241,12 @@ joinBtn.addEventListener("click", (e) => {
     if (isInvalid) return;
 
     // 여기에 가입 요청 로직 만들어야함.
+    if (!isEmailAvailable) {
+        alert("이메일 인증을 완료해주세요.");
+        return;
+    }
 
-    // 성공하면 alert후 홈으로
-    alert("회원가입에 성공했습니다.");
+    document.joinFormTag.submit();
 });
 
 // 인증코드 타이머 기능

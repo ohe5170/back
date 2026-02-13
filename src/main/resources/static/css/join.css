@@ -123,6 +123,29 @@
     font-weight: 500;
 }
 
+/*.emailCheckBtn {*/
+/*    cursor: pointer;*/
+/*    position: absolute;*/
+/*    top: 0px;*/
+/*    right: -85px;*/
+/*    border: 1px solid rgb(203, 203, 203);*/
+/*    outline: none;*/
+/*    font-size: 12px;*/
+/*    font-weight: 700;*/
+/*    height: 45.63px;*/
+/*    color: #fff;*/
+/*    background-color: rgb(255, 87, 87);*/
+/*    border-radius: 4px;*/
+/*    line-height: 1.45;*/
+/*    letter-spacing: -0.04rem;*/
+/*    padding: 15px 15px 10px 10px;*/
+/*}*/
+
+/*.emailCheckBtn:hover {*/
+/*    background-color: rgba(255, 87, 87, 0.5);*/
+/*    color: #fff;*/
+/*}*/
+
 .JoinPage-InputLabel span {
     color: rgb(255, 87, 87);
     vertical-align: -1px;
@@ -195,6 +218,20 @@
     background-color: rgb(13, 13, 13);
     border-radius: 6px;
     cursor: pointer;
+}
+
+.JoinPage-EmailCheck:hover {
+    opacity: 0.4;
+}
+
+#email-message {
+    color: rgb(255, 87, 87);
+    font-size: 12px;
+    padding-left: 4px;
+}
+
+#email-message.on {
+    color: rgb(99, 156, 99);
 }
 
 /* 토글용 css */

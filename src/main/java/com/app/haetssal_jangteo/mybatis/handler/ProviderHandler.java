@@ -1,7 +1,6 @@
 package com.app.haetssal_jangteo.mybatis.handler;
 
 import com.app.haetssal_jangteo.common.enumeration.Provider;
-import com.app.haetssal_jangteo.common.enumeration.Status;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
 import org.apache.ibatis.type.TypeHandler;

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.haetssal_jangteo.mapper.SellerMapper">
-
+    <insert id="insert">
+        insert into tbl_seller (seller_bank_name, seller_depositor, seller_account_number)
+        values (#{sellerBankName}, #{sellerDepositor}, #{sellerAccountNumber})
+    </insert>
+    
+    <select id="selectAllSeller"></select>
 </mapper>

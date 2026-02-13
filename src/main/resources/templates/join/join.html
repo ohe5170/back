@@ -18,17 +18,19 @@
                         </div>
                     </div>
                     <div class="JoinPage-BodyWrapper">
-                        <form class="JoinPage-BodyContainer">
+                        <form action="/join/join" name="joinFormTag" method="post" id="joinForm" class="JoinPage-BodyContainer" >
                             <div name="email" class="JoinPage-InputWrapper">
                                 <label for="email" class="JoinPage-InputLabel">
                                     <span>*</span>
                                     이메일
                                 </label>
-                                <input class="JoinPage-Input" id="email" type="text" placeholder="이메일을 입력해주세요" autocomplete="off" autocapitalize="off">
+                                <input class="JoinPage-Input" name="userEmail" id="email" type="text" placeholder="이메일을 입력해주세요" autocomplete="off" autocapitalize="off">
                                 <span class="JoinPage-PassNotice"></span>
-                                <button class="JoinPage-EmailCheck off" type="button">
+                                <span id="email-message"></span>
+                                <button class="JoinPage-EmailCheck" type="button">
                                     인증번호 요청
                                 </button>
+<!--                                <button class="emailCheckBtn" type="button">이메일 인증</button>-->
                             </div>
                             <div name="emailChk" class="JoinPage-InputWrapper off">
                                 <label for="emailChk" class="JoinPage-InputLabel">
@@ -43,7 +45,7 @@
                                     <span>*</span>
                                     비밀번호
                                 </label>
-                                <input class="JoinPage-Input" id="password" type="password" placeholder="비밀번호를 입력해주세요" autocomplete="off" autocapitalize="off">
+                                <input class="JoinPage-Input" name="userPassword" id="password" type="password" placeholder="비밀번호를 입력해주세요" autocomplete="off" autocapitalize="off">
                                 <span class="JoinPage-PassNotice">대문자, 소문자, 숫자, 특수문자를 최소 1개 포함하여, 8~15자를 입력해주세요.</span>
 
                                 <div class="JoinPage-PassVisible off">
@@ -78,7 +80,7 @@
                                     <span>*</span>
                                     연락처
                                 </label>
-                                <input class="JoinPage-Input" id="phone" type="text" placeholder="연락처를 입력해주세요" autocomplete="off" autocapitalize="off">
+                                <input class="JoinPage-Input" name="userPhone" id="phone" type="text" placeholder="연락처를 입력해주세요" autocomplete="off" autocapitalize="off">
                                 <span class="JoinPage-PassNotice">' - ' 빼고 입력해주세요.</span>
                             </div>
 
@@ -87,14 +89,14 @@
                                     <span>*</span>
                                     이름
                                 </label>
-                                <input class="JoinPage-Input" id="nickname" type="text" placeholder="이름을 입력해주세요" autocomplete="off" autocapitalize="off">
+                                <input class="JoinPage-Input" name="userName" id="nickname" type="text" placeholder="이름을 입력해주세요" autocomplete="off" autocapitalize="off">
                                 <span class="JoinPage-PassNotice">타인에게 불쾌감, 모욕감을 느끼게할 수 있는 표현은 지양해주세요.</span>
                             </div>
                         </form>
                     </div>
 
                     <div class="JoinPage-FooterWrapper">
-                        <button class="JoinPage-JoinButton" type="button">가입하기</button>
+                        <button class="JoinPage-JoinButton" type="button" form="joinForm">가입하기</button>
                     </div>
                 </div>
                 </div>
@@ -103,5 +105,7 @@
         </div>
      </div>
 </body>
-<script src="/js/login/join.js"></script>
+<script src="/js/join/service.js"></script>
+<!--<script src="/js/join/event.js"></script>-->
+<script src="/js/join/join.js"></script>
 </html>

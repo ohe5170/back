@@ -1,14 +1,14 @@
 .styled__NewMemberShipContainer{
 
     position: relative;
-    min-height: 100vh;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
 .styled__NewMemberShipContainerInner{
-flex: 1 1 0%;
+    flex: 1 1 0%;
     display: flex;
     -webkit-box-align: center;
     align-items: center;
@@ -18,21 +18,29 @@ flex: 1 1 0%;
     max-width: 1080px;
     margin: 0px auto;
     padding: 20px 16px;
-    box-sizing: border-box;    
+    box-sizing: border-box;
 }
 
+.Icon__SVGICON{
+    font-size: 44px;
+}
+
+.Icon__SVGICON svg, .Icon__SVGICON img{
+    width: 1em;
+    height: 1em;
+}
 
 .styled__BgWrap{
-display: block;
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        width: 50%;
-        height: 100%;
+    display: block;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 50%;
+    height: 100%;
 
-        background-image: url('../images/햇살장터\ 로그인\ 이미지.png');
-        background-size: cover;
-        background-position: center center;
+    background-image: url('../images/햇살장터\ 로그인\ 이미지.png');
+    background-size: cover;
+    background-position: center center;
 }
 
 .styled__LoginWrap{
@@ -41,20 +49,19 @@ display: block;
 }
 
 .styled__LoginWrapInner{
-            margin: 0px;
-        max-width: 414px;
-
-
+    margin: 0px;
+    max-width: 414px;
+    margin-bottom: 140px;
 }
 
 .styled__Title{
     text-align: center;
-        margin-top: 50px;
+    margin-top: 50px;
 
 }
 .SignIn__KakaoLoginSubTitle{
-            font-size: 20px;
-                margin: 0px 0px 4px;
+    font-size: 20px;
+    margin: 0px 0px 4px;
     font-weight: 300;
     color: rgb(13, 13, 13);
 
@@ -62,15 +69,38 @@ display: block;
 }
 
 .styled__KakaoLoginTitle{
-            line-height: 36px;
-        font-size: 24px;
-            font-weight: 700;
+    line-height: 36px;
+    font-size: 24px;
+    font-weight: 700;
     color: rgb(13, 13, 13);
+
+}
+
+.styled__EmailButton{
+    position: relative;
+
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    height: 62px;
+    padding: 0px 18px;
+    background-color: rgb(255, 87, 87);;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    color: rgb(25, 25, 25);
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 120%;
+
+    cursor: pointer;
 
 }
 .styled__KakaoButton{
     position: relative;
-
+    margin-top: 8px;
     -webkit-box-pack: center;
     justify-content: center;
     -webkit-box-align: center;
@@ -91,12 +121,31 @@ display: block;
 
 }
 
+.emailIcon{
+    position: absolute;
+    left: 18px;
+    font-size: 24px;
+    bottom: 12px;
+    margin-right: auto;
+}
+
+.emailIcon svg {
+    width: 1.2em;
+    height: 1.2em;
+}
+
 .kakaoIcon{
-        position: absolute;
+    position: absolute;
     left: 18px;
     font-size: 24px;
     margin-right: auto;
+}
 
+.BusinessIcon{
+    position: absolute;
+    left: 18px;
+    font-size: 24px;
+    margin-right: auto;
 }
 
 .styled__BusinessButton{
@@ -122,18 +171,9 @@ display: block;
 
 }
 
-
-.BusinessIcon{
-        position: absolute;
-    left: 18px;
-    font-size: 24px;
-    margin-right: auto;
-
-}
-
 .SocialMembershipMenu__Wrapper{
-            margin-top: 70px;
-        text-align: center;
+    margin-top: 70px;
+    text-align: center;
 
 }
 
@@ -172,33 +212,16 @@ display: block;
 }
 
 .SoicalLoginButton{
-        height: auto;
-        padding: 0px;
+    height: auto;
+    padding: 0px;
     background-color: transparent;
     border: none;
     outline: none;
     cursor: pointer;
 }
 
-.Icon__SVGICON{
-    font-size: 44px;
-    
-    
-}
-
-
-.Icon__SVGICON svg{
-
-    width: 1em;
-    height: 1em;
-
-    
-    
-}
-
-
 .SignIn__MenuContainer{
-        display: flex;
+    display: flex;
     -webkit-box-pack: center;
     justify-content: center;
     flex-direction: row;
@@ -209,7 +232,7 @@ display: block;
 }
 
 .AccountSwitchPrompt__Wrapper{
-display: flex;
+    display: flex;
     -webkit-box-pack: center;
     justify-content: center;
     flex-direction: row;
@@ -217,21 +240,21 @@ display: flex;
     align-items: center;
     gap: 16px;
     color: rgb(28, 28, 28);
-    }
+}
 
-    .PlainNavLink__Wrapper{
-            font-size: 13px;
+.PlainNavLink__Wrapper{
+    font-size: 13px;
     font-weight: normal;
     line-height: 120%;
-    }
+}
 
-   .PlainNavLink__Wrapper > a {
+.PlainNavLink__Wrapper > a {
     color: rgb(61, 61, 61);
     text-decoration: underline;
 }
 
 .AccountSwitchPrompt__MenuDivider{
-        width: 1px;
+    width: 1px;
     height: 12px;
     background-color: rgb(228, 228, 228);
 }

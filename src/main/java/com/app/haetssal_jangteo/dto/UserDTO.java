@@ -4,7 +4,7 @@ import com.app.haetssal_jangteo.common.enumeration.Provider;
 import com.app.haetssal_jangteo.common.enumeration.SellerState;
 import com.app.haetssal_jangteo.common.enumeration.State;
 import com.app.haetssal_jangteo.common.enumeration.User;
-import com.app.haetssal_jangteo.domain.SellerVO;
+//import com.app.haetssal_jangteo.domain.SellerVO;
 import com.app.haetssal_jangteo.domain.UserVO;
 import com.app.haetssal_jangteo.domain.OAuthVO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,10 +28,10 @@ public class UserDTO {
     private String createdDatetime;
     private String updatedDatetime;
     private Provider authProvider;
-    private String bankName;
-    private String depositor;
-    private String accountNumber;
-    private SellerState sellerState;
+//    private String sellerBankName;
+//    private String sellerDepositor;
+//    private String sellerAccountNumber;
+//    private SellerState sellerState;
 
     public UserVO toUserVO() {
         return UserVO.builder()
@@ -55,13 +55,5 @@ public class UserDTO {
                 .authProvider(authProvider)
                 .build();
     }
-    public SellerVO toSellerVO() {
-        return SellerVO.builder()
-                .id(id)
-                .bankName(bankName)
-                .depositor(depositor)
-                .accountNumber(accountNumber)
-                .sellerState(sellerState)
-                .build();
-    }
+
 }

@@ -1,11 +1,15 @@
 package com.app.haetssal_jangteo.service.user;
 
 import com.app.haetssal_jangteo.common.enumeration.Provider;
+import com.app.haetssal_jangteo.common.exception.LoginFailException;
+import com.app.haetssal_jangteo.domain.UserVO;
 import com.app.haetssal_jangteo.dto.UserDTO;
 import com.app.haetssal_jangteo.repository.user.UserDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor //주입!
@@ -17,14 +21,12 @@ public class UserService {
 
 //    햇살로 회원가입
     public void haetssalJoin(UserDTO userDTO) {
-//        아이디어떻게할지 논의
         userDTO.setAuthProvider(Provider.HAETSSAL);
         userDAO.save(userDTO);
         userDAO.saveOAuth(userDTO.toOAuthVO());
     }
 
-//    카카오로 회원가입
-//        아이디어떻게할지 논의
+//    카카오로 회원가입.(로그인 화면에서 kakao버튼을 눌러서 진행)
     public void kakaoJoin(UserDTO userDTO) {
         userDTO.setAuthProvider(Provider.SOCIAL);
         userDAO.save(userDTO);
@@ -34,5 +36,23 @@ public class UserService {
 //    이메일검사. 쓸숭있나요? => true
     public boolean checkEmail(String memberEmail) {
         return userDAO.findByUserEmail(memberEmail).isEmpty();
+    }
+
+    // 로그인
+    public UserDTO login(UserDTO userDTO) {
+        Optional<UserVO> foundUser = userDAO.findForLogin(userDTO);
+        return toDTO(foundUser.orElseThrow(LoginFailException::new));
+    }
+
+    public UserDTO toDTO(UserVO userVO) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(userVO.getId());
+        userDTO.setUserEmail(userVO.getUserEmail());
+        userDTO.setUserName(userVO.getUserName());
+        userDTO.setUserType(userVO.getUserType());
+        userDTO.setUserState(userVO.getUserState());
+        userDTO.setCreatedDatetime(userVO.getCreatedDatetime());
+        userDTO.setUpdatedDatetime(userVO.getUpdatedDatetime());
+        return userDTO;
     }
 }

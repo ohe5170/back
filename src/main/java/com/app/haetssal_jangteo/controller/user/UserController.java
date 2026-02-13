@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping("/login/**")
+@RequestMapping("/user/**")
 @RequiredArgsConstructor
 public class UserController {
     public final UserService userService;
@@ -24,21 +24,24 @@ public class UserController {
 
     @GetMapping("join")
     public String goToJoinForm(){
-        return "login/join";
+        return "join/join";
     }
 
-    @GetMapping("social-join")
-    public String goToKakaoJoinForm(){
-        return "login/social-join";
-    }
-
-
-//    리다이렉트 안하면 새로고침할때마다 인서트되버림
+    //    리다이렉트 안하면 새로고침할때마다 인서트되버림
     @PostMapping("join")
     public RedirectView join(UserDTO userDTO){
         userService.haetssalJoin(userDTO);
         return new RedirectView("/login/login");
     }
+
+    @GetMapping("login")
+    public String goToLoginForm() {return "login/login";}
+
+    @GetMapping("social-join")
+    public String goToKakaoJoinForm(){
+        return "join/social-join";
+    }
+
 //    리다이렉트 안하면 새로고침할때마다 인서트되버림
     @PostMapping("social-join")
     public RedirectView kakaoJoin(UserDTO userDTO){

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.haetssal_jangteo.mapper.UserMapper">
-    <insert id="insert">
-        insert into tbl_user (id, user_email, user_password, user_phone, user_name, user_intro)
-        values(#{id}, #{userEmail}, #{userPassword}, #{userPhone}, #{userName}, #{userIntro})
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_user (user_email, user_password, user_phone, user_name)
+        values(#{userEmail}, #{userPassword}, #{userPhone}, #{userName})
     </insert>
     
     <insert id="insertOauth">
@@ -21,11 +21,5 @@
         select id, user_email, user_password, user_phone, user_type, user_name, user_intro, user_visit_count, user_latest_login, user_state, created_datetime, updated_datetime
         from tbl_user
         where user_email = #{userEmail} and user_password = #{userPassword}
-    </select>
-
-    <select id="selectByMemberEmail">
-        select id, user_email, user_password, user_phone, user_type, user_name, user_intro, user_visit_count, user_latest_login, user_state, created_datetime, updated_datetime
-        from tbl_user
-        where user_email = #{userEmail}
     </select>
 </mapper>

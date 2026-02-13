@@ -6,7 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum User {
-    NORMAL("normal"), SELLER("seller"), ADMIN("admin");
+    NORMAL("normal"), SELLER("seller") ,ADMIN("admin");
 
     private String value;
 

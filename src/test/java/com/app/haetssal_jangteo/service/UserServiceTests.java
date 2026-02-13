@@ -17,10 +17,9 @@ public class UserServiceTests {
     public void haetssalJoinTest() {
         UserDTO userDTO = new UserDTO();
 
-        userDTO.setId(4L); // 아이디 어떻게할지 논의
         userDTO.setUserEmail("mango@naver.com");
         userDTO.setUserPassword("1234");
-        userDTO.setUserPhone("01001010101");
+        userDTO.setUserPhone("01032323232");
         userDTO.setUserName("김민중인데");
         userDTO.setUserIntro("서비스ㅔ스트요");
 

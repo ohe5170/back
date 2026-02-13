@@ -1,6 +1,7 @@
 package com.app.haetssal_jangteo.repository.user;
 
 import com.app.haetssal_jangteo.domain.OAuthVO;
+import com.app.haetssal_jangteo.domain.UserVO;
 import com.app.haetssal_jangteo.dto.UserDTO;
 import com.app.haetssal_jangteo.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +27,10 @@ public class UserDAO {
 //    oauth
     public void saveOAuth(OAuthVO oAuthVO){
         userMapper.insertOauth(oAuthVO);
+    }
+
+    // 로그인
+    public Optional<UserVO> findForLogin(UserDTO userDTO) {
+        return userMapper.selectUserForLogin(userDTO);
     }
 }
