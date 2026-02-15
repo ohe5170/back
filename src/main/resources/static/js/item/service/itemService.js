@@ -10,7 +10,8 @@ const itemService = (() => {
 
     const getItemReviews = async (id, callback) => {
         const response = await fetch(`/api/item/reviews/${id}`)
-        const reviews = await response.json();
+        // const reviews = await response.json();
+        const reviews = null;
         if(callback)
             callback(reviews);
     }

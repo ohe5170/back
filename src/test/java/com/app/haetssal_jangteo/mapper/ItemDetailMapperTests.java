@@ -16,9 +16,15 @@ public class ItemDetailMapperTests {
     private ItemDetailMapper itemDetailMapper;
 
     @Test
-    public void selectById() {
+    public void testSelectById() {
         Optional<ItemDetailDTO> foundItemDetail = itemDetailMapper.selectById(7L);
         log.info("{}.......", foundItemDetail);
+    }
+
+    @Test
+    public void testCountSameStoreItem() {
+        int countSameItem = itemDetailMapper.countSameStoreItem(8L);
+        log.info("같은 가게 상품 수 : {}", countSameItem);
     }
 
 }

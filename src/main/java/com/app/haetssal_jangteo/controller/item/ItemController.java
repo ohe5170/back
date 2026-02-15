@@ -41,7 +41,6 @@ public class ItemController {
     public String goToDetail(Long id, Model model) {
         model.addAttribute("item", itemService.detail(id));
         model.addAttribute("sameCategoryItems", itemService.getSameCategoryItems(id));
-        System.out.println("보내는 같은 카테고리 상품 개수 : " + itemService.getSameCategoryItems(id).size());
         // 추후에 다른 상품도 받아오기
         return "/item/item-detail";
     }

@@ -81,7 +81,7 @@ portals.forEach((portal, i) => {
         // let condition =  e.target.classList.contains("selected");
         e.target.classList.add("selected");
         mainContents[i].classList.add("on");
-        
+
         let goToTargetHeight = 0;
         if(i === 0) {
             goToTargetHeight = productTargetHeight;
@@ -96,15 +96,13 @@ portals.forEach((portal, i) => {
 
         // 1-2. 리뷰탭 갔다오면 펼친거 접고 버튼 다시 보이게
         if(currentTab === 0 && i !== 0) {
-            
+
             introCard.classList.remove("expanded");
             showAllInfoBtn.style.display = "flex";
         }
         currentTab = i;
     });
 });
-
-// document.querySelector("div[name=itemDesc]").click();
 
 // 2. 메인 대쉬보드랑 리뷰탭에서 리뷰요약 옆에 화살표 눌렀을때 이벤트(max-height랑 회전)
 ArrowsNextToKeyWord.forEach((arrow, i) => {
@@ -325,3 +323,10 @@ prdOptionBtns.forEach((btn) => {
 // toCreatorDetail.addEventListener("click", (e) => {
 
 // });
+
+window.addEventListener('DOMContentLoaded', async () => {
+    let itemDescPortal = document.querySelector("div[name=itemDesc]");
+    let id = itemDescPortal.parentElement.dataset.id;
+    await itemService.getItemDescImages(id, itemLayout.showItemDescImages);
+    itemDescPortal.click();
+});
