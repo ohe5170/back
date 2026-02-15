@@ -30,8 +30,12 @@ public class ItemDetailDTO {
     private Long storeOwnerId;
     private String storeName;
     private String storeScore;
-    private String storeTotalItems;
-    private String storeItemLikes;
+
+    // 같은 가게 상품 개수
+    private int storeItemCount;
+    // 같은 가게 판매 한 상품 개수
+    private int storeSoldCount;
+
 
     // 가게 소유주 마지막 로그인 시간(추후 받아와야 함)
     private String ownerLatestLogin;

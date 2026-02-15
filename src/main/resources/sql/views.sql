@@ -65,7 +65,12 @@ select
 
     f.file_saved_path as storeProfilePath,
     f.file_name as storeProfileName,
-    f.file_origin_name as storeProfileOriginName
+    f.file_origin_name as storeProfileOriginName,
+
+    (select count(*)
+    from tbl_item i2
+    where i2.item_store_id = s.id
+    and i2.item_state = 'active') as storeItemCount
 from tbl_item i
 inner join tbl_category c on i.item_category_id = c.id
 left join tbl_sub_category sc on i.item_subcategory_id = sc.id
@@ -73,3 +78,5 @@ inner join tbl_store s on i.item_store_id = s.id
 inner join tbl_user u on s.store_owner_id = u.id
 left join tbl_file_store fs on fs.store_id = s.id
 left join tbl_file f on fs.id = f.id;
+
+drop view vw_item_detail;
