@@ -3,8 +3,7 @@ package com.app.haetssal_jangteo.service.item;
 import com.app.haetssal_jangteo.common.enumeration.FileItemType;
 import com.app.haetssal_jangteo.common.enumeration.Filetype;
 import com.app.haetssal_jangteo.common.exception.FileNotFoundException;
-import com.app.haetssal_jangteo.common.exception.ItemfoundFailException;
-import com.app.haetssal_jangteo.domain.FileItemVO;
+import com.app.haetssal_jangteo.common.exception.ItemNotFoundException;
 import com.app.haetssal_jangteo.domain.FileVO;
 import com.app.haetssal_jangteo.domain.ItemOptionVO;
 import com.app.haetssal_jangteo.domain.ItemVO;
@@ -14,7 +13,6 @@ import com.app.haetssal_jangteo.util.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -100,13 +98,13 @@ public class ItemService {
 
             return dto;
         } else {
-            throw new ItemfoundFailException();
+            throw new ItemNotFoundException();
         }
     }
 
     // 상품 id과 같은 카테고리의 상품들 불러오기
     public List<ItemDTO> getSameCategoryItems(Long id) {
-        ItemVO currentItem = itemDAO.findById(id).orElseThrow(ItemfoundFailException::new);
+        ItemVO currentItem = itemDAO.findById(id).orElseThrow(ItemNotFoundException::new);
 
         List<ItemDTO> sameCategoryItems = itemDAO.findSameCategoryItems(
                 currentItem.getItemCategoryId(),
@@ -133,7 +131,7 @@ public class ItemService {
 
             return imageDTO;
         } else {
-            throw new ItemfoundFailException();
+            throw new ItemNotFoundException();
         }
     }
 

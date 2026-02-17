@@ -700,7 +700,7 @@ svg:not(:root) {
     /* 일단 초기스타일임 */
     background: white;
     border: 1px solid rgb(228, 228, 228);
-    color: rgb(201, 201, 201);
+    color: rgb(61, 61, 61);
 
     max-height: 44px;
     min-width: 100px;
@@ -1098,4 +1098,8 @@ svg:not(:root) {
 
 .info-intro-message.complete {
     color: rgb(0, 128, 0);
+}
+
+.off {
+    display: none;
 }

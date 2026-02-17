@@ -2,7 +2,7 @@ package com.app.haetssal_jangteo.service;
 
 import com.app.haetssal_jangteo.common.enumeration.FileItemType;
 import com.app.haetssal_jangteo.common.enumeration.Filetype;
-import com.app.haetssal_jangteo.common.exception.ItemfoundFailException;
+import com.app.haetssal_jangteo.common.exception.ItemNotFoundException;
 import com.app.haetssal_jangteo.domain.ItemOptionVO;
 import com.app.haetssal_jangteo.domain.ItemVO;
 import com.app.haetssal_jangteo.dto.*;
@@ -93,7 +93,7 @@ public class ItemServiceTests {
 
     @Test
     public void testGetSameCategoryItems() {
-        ItemVO currentItem = itemDAO.findById(7L).orElseThrow(ItemfoundFailException::new);
+        ItemVO currentItem = itemDAO.findById(7L).orElseThrow(ItemNotFoundException::new);
 
         List<ItemDTO> sameCategoryItems = itemDAO.findSameCategoryItems(
                 currentItem.getItemCategoryId(),

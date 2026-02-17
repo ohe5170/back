@@ -21,7 +21,7 @@ public class StoreDTO {
     private String createdDatetime;
     private String updatedDatetime;
 
-    private FileStoreDTO fileStoreImage;
+    // 삭제할 상점 이미지 id
     private String toDeleteFileId;
 
     public StoreVO toVO() {

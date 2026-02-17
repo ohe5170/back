@@ -25,10 +25,13 @@ const checkNumberBtn = document.querySelector(".do-check-btn-in-check");
 
 // 1. 인증하기 눌렀을때 창열기
 startCheck.addEventListener("click", (e) => {
+    e.preventDefault();
     document.querySelector(".info-check-container").style.display = "block";
 });
 // 1-2. 취소눌러서 닫기
 closeBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
     // 취소 시 타이머 정지
     if (timerId) {
         clearInterval(timerId);
@@ -108,6 +111,8 @@ const checkNamePhone = () => {
 };
 // 전송 버튼 클릭 시 타이머 시작
 doCheckBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
     document.querySelector(".when-do-check-wrap").style.display ="flex";
     startTimer();
 });
@@ -123,6 +128,8 @@ checkNumberInput.addEventListener("input", (e) => {
 });
 
 checkNumberBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
     // 인증 완료 시 타이머 정지
     if (checkNumberInput.value === "111111") {
         if (timerId) {
@@ -185,6 +192,8 @@ function updateTimeDisplay() {
 
 // 연장하기 버튼
 moreTimeBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
     timeLeft += 180; // 3분 추가
     if (timeLeft > 180) timeLeft = 180; // 최대 5분
     updateTimeDisplay();
