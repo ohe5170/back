@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/css/admin.css">
+    <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
     <div class="Main-Layout">
@@ -13,7 +13,7 @@
             <div class="SideBar-Header">
                 <div class="Header-HeaderContainer">
                     <a href="" class="Header-Logo">
-                        <img src="../../static/images/haetsal-jangteo-logo.svg" alt="">
+                        <img src="/images/haetsal-jangteo-logo.svg" alt="">
                     </a>
                     <div class="Header-Title">
                         <div class="Header-TitleContent">
@@ -578,7 +578,7 @@
                             <div class="HeaderContent-Wrapper">
                                 <div class="HeaderContent-SearchPart">
                                     <div class="SeacrchPart-InputWrapper">
-                                        <input id="keyword" type="text" class="SeacrchPart-Input" placeholder="회원번호, 이름으로 조회" autocomplete="off">
+                                        <input type="text" class="SeacrchPart-Input" placeholder="회원번호, 이름으로 조회" autocomplete="off">
                                     </div>
                                     <div name="user-regType" class="SeacrchPart-SelectWrapper">
                                         <p class="SeacrchPart-Title">가입 유형</p>
@@ -686,7 +686,7 @@
                                 </div>
 
                                 <div class="MainContent-ListSort">
-                                    <select name="sort" id="sort">
+                                    <select name="sort">
                                         <option value="latest">최신순</option>
                                         <option value="asc">오름차순</option>
                                         <option value="desc">내림차순</option>
@@ -787,7 +787,7 @@
                                                     <!-- 유저 상태 변경 드롭박스 -->
                                                     <div class="MainInfoList-DropBox off">
                                                         <p class="MainInfoList-Field">상태</p>
-                                                        <select name="userState" id="userState">
+                                                        <select name="userState">
                                                             <option value="0">활동</option>
                                                             <option value="1">정지</option>
                                                             <option value="2">탈퇴</option>
@@ -850,7 +850,7 @@
                                                     <!-- 유저 상태 변경 드롭박스 -->
                                                     <div class="MainInfoList-DropBox off">
                                                         <p class="MainInfoList-Field">상태</p>
-                                                        <select name="userState" id="userState">
+                                                        <select name="userState">
                                                             <option value="0">활동</option>
                                                             <option value="1">정지</option>
                                                             <option value="2">탈퇴</option>
@@ -913,7 +913,7 @@
                                                     <!-- 유저 상태 변경 드롭박스 -->
                                                     <div class="MainInfoList-DropBox off">
                                                         <p class="MainInfoList-Field">상태</p>
-                                                        <select name="userState" id="userState">
+                                                        <select name="userState">
                                                             <option value="0">활동</option>
                                                             <option value="1">정지</option>
                                                             <option value="2">탈퇴</option>
@@ -976,7 +976,7 @@
                                                     <!-- 유저 상태 변경 드롭박스 -->
                                                     <div class="MainInfoList-DropBox off">
                                                         <p class="MainInfoList-Field">상태</p>
-                                                        <select name="userState" id="userState">
+                                                        <select name="userState">
                                                             <option value="0">활동</option>
                                                             <option value="1">정지</option>
                                                             <option value="2">탈퇴</option>
@@ -1076,7 +1076,7 @@
                             <div class="HeaderContent-Wrapper">
                                 <div class="HeaderContent-SearchPart">
                                     <div class="SeacrchPart-InputWrapper">
-                                        <input id="keyword" type="text" class="SeacrchPart-Input" placeholder="가게 이름으로 조회" autocomplete="off">
+                                        <input type="text" class="SeacrchPart-Input" placeholder="가게 이름으로 조회" autocomplete="off">
                                     </div>
                                     <div name="marketRegion" class="SeacrchPart-SelectWrapper">
                                         <p class="SeacrchPart-Title">지역</p>
@@ -1234,7 +1234,7 @@
                                     개의 가게가 등록되었습니다.
                                 </div>
                                 <div class="MainContent-ListSort">
-                                    <select name="sort" id="sort">
+                                    <select name="sort">
                                         <option value="latest">최신순</option>
                                         <option value="asc">오름차순</option>
                                         <option value="desc">내림차순</option>
@@ -1546,7 +1546,7 @@
                                     개의 상품이 등록되었습니다.
                                 </div>
                                 <div class="MainContent-ListSort">
-                                    <select name="sort" id="sort">
+                                    <select name="sort">
                                         <option value="latest">최신순</option>
                                         <option value="asc">오름차순</option>
                                         <option value="desc">내림차순</option>
@@ -2792,7 +2792,7 @@
 
                                     <div class="EditModal-SelectContent disabled">
                                         <div class="EditModal-SelectText">
-                                            <input id="item-options" class="EditModal-Input" type="text" value="옵션1" disabled>
+                                            <input class="EditModal-Input" type="text" value="옵션1" disabled>
                                         </div>
                                         <div class="EditModal-SelectButton">
                                             <svg aria-label="icon" color="foregrounds.neutral.tertiary" fill="currentColor" height="24" role="img" width="24"><use href="#chevron-down-outline"></use></svg>
@@ -3021,7 +3021,7 @@
 
                                     <div class="EditModal-SelectContent disabled">
                                         <div class="EditModal-SelectText">
-                                            <input id="item-options" class="EditModal-Input" type="text" value="이용 약관 위반" disabled>
+                                            <input class="EditModal-Input" type="text" value="이용 약관 위반" disabled>
                                         </div>
                                         <div class="EditModal-SelectButton">
                                             <svg aria-label="icon" color="foregrounds.neutral.tertiary" fill="currentColor" height="24" role="img" width="24"><use href="#chevron-down-outline"></use></svg>
@@ -3058,7 +3058,7 @@
 
                                     <div class="EditModal-SelectContent disabled">
                                         <div class="EditModal-SelectText">
-                                            <input id="report-targerType" class="EditModal-Input" type="text" value="판매자" disabled>
+                                            <input class="EditModal-Input" type="text" value="판매자" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -3167,5 +3167,5 @@
         <symbol id="chevron-down-outline" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M6.434 9.434a.8.8 0 0 1 1.132 0L12 13.87l4.434-4.435a.8.8 0 1 1 1.132 1.132l-5 5a.8.8 0 0 1-1.132 0l-5-5a.8.8 0 0 1 0-1.132" fill-rule="evenodd"></path></symbol>
     </svg>
 </body>
-<script src="../../static/js/admin/admin.js"></script>
+<script src="/js/admin/admin.js"></script>
 </html>
