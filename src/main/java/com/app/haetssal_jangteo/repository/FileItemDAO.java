@@ -22,4 +22,15 @@ public class FileItemDAO {
     public List<FileItemDTO> findImagesById(Long itemId) {
         return fileItemMapper.selectImagesByItemId(itemId);
     }
+
+    // 상품 id와 타입으로 이미지 조회
+    public List<FileItemDTO> findImagesByIdAndFileItemType(Long itemId, String type) {
+        return fileItemMapper.selectImagesByIdAndFileItemType(itemId, type);
+    }
+
+    // 상품 이미지 삭제
+    public void delete(Long id) {
+        fileItemMapper.delete(id);
+    }
+
 }

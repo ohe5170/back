@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
     // 받아온 리뷰 값
     // 받아왔을 때 boolean 값 대신 null 넣고 불러오는 메소드에서 값 넣어주기
-    let reviews = true;
+    let reviews = false;
     let likeItems = true;
     let pendingItems = true;
     let completeItems = true;

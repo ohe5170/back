@@ -11,4 +11,5 @@ public interface ItemDetailMapper {
 //    id로 상품 상세 정보 조회
     public Optional<ItemDetailDTO> selectById(Long id);
 
+    public int countSameStoreItem(Long id);
 }

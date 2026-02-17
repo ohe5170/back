@@ -60,7 +60,15 @@ const prdOptionBtns = document.querySelectorAll(".each-product-option");
 
 // 1. 상품상세/리뷰 탭 눌렀을때 이벤트
 portals.forEach((portal, i) => {
-    portal.addEventListener("click", (e) => {
+    portal.addEventListener("click", async (e) => {
+        let id = portal.parentElement.dataset.id;
+        let name = portal.getAttribute("name");
+
+        if(name == "itemDesc") {
+            await itemService.getItemDescImages(id, itemLayout.showItemDescImages);
+        } else {
+            await itemService.getItemReviews(id, itemLayout.showItemReviews);
+        }
 
         mainContents.forEach((main) => {
             main.classList.remove("on");
@@ -73,7 +81,7 @@ portals.forEach((portal, i) => {
         // let condition =  e.target.classList.contains("selected");
         e.target.classList.add("selected");
         mainContents[i].classList.add("on");
-        
+
         let goToTargetHeight = 0;
         if(i === 0) {
             goToTargetHeight = productTargetHeight;
@@ -88,7 +96,7 @@ portals.forEach((portal, i) => {
 
         // 1-2. 리뷰탭 갔다오면 펼친거 접고 버튼 다시 보이게
         if(currentTab === 0 && i !== 0) {
-            
+
             introCard.classList.remove("expanded");
             showAllInfoBtn.style.display = "flex";
         }
@@ -315,3 +323,10 @@ prdOptionBtns.forEach((btn) => {
 // toCreatorDetail.addEventListener("click", (e) => {
 
 // });
+
+window.addEventListener('DOMContentLoaded', async () => {
+    let itemDescPortal = document.querySelector("div[name=itemDesc]");
+    let id = itemDescPortal.parentElement.dataset.id;
+    await itemService.getItemDescImages(id, itemLayout.showItemDescImages);
+    itemDescPortal.click();
+});

@@ -1,13 +1,10 @@
 // 사이드바에 상품 옵션 선택시 이벤트 파일
 
-// 눌러진아이템 개수
+// 눌러진 아이템 개수
 let itemCount = 0;
 
-// 카트변수들
-
-// 나타나는 젤 큰박스
+// 카트 변수들
 const appeardCart = document.querySelector(".selected-options-container");
-// 선택된옵션들 담는 그다음 큰 박스
 const cartsBox = document.querySelector(".selected-list-container");
 const totalPrice = document.querySelector(".total-price");
 const bulletIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="1.25" fill="#9E9E9E"></circle></svg>`;
@@ -15,72 +12,67 @@ const bulletIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="1
 // 옵션 변수들
 const optionCards = document.querySelectorAll(".each-product-option");
 
+// ✅ 총 가격 계산 함수 수정
 const updateTotalPrice = () => {
     let total = 0;
     const cartItems = document.querySelectorAll(".each-cart-wrap");
 
     cartItems.forEach((item) => {
-        // number로 안감싸면 typeof total = string임
-        const eachPrice = Number(item.querySelector(".each-price").innerHTML.slice(0, -1));
-        total += eachPrice;
+        // data-price에서 가격 가져오기
+        const price = Number(item.dataset.price);
+        const quantity = Number(item.querySelector("input").value);
+
+        if (!isNaN(price) && !isNaN(quantity)) {
+            total += price * quantity;
+        }
     });
-    totalPrice.innerHTML = total + "원";
+
+    // 천 단위 콤마 추가
+    totalPrice.innerHTML = total.toLocaleString('ko-KR') + "원";
 };
 
 optionCards.forEach((card) => {
-
-    // 지금 이게 옵션카드 하나 눌렀을때 이벤트임.
     card.addEventListener("click", (e) => {
-
         const optionName = card.querySelector(".option-name").innerHTML.trim();
-        const optionPrice = card.querySelector(".price-wrap").innerHTML.slice(0, -1);
+
+        const priceStr = card.dataset.price || "0";
+        const optionPrice = Number(priceStr.replace(/,/g, ''));
+
         const optionItems = card.querySelectorAll(".item-list");
-        
-        let alreadyExistItem = 0;
-        // alreadyExistItem로 이미 올라와 있는 옵션인지 검사해서
-        // 이름이 같으면 그 누른 옵션자체 변수에 덮음.
-        // 다르면 0(js에선 false임) 그대로 가서 다음 조건문에 쓰이게끔
-        // 지금 카트에 뭐라도 있는지 없는지 모르니까 querySelectorAll로 일단 dom
+
+        let alreadyExistItem = null;
         const cartItems = document.querySelectorAll(".each-cart-wrap");
+
         cartItems.forEach((item) => {
             const itemName = item.querySelector(".cart-item-name").innerHTML.trim();
             if(itemName === optionName) {
                 alreadyExistItem = item;
             }
-            // console.log(itemName);
-            // console.log(optionName);
-            // console.log("같?", itemName === optionName);
         });
-        // 이름이 같아서 true면(존재하면) 방금 누른것만의 버튼들을 
-        // 구분하기 위해 변수 선언
+
+        // 이미 존재하는 아이템이면 수량만 증가
         if(alreadyExistItem) {
             const thisInput = alreadyExistItem.querySelector("input");
             const thisMinusBtn = alreadyExistItem.querySelectorAll(".qtt button")[0];
             const thisPlusBtn = alreadyExistItem.querySelectorAll(".qtt button")[1];
             const thisPrice = alreadyExistItem.querySelector(".each-price");
 
-            // 지금 누른것만의 카트의 밸류 더하고
-            // 여기까지 왔으면 최소 2개가 된거니까 마이너스버튼
-            // 누를수있게 disabled 해제하고
-            // 누른 옵션만의 가격(카드 하나의 총(전체말고) 가격)도 계산
             thisInput.value++;
             thisMinusBtn.disabled = false;
-            thisPrice.innerHTML = optionPrice * thisInput.value + "원";
+
+            const newPrice = optionPrice * thisInput.value;
+            thisPrice.innerHTML = newPrice.toLocaleString('ko-KR') + "원";
+
             updateTotalPrice();
             return;
-            // 밑으로가서 박스 새로 이어서 생성하는거 방지로 탈출시키기
         }
 
-        // 위에 if문 수행 안하고 일로 왔으면 새로왔거나
-        // 기존에 담겨진 친구들이랑 다른애니까 카운트 증가시키고
-        // 드러나게 하기
+        // 새로운 아이템 추가
         itemCount++;
         if(itemCount >= 1) {
             appeardCart.style.display = "flex";
         }
 
-        // itemExplain에 미리 담아만 놓는거지
-        // 이게 지금 드러나진 않음
         let itemExplain = ``;
         optionItems.forEach((item) => {
             const spans = item.querySelectorAll("span");
@@ -93,16 +85,14 @@ optionCards.forEach((card) => {
                         <span>
                             ${spans[0].textContent}
                         </span>
-                        <span>
-                            ${spans[1].textContent}
-                        </span>
                     </div>
                 </li>`;
-        })
-        // 마찬가지로 저기 위에랑 같은 클래스를 다루지만
-        // 여기에 온거는 처음 오거나 다른애가 온거니까 새로운 div만들어야지
+        });
+
         const cartItem = document.createElement("div");
         cartItem.className = "each-cart-wrap";
+
+        cartItem.dataset.price = optionPrice;
 
         cartItem.innerHTML = `
             <div class="cart-item-name">
@@ -126,7 +116,7 @@ optionCards.forEach((card) => {
                             </div>
                         </button>
                     </div>
-                    <div class="each-price">${optionPrice}원</div>
+                    <div class="each-price">${optionPrice.toLocaleString('ko-KR')}원</div>
                 </div>
             </div>
             <button class="delete-cart-btn">
@@ -135,7 +125,8 @@ optionCards.forEach((card) => {
                 </div>
             </button>
         `;
-        cartsBox.prepend(cartItem); // 자식요소 맨위로 추가
+
+        cartsBox.prepend(cartItem);
         updateTotalPrice();
 
         const inputTag = cartItem.querySelector("input");
@@ -144,17 +135,18 @@ optionCards.forEach((card) => {
         const plusBtn = controlQttBtns[1];
         const deleteBtn = cartItem.querySelector(".delete-cart-btn");
         const eachCardPrice = cartItem.querySelector(".each-price");
-    
+
         minusBtn.addEventListener("click", (e) => {
-            // 1일때는 아무일도 일어나지 않음
             if(inputTag.value > 1) {
                 inputTag.value--;
-                // console.log("1보다큰거에서 감소함");
                 if(inputTag.value == 1) {
                     minusBtn.disabled = true;
-                    // console.log("1되버림");
                 }
-                eachCardPrice.innerHTML = optionPrice * inputTag.value + "원";
+
+                const newPrice = optionPrice * inputTag.value;
+                eachCardPrice.innerHTML = newPrice.toLocaleString('ko-KR') + "원";
+                console.log("마이너스 후 가격:", eachCardPrice.innerHTML);
+
                 updateTotalPrice();
             }
         });
@@ -162,19 +154,22 @@ optionCards.forEach((card) => {
         plusBtn.addEventListener("click", (e) => {
             inputTag.value++;
             minusBtn.disabled = false;
-            eachCardPrice.innerHTML = optionPrice * inputTag.value + "원";
+
+            const newPrice = optionPrice * inputTag.value;
+            eachCardPrice.innerHTML = newPrice.toLocaleString('ko-KR') + "원";
+            console.log("플러스 후 가격:", eachCardPrice.innerHTML);
+
             updateTotalPrice();
         });
 
         deleteBtn.addEventListener("click", (e) => {
             cartItem.remove();
             itemCount--;
-            
+
             if (itemCount === 0) {
                 appeardCart.style.display = "none";
             }
             updateTotalPrice();
         });
-
     });
 });

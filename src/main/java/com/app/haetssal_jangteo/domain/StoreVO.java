@@ -13,6 +13,7 @@ public class StoreVO extends Period {
     private Long id;
     private Long storeMarketId;
     private Long storeOwnerId;
+    private Long storeCategoryId;
     private String storeName;
     private String storeIntro;
     private String storeAddress;
