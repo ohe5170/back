@@ -1,8 +1,11 @@
 package com.app.haetssal_jangteo.service.user;
 
 import com.app.haetssal_jangteo.common.enumeration.Provider;
+import com.app.haetssal_jangteo.common.enumeration.SellerState;
+import com.app.haetssal_jangteo.common.enumeration.User;
 import com.app.haetssal_jangteo.common.exception.LoginFailException;
 import com.app.haetssal_jangteo.domain.UserVO;
+import com.app.haetssal_jangteo.dto.SellerDTO;
 import com.app.haetssal_jangteo.dto.UserDTO;
 import com.app.haetssal_jangteo.repository.user.UserDAO;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +21,22 @@ public class UserService {
 //    주입!
     private final UserDAO userDAO;
 
-
-//    햇살로 회원가입
+//    햇살로 일반회원 회원가입
     public void haetssalJoin(UserDTO userDTO) {
+        userDTO.setUserType(User.NORMAL);
         userDTO.setAuthProvider(Provider.HAETSSAL);
         userDAO.save(userDTO);
         userDAO.saveOAuth(userDTO.toOAuthVO());
+    }
+
+//    햇살로 판매자 회원가입
+    public void haetssalSellerJoin(UserDTO userDTO, SellerDTO sellerDTO) {
+        userDTO.setUserType(User.SELLER);
+        userDTO.setAuthProvider(Provider.HAETSSAL);
+        userDAO.save(userDTO);
+        userDAO.saveOAuth(userDTO.toOAuthVO());
+        sellerDTO.setId(userDTO.getId());
+        userDAO.saveSeller(sellerDTO);
     }
 
 //    카카오로 회원가입.(로그인 화면에서 kakao버튼을 눌러서 진행)

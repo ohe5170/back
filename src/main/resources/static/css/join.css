@@ -217,7 +217,7 @@
     padding: 10px 20px;
     background-color: rgb(13, 13, 13);
     border-radius: 6px;
-    cursor: pointer;
+    pointer-events: none;
 }
 
 .JoinPage-EmailCheck:hover {

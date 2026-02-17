@@ -58,17 +58,32 @@ emailInput.addEventListener("keyup", (e) => {
     const errorSpan = emailInput.nextElementSibling;
 
     if (regEmail.test(e.target.value)) {
+
         emailInput.style.border = "1px solid rgb(99, 156, 99)";
         errorSpan.style.color = "rgb(99, 156, 99)";
         errorSpan.innerHTML = "올바른 이메일 형식입니다";
-
-        confirmBtn.classList.remove("off");
+        emailChk = true;
+        return;
     } else {
         emailInput.style.border = "1px solid rgb(255, 87, 87)";
         errorSpan.style.color = "rgb(255, 87, 87)";
         errorSpan.innerHTML = "올바르지 않은 이메일 형식입니다";
+        emailChk = false;
         return;
     }
+});
+
+// // 블러줄때 이멜중복 검사
+emailInput.addEventListener("blur", (e) => {
+    const errorSpan = emailInput.nextElementSibling;
+    if (!regEmail.test(e.target.value)) return;
+
+    userService.checkEmail(e.target.value, (isAvailable) => {
+        isEmailAvailable = isAvailable;
+        confirmBtn.style['pointer-events'] = isAvailable ? "auto" : "none";
+        errorSpan.style.color = isAvailable ? "rgb(99, 156, 99)" : "rgb(255, 87, 87)";
+        errorSpan.textContent = isAvailable ? "사용 가능한 이메일입니다." : "이미 사용중인 이메일입니다.";
+    });
 });
 
 // 타이머를 담을 변수 선언
@@ -108,6 +123,8 @@ emailChkInput.addEventListener("keyup", (e) => {
             confirmSpan.innerHTML = "인증이 완료되었습니다.";
 
             sellerJoinInfo.email = emailInput.value;
+
+            confirmBtn.style['pointer-events'] = "none";
         } else {
             emailChkInput.style.border = "1px solid rgb(255, 87, 87)";
             confirmSpan.style.color = "rgb(255, 87, 87)";
@@ -238,13 +255,15 @@ bankAccountNumInput.addEventListener("keyup", (e) => {
     if (regAccount.test(userInput)) {
         bankAccountNumInput.style.border = "1px solid rgb(99, 156, 99)";
         errorSpan.style.color = "rgb(99, 156, 99)";
-        errorSpan.innerHTML = "계좌번호 인증이 필요합니다.";
+        errorSpan.innerHTML = "올바른 계좌번호 입니다.";
 
         accountConfirmBtn.classList.remove("off");
+        accountConfirmBtn.style['pointer-events'] = "auto";
     } else {
         bankAccountNumInput.style.border = "1px solid rgb(255, 87, 87)";
         errorSpan.style.color = "rgb(255, 87, 87)";
         errorSpan.innerHTML = "올바르지 않은 계좌번호 형식입니다";
+        accountConfirmBtn.style['pointer-events'] = "none";
         return;
     }
 });
@@ -287,6 +306,11 @@ nextBtn.addEventListener("click", (e) => {
 
     if (isInvalid) return;
 
+    if (!isEmailAvailable) {
+        alert("이메일 인증을 완료해주세요.");
+        return;
+    }
+
     // 성공하면 다음 페이지로
     firstPage.classList.add("off");
     secondPage.classList.remove("off");
@@ -314,7 +338,7 @@ joinBtn.addEventListener("click", (e) => {
     // sellerJoinInfo, sellerBankInfo 두 값을 보내야 함
 
     // 성공하면 alert후 홈으로
-    alert("회원가입에 성공했습니다.");
+    document.sellerJoinFormTag.submit()
 });
 
 // 인증코드 타이머 기능

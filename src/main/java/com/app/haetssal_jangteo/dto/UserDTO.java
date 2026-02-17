@@ -28,10 +28,6 @@ public class UserDTO {
     private String createdDatetime;
     private String updatedDatetime;
     private Provider authProvider;
-//    private String sellerBankName;
-//    private String sellerDepositor;
-//    private String sellerAccountNumber;
-//    private SellerState sellerState;
 
     public UserVO toUserVO() {
         return UserVO.builder()

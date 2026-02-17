@@ -11,7 +11,6 @@ import java.util.Optional;
 @Mapper
 public interface UserMapper {
 
-// 회원가입
     public void insert(UserDTO userDTO);
 
     public void insertOauth(OAuthVO oAuthVO);
