@@ -1,6 +1,8 @@
 package com.app.haetssal_jangteo.mapper;
 
 import com.app.haetssal_jangteo.common.enumeration.StoreState;
+import com.app.haetssal_jangteo.common.pagination.Criteria;
+import com.app.haetssal_jangteo.common.search.Search;
 import com.app.haetssal_jangteo.domain.StoreVO;
 import com.app.haetssal_jangteo.dto.StoreDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +59,7 @@ public class StoreMapperTests {
 
     @Test
     public void testSelectAll() {
-        List<StoreVO> allStores = storeMapper.selectAll();
+        List<StoreDTO> allStores = storeMapper.selectAll();
         log.info("{}.....", allStores);
     }
 
@@ -77,6 +79,19 @@ public class StoreMapperTests {
     public void testSelectByStoreOwnerId() {
         Optional<StoreVO> foundStore = storeMapper.selectByStoreOwnerId(1L);
         log.info("{}........", foundStore);
+    }
+
+    @Test
+    public void testSelectBySearch() {
+        Criteria criteria = new Criteria(1, 10);
+        Search search = new Search();
+        search.setRegion("서울");
+        search.setMarketId(4L);
+        search.setCategoryId(200L);
+        search.setOrder("desc");
+
+        List<StoreDTO> foundStores = storeMapper.selectBySearch(criteria, search);
+        log.info("{}....", foundStores);
     }
 
     @Test

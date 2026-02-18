@@ -2,6 +2,8 @@ package com.app.haetssal_jangteo.service;
 
 import com.app.haetssal_jangteo.common.enumeration.FileItemType;
 import com.app.haetssal_jangteo.common.enumeration.Filetype;
+import com.app.haetssal_jangteo.common.pagination.Criteria;
+import com.app.haetssal_jangteo.common.search.Search;
 import com.app.haetssal_jangteo.dto.FileDTO;
 import com.app.haetssal_jangteo.dto.FileItemDTO;
 import com.app.haetssal_jangteo.dto.FileStoreDTO;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
@@ -57,5 +60,18 @@ public class StoreServiceTests {
         fileStoreDTO.setStoreId(storeDTO.getId());
 
         fileStoreDAO.save(fileStoreDTO.toFileStoreVO());
+    }
+
+    @Test
+    public void testFindBySearch() {
+        Criteria criteria = new Criteria(1, 10);
+        Search search = new Search();
+        search.setRegion("서울");
+        search.setMarketId(4L);
+        search.setCategoryId(200L);
+        search.setOrder("desc");
+
+        List<StoreDTO> foundStores = storeDAO.findBySearch(criteria, search);
+        log.info("{}....", foundStores);
     }
 }
