@@ -21,6 +21,11 @@ public class StoreDTO {
     private String createdDatetime;
     private String updatedDatetime;
 
+    // 가게 프로필 이미지
+    private String fileName;
+    private String fileOriginName;
+    private String fileSavePath;
+
     // 삭제할 상점 이미지 id
     private String toDeleteFileId;
 

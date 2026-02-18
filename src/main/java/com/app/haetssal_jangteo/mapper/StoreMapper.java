@@ -1,5 +1,7 @@
 package com.app.haetssal_jangteo.mapper;
 
+import com.app.haetssal_jangteo.common.pagination.Criteria;
+import com.app.haetssal_jangteo.common.search.Search;
 import com.app.haetssal_jangteo.domain.StoreVO;
 import com.app.haetssal_jangteo.dto.StoreDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -23,10 +25,10 @@ public interface StoreMapper {
     public void updateIsConfirmed(Long id);
 
 //    전체 가게 조회
-    public List<StoreVO> selectAll();
+    public List<StoreDTO> selectAll();
 
 //    장터 id로 소속 가게들 조회
-    public List<StoreVO> selectByMarketId(Long marketId);
+    public List<StoreDTO> selectByMarketId(Long marketId);
 
 //    id로 가게 조회
     public Optional<StoreVO> selectById(Long id);
@@ -36,6 +38,9 @@ public interface StoreMapper {
 
 //    가게 소유주 id로 가게 조회
     public Optional<StoreVO> selectByStoreOwnerId(Long storeOwnerId);
+
+//    검색 값에 따라 가게 조회
+    public List<StoreDTO> selectBySearch(@Param("criteria")Criteria criteria, @Param("search")Search search);
 
 //    가게 비활성화
     public void delete(Long id);

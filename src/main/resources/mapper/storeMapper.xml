@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.haetssal_jangteo.mapper.StoreMapper">
+    <sql id="search">
+        <trim prefix="(" prefixOverrides="and" suffix=")">
+            <if test="search.region != null and search.region != ''.toString()">
+                and store_address like concat('%', #{search.region}, '%')
+            </if>
+            <if test="search.categoryId != null">
+                and store_category_id = #{search.categoryId}
+            </if>
+            <if test="search.marketId != null">
+                and store_market_id = #{search.marketId}
+            </if>
+            <if test="search.state != null and search.state != ''.toString()">
+                and store_state = #{search.state}
+            </if>
+        </trim>
+        <choose>
+            <when test="search.order == 'asc'">
+                order by store_name asc
+            </when>
+            <when test="search.order == 'desc'">
+                order by store_name desc
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+    </sql>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into tbl_store (store_market_id, store_owner_id, store_category_id, store_name, store_intro, store_address)
         values (#{storeMarketId}, #{storeOwnerId}, #{storeCategoryId}, #{storeName}, #{storeIntro}, #{storeAddress});
@@ -33,6 +61,24 @@
         select id, store_market_id, store_owner_id, store_category_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
         from tbl_store
         where store_owner_id = #{ownerId}
+    </select>
+    
+    <select id="selectBySearch">
+        select
+            distinct
+            s.id, s.store_name, s.store_address, s.store_category_id,
+            s.store_state, s.store_market_id, s.store_intro,
+
+            f.file_name as fileName,
+            f.file_origin_name as fileOriginName,
+            f.file_saved_path as fileSavePath
+        from tbl_store s
+        left join tbl_file_store fs on s.id = fs.store_id
+        left join tbl_file f on f.id = fs.id
+        <where>
+            <include refid="search"></include>
+        </where>
+        limit #{criteria.count} offset #{criteria.offset}
     </select>
 
     <update id="update">
