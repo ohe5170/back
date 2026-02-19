@@ -3,7 +3,6 @@ package com.app.haetssal_jangteo.common.pagination;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.stereotype.Component;
 
 @Setter @Getter
 @ToString
