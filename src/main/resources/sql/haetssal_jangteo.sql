@@ -1,5 +1,9 @@
 use haetssal_jangteo;
 
+ALTER TABLE tbl_item MODIFY COLUMN item_state ENUM('active', 'inactive', 'pending') DEFAULT 'active';
+ALTER TABLE tbl_market MODIFY COLUMN market_state ENUM('active', 'inactive', 'pending') DEFAULT 'active';
+
+
 -- 회원 테이블
 create table tbl_user (
                           id bigint unsigned auto_increment PRIMARY KEY,
@@ -41,7 +45,7 @@ create table tbl_market (
                             id bigint unsigned PRIMARY KEY,
                             market_region varchar(100) NOT NULL,
                             market_name varchar(255) NOT NULL,
-                            market_state enum('active', 'inactive') default 'active',
+                            market_state enum('active', 'inactive', 'pending') default 'active',
                             created_datetime datetime default current_timestamp,
                             updated_datetime datetime default current_timestamp
 );
@@ -94,7 +98,7 @@ create table tbl_item (
     item_price varchar(255) default '0',
     item_delivery_fee varchar(255) default '0',
     item_content longtext NOT NULL,
-    item_state enum('active', 'inactive') default 'active',
+    item_state enum('active', 'inactive', 'pending') default 'active',
     item_view_count int default 0,
     created_datetime datetime default current_timestamp,
     updated_datetime datetime default current_timestamp,

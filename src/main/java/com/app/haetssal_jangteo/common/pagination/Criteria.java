@@ -29,6 +29,7 @@ public class Criteria {
         realEnd = (int)(Math.ceil(total / (double)rowCount));
         endPage = Math.min(endPage, realEnd);
         endPage = Math.max(1, endPage);
+        hasMore = this.page < realEnd;
     }
 }
 

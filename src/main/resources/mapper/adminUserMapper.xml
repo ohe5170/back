@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.haetssal_jangteo.mapper.AdminUserMapper">
+    <update id="update">
+        update tbl_user
+        set user_name = #{itemName},
+            user_email = #{itemPrice},
+            item_type = #{itemType},
+            item_state = #{itemState},
+            updated_datetime = now()
+        where id = #{id}
+    </update>
+</mapper>

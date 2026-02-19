@@ -1,6 +1,7 @@
 package com.app.haetssal_jangteo.dto;
 
 import com.app.haetssal_jangteo.common.pagination.Criteria;
+import com.app.haetssal_jangteo.domain.MarketVO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,8 +13,8 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
-public class ItemWithPagingDTO {
-    private List<ItemDTO> items;
+public class MarketWithPagingDTO {
+    private List<MarketVO> markets;
     private Criteria criteria;
     private int total;
 }

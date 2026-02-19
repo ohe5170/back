@@ -13,4 +13,12 @@ import lombok.ToString;
 public class Search {
     private String keyword;
     private String type;
+
+    // 상품 필터
+    private String categoryId;
+    private String itemState;
+
+    // 가게 필터
+    private String marketRegion;
+    private String marketState;
 }

@@ -32,12 +32,19 @@ public class ItemDTO {
     private int itemViewCount;
     private String createdDatetime;
     private String updatedDatetime;
+    private String categoryName;
 
 
 //    상품 옵션들
     private List<ItemOptionDTO> itemOptions = new ArrayList<>();
 //    상품 이미지들
     private List<FileItemDTO> itemFiles = new ArrayList<>();
+
+    private List<TagDTO> tags = new ArrayList<>();
+    private String[] tagIdsToDelete;
+
+    private List<FileItemDTO> postFiles = new ArrayList<>();
+    private String[] fileIdsToDelete;
 
 //    toVO
     public ItemVO toVO() {
