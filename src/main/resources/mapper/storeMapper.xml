@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.haetssal_jangteo.mapper.StoreMapper">
-    <sql id="search">
+    <sql id="storeSearch">
         <trim prefix="(" prefixOverrides="and" suffix=")">
-            <if test="search.region != null and search.region != ''.toString()">
-                and store_address like concat('%', #{search.region}, '%')
+            <if test="storeSearch.region != null and storeSearch.region != ''.toString()">
+                and store_address like concat('%', #{storeSearch.region}, '%')
             </if>
-            <if test="search.categoryId != null">
-                and store_category_id = #{search.categoryId}
+            <if test="storeSearch.categoryId != null">
+                and store_category_id = #{storeSearch.categoryId}
             </if>
-            <if test="search.marketId != null">
-                and store_market_id = #{search.marketId}
+            <if test="storeSearch.marketId != null">
+                and store_market_id = #{storeSearch.marketId}
             </if>
-            <if test="search.state != null and search.state != ''.toString()">
-                and store_state = #{search.state}
+            <if test="storeSearch.state != null and storeSearch.state != ''.toString()">
+                and store_state = #{storeSearch.state}
             </if>
         </trim>
         <choose>
-            <when test="search.order == 'asc'">
+            <when test="storeSearch.order == 'asc'">
                 order by store_name asc
             </when>
-            <when test="search.order == 'desc'">
+            <when test="storeSearch.order == 'desc'">
                 order by store_name desc
             </when>
             <otherwise>
@@ -76,9 +76,17 @@
         left join tbl_file_store fs on s.id = fs.store_id
         left join tbl_file f on f.id = fs.id
         <where>
-            <include refid="search"></include>
+            <include refid="storeSearch"></include>
         </where>
         limit #{criteria.count} offset #{criteria.offset}
+    </select>
+    
+    <select id="selectTotal">
+        select count(*)
+        from tbl_store
+        <where>
+            <include refid="storeSearch"></include>
+        </where>
     </select>
 
     <update id="update">

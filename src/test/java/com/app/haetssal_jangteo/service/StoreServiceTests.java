@@ -1,17 +1,13 @@
 package com.app.haetssal_jangteo.service;
 
-import com.app.haetssal_jangteo.common.enumeration.FileItemType;
 import com.app.haetssal_jangteo.common.enumeration.Filetype;
 import com.app.haetssal_jangteo.common.pagination.Criteria;
-import com.app.haetssal_jangteo.common.search.Search;
-import com.app.haetssal_jangteo.dto.FileDTO;
-import com.app.haetssal_jangteo.dto.FileItemDTO;
-import com.app.haetssal_jangteo.dto.FileStoreDTO;
-import com.app.haetssal_jangteo.dto.StoreDTO;
+import com.app.haetssal_jangteo.common.search.StoreSearch;
+import com.app.haetssal_jangteo.dto.*;
 import com.app.haetssal_jangteo.repository.FileDAO;
-import com.app.haetssal_jangteo.repository.FileItemDAO;
 import com.app.haetssal_jangteo.repository.FileStoreDAO;
 import com.app.haetssal_jangteo.repository.StoreDAO;
+import com.app.haetssal_jangteo.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,14 +60,29 @@ public class StoreServiceTests {
 
     @Test
     public void testFindBySearch() {
-        Criteria criteria = new Criteria(1, 10);
-        Search search = new Search();
-        search.setRegion("서울");
-        search.setMarketId(4L);
-        search.setCategoryId(200L);
-        search.setOrder("desc");
+        StoreSearch storeSearch = new StoreSearch();
+        storeSearch.setRegion("서울");
+        storeSearch.setMarketId(4L);
+        storeSearch.setCategoryId(200L);
+        storeSearch.setOrder("desc");
 
-        List<StoreDTO> foundStores = storeDAO.findBySearch(criteria, search);
-        log.info("{}....", foundStores);
+        StoreWithPagingDTO storeWithPagingDTO = new StoreWithPagingDTO();
+        Criteria criteria = new Criteria(1, storeDAO.findTotal(storeSearch));
+
+        List<StoreDTO> stores = storeDAO.findBySearch(criteria, storeSearch);
+
+        criteria.setHasMore(stores.size() > criteria.getRowCount());
+        storeWithPagingDTO.setCriteria(criteria);
+
+        if(criteria.isHasMore()) {
+            stores.remove(stores.size() - 1);
+        }
+
+        stores.forEach(storeDTO -> {
+            storeDTO.setCreatedDatetime(DateUtils.toRelativeTime(storeDTO.getCreatedDatetime()));
+        });
+        storeWithPagingDTO.setStores(stores);
+
+        log.info("{}....", storeWithPagingDTO);
     }
 }

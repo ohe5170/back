@@ -1,8 +1,7 @@
 package com.app.haetssal_jangteo.mapper;
 
-import com.app.haetssal_jangteo.common.enumeration.StoreState;
 import com.app.haetssal_jangteo.common.pagination.Criteria;
-import com.app.haetssal_jangteo.common.search.Search;
+import com.app.haetssal_jangteo.common.search.StoreSearch;
 import com.app.haetssal_jangteo.domain.StoreVO;
 import com.app.haetssal_jangteo.dto.StoreDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -84,14 +83,26 @@ public class StoreMapperTests {
     @Test
     public void testSelectBySearch() {
         Criteria criteria = new Criteria(1, 10);
-        Search search = new Search();
-        search.setRegion("서울");
-        search.setMarketId(4L);
-        search.setCategoryId(200L);
-        search.setOrder("desc");
+        StoreSearch storeSearch = new StoreSearch();
+        storeSearch.setRegion("서울");
+        storeSearch.setMarketId(4L);
+        storeSearch.setCategoryId(200L);
+        storeSearch.setOrder("desc");
 
-        List<StoreDTO> foundStores = storeMapper.selectBySearch(criteria, search);
+        List<StoreDTO> foundStores = storeMapper.selectBySearch(criteria, storeSearch);
         log.info("{}....", foundStores);
+    }
+
+    @Test
+    public void selectTotal() {
+        StoreSearch storeSearch = new StoreSearch();
+        storeSearch.setRegion("서울");
+        storeSearch.setMarketId(4L);
+        storeSearch.setCategoryId(200L);
+        storeSearch.setOrder("desc");
+        int count = storeMapper.selectTotal(storeSearch);
+
+        log.info("{}.....", count);
     }
 
     @Test

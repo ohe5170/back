@@ -1,10 +1,11 @@
 package com.app.haetssal_jangteo.controller.store;
 
-import ch.qos.logback.core.model.Model;
 import com.app.haetssal_jangteo.dto.StoreDTO;
+import com.app.haetssal_jangteo.service.item.ItemService;
 import com.app.haetssal_jangteo.service.store.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.view.RedirectView;
 public class StoreController {
 
     private final StoreService storeService;
+    private final ItemService itemService;
 
     @GetMapping("write")
     public String goToWriteForm() {
@@ -36,8 +38,7 @@ public class StoreController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        // TODO
-        // 가게 전부를 가져와서 뿌리기 (무한 스크롤)
+        model.addAttribute("stores", storeService.findAll());
         return "store/store-list";
     }
 
@@ -45,7 +46,6 @@ public class StoreController {
     public String goToDetail(Long id, Model model) {
         // TODO
         // 가게 상세 관련 DTO 새로 만들고 불러와서 경로 연결하기
-
         return "/store/store-detail";
     }
 

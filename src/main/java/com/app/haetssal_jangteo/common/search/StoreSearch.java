@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter @Setter
 @ToString
 @NoArgsConstructor
-public class Search {
+public class StoreSearch {
     private String region;  // 지역 이름
     private Long categoryId; // 카테고리 id
     private Long marketId; // 장터 id

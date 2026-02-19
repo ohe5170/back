@@ -1,11 +1,10 @@
 package com.app.haetssal_jangteo.repository;
 
 import com.app.haetssal_jangteo.common.pagination.Criteria;
-import com.app.haetssal_jangteo.common.search.Search;
+import com.app.haetssal_jangteo.common.search.StoreSearch;
 import com.app.haetssal_jangteo.domain.StoreVO;
 import com.app.haetssal_jangteo.dto.StoreDTO;
 import com.app.haetssal_jangteo.mapper.StoreMapper;
-import jakarta.mail.Store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -63,8 +62,13 @@ public class StoreDAO {
     }
 
     // 검색 값에 따라 가게 조회
-    public List<StoreDTO> findBySearch(Criteria criteria, Search search) {
-        return storeMapper.selectBySearch(criteria, search);
+    public List<StoreDTO> findBySearch(Criteria criteria, StoreSearch storeSearch) {
+        return storeMapper.selectBySearch(criteria, storeSearch);
+    }
+
+    // 검색 값에 따른 가게 수 조회
+    public int findTotal(StoreSearch storeSearch) {
+        return storeMapper.selectTotal(storeSearch);
     }
 
     // 가게 비활성화

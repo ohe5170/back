@@ -3,15 +3,16 @@ package com.app.haetssal_jangteo.service.store;
 import com.app.haetssal_jangteo.common.enumeration.Filetype;
 import com.app.haetssal_jangteo.common.exception.FileNotFoundException;
 import com.app.haetssal_jangteo.common.pagination.Criteria;
-import com.app.haetssal_jangteo.common.search.Search;
+import com.app.haetssal_jangteo.common.search.StoreSearch;
 import com.app.haetssal_jangteo.domain.FileVO;
-import com.app.haetssal_jangteo.domain.StoreVO;
 import com.app.haetssal_jangteo.dto.FileDTO;
 import com.app.haetssal_jangteo.dto.FileStoreDTO;
 import com.app.haetssal_jangteo.dto.StoreDTO;
+import com.app.haetssal_jangteo.dto.StoreWithPagingDTO;
 import com.app.haetssal_jangteo.repository.FileDAO;
 import com.app.haetssal_jangteo.repository.FileStoreDAO;
 import com.app.haetssal_jangteo.repository.StoreDAO;
+import com.app.haetssal_jangteo.util.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -136,8 +137,25 @@ public class StoreService {
     }
 
     // 검색으로 가게 조회
-    public List<StoreDTO> findBySearch(Criteria criteria, Search search) {
-        return storeDAO.findBySearch(criteria, search);
+    public StoreWithPagingDTO findBySearch(int page, StoreSearch storeSearch) {
+        StoreWithPagingDTO storeWithPagingDTO = new StoreWithPagingDTO();
+        Criteria criteria = new Criteria(page, storeDAO.findTotal(storeSearch));
+
+        List<StoreDTO> stores = storeDAO.findBySearch(criteria, storeSearch);
+
+        criteria.setHasMore(stores.size() > criteria.getRowCount());
+        storeWithPagingDTO.setCriteria(criteria);
+
+        if(criteria.isHasMore()) {
+            stores.remove(stores.size() - 1);
+        }
+
+        stores.forEach(storeDTO -> {
+            storeDTO.setCreatedDatetime(DateUtils.toRelativeTime(storeDTO.getCreatedDatetime()));
+        });
+        storeWithPagingDTO.setStores(stores);
+
+        return storeWithPagingDTO;
     }
 
     // 장터 id로 소속 가게들 조회
