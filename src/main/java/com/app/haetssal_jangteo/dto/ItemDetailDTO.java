@@ -38,8 +38,7 @@ public class ItemDetailDTO {
     // 같은 가게 판매 한 상품 개수
     private int storeSoldCount;
 
-
-    // 가게 소유주 마지막 로그인 시간(추후 받아와야 함)
+    // 가게 소유주 마지막 로그인 시간
     private String ownerLatestLogin;
 
     // 가게 프로필 사진
