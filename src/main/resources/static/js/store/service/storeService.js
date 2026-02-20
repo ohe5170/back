@@ -7,13 +7,11 @@ const storeService = (() => {
         }
     }
 
-    const getAllStores = async (page, callback) => {
-        page = page || 1;
-
-        const response = await fetch(`/api/store/list/${page}`);
-        const storeWithPagingDTO = await response.json();
+    const getCategories = async (callback) => {
+        const response = await fetch(`/api/store/category`);
+        const categories = await response.json();
         if(callback) {
-            return callback(storeWithPagingDTO);
+            callback(categories);
         }
     }
 
@@ -31,12 +29,13 @@ const storeService = (() => {
         if (marketId) params.append("marketId", marketId);
 
         const response = await fetch(`/api/store/list/${page}?${params.toString()}`);
-        const storeWithPagingDTO = await response.json();
+        const storeWithPaging = await response.json();
         if(callback) {
-            return callback(storeWithPagingDTO);
+            return callback(storeWithPaging);
         }
     }
 
     return {getMarkets: getMarkets,
+            getCategories: getCategories,
             getList: getList};
 })();

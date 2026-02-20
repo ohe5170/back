@@ -131,15 +131,15 @@ public class StoreService {
         storeDAO.changeIsConfirmed(id);
     }
 
-    // 가게 전체 조회
-    public List<StoreDTO> findAll() {
-        return storeDAO.findAll();
-    }
-
     // 검색으로 가게 조회
     public StoreWithPagingDTO findBySearch(int page, StoreSearch storeSearch) {
         StoreWithPagingDTO storeWithPagingDTO = new StoreWithPagingDTO();
+
         Criteria criteria = new Criteria(page, storeDAO.findTotal(storeSearch));
+        storeWithPagingDTO.setTotal(storeDAO.findTotal(storeSearch));
+
+        System.out.println("현재 criteria : " + criteria);
+        System.out.println("조회된 상품 수 : " + storeDAO.findTotal(storeSearch));
 
         List<StoreDTO> stores = storeDAO.findBySearch(criteria, storeSearch);
 
