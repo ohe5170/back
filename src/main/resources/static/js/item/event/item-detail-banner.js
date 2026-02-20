@@ -78,61 +78,62 @@ const boughtWithTotalCards = boughtWithCards.length;
 let boughtWithNowCardIndex = 0;
 
 // 처음에 버튼설정
-const boughtWithCheckButtons = () => {
-    // 제품이 5개 이하면 버튼 다 없애기
-    if (boughtWithTotalCards <= 5) {
-        boughtWithLeftBtn.style.display = "none";
-        boughtWithRightBtn.style.display = "none";
-        return;
-    }
-
-    // 왼쪽버튼 첨에 로드될때 숨겼다가 나중에 표시
-    if (boughtWithNowCardIndex > 0) {
-        boughtWithLeftBtn.classList.add("show");
-    } else {
-        boughtWithLeftBtn.classList.remove("show");
-    }
-
-    // 오른쪽버튼 처음에 보이고 끝에가면 숨기고
-    if (boughtWithNowCardIndex + 5 >= boughtWithTotalCards) {
-        boughtWithRightBtn.classList.add("hide");
-    } else {
-        boughtWithRightBtn.classList.remove("hide");
-    }
-};
-
-// 버튼누러서 카드 슬라이드
-const boughtWithSlide = (index) => {
-    boughtWithBanner.style.transform = `translate(-${index * 209.4}px)`;
-    boughtWithBanner.style.transition = "transform 0.3s 0s";
-};
-
-// 오른쪽 버튼 클릭
-boughtWithRightBtn.addEventListener("click", () => {
-    const restCards = boughtWithTotalCards - (boughtWithNowCardIndex + 5);
-    let willMove;
-    if(restCards >= 5) {
-        willMove = 5;
-    } else {
-        willMove = restCards;
-    }
-    boughtWithNowCardIndex += willMove;
-    boughtWithSlide(boughtWithNowCardIndex);
-    boughtWithCheckButtons();
-});
-
-// 왼쪽 버튼 클릭
-boughtWithLeftBtn.addEventListener("click", () => {
-    let willMove;
-    if(boughtWithNowCardIndex >= 5) {
-        willMove = 5;
-    } else {
-        willMove = boughtWithNowCardIndex;
-    }
-    boughtWithNowCardIndex -= willMove;
-    boughtWithSlide(boughtWithNowCardIndex);
-    boughtWithCheckButtons();
-});
-
-// 초기 버튼 상태 설정
-boughtWithCheckButtons();
+// const boughtWithCheckButtons = () => {
+//
+//     // 제품이 5개 이하면 버튼 다 없애기
+//     if (boughtWithTotalCards <= 5) {
+//         boughtWithLeftBtn.style.display = "none";
+//         boughtWithRightBtn.style.display = "none";
+//         return;
+//     }
+//
+//     // 왼쪽버튼 첨에 로드될때 숨겼다가 나중에 표시
+//     if (boughtWithNowCardIndex > 0) {
+//         boughtWithLeftBtn.classList.add("show");
+//     } else {
+//         boughtWithLeftBtn.classList.remove("show");
+//     }
+//
+//     // 오른쪽버튼 처음에 보이고 끝에가면 숨기고
+//     if (boughtWithNowCardIndex + 5 >= boughtWithTotalCards) {
+//         boughtWithRightBtn.classList.add("hide");
+//     } else {
+//         boughtWithRightBtn.classList.remove("hide");
+//     }
+// };
+//
+// // 버튼누러서 카드 슬라이드
+// const boughtWithSlide = (index) => {
+//     boughtWithBanner.style.transform = `translate(-${index * 209.4}px)`;
+//     boughtWithBanner.style.transition = "transform 0.3s 0s";
+// };
+//
+// // 오른쪽 버튼 클릭
+// boughtWithRightBtn?.addEventListener("click", () => {
+//     const restCards = boughtWithTotalCards - (boughtWithNowCardIndex + 5);
+//     let willMove;
+//     if(restCards >= 5) {
+//         willMove = 5;
+//     } else {
+//         willMove = restCards;
+//     }
+//     boughtWithNowCardIndex += willMove;
+//     boughtWithSlide(boughtWithNowCardIndex);
+//     boughtWithCheckButtons();
+// });
+//
+// // 왼쪽 버튼 클릭
+// boughtWithLeftBtn?.addEventListener("click", () => {
+//     let willMove;
+//     if(boughtWithNowCardIndex >= 5) {
+//         willMove = 5;
+//     } else {
+//         willMove = boughtWithNowCardIndex;
+//     }
+//     boughtWithNowCardIndex -= willMove;
+//     boughtWithSlide(boughtWithNowCardIndex);
+//     boughtWithCheckButtons();
+// });
+//
+// // 초기 버튼 상태 설정
+// boughtWithCheckButtons();

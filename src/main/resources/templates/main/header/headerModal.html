@@ -8,17 +8,17 @@
 <body>
     <div class="SearchBox-Container">
         <div class="SearchBox-wrapper">
-            <div class="SearchHeader-search">
-                <div class="SearchHeader-search-input">
-                    <form action="post" class="SearchHeader-search-form">
-                        <div class="search-icon icon">
+            <div class="SearchHeader-storeSearch">
+                <div class="SearchHeader-storeSearch-input">
+                    <form action="post" class="SearchHeader-storeSearch-form">
+                        <div class="storeSearch-icon icon">
                             <svg viewBox="0 0 48 48"><path fill-rule="evenodd" clip-rule="evenodd" d="M21.8113 37.22C13.3064 37.22 6.4025 30.3161 6.4025 21.8113C6.4025 13.3064 13.3064 6.4025 21.8113 6.4025C30.3161 6.4025 37.22 13.3064 37.22 21.8113C37.22 30.3161 30.3161 37.22 21.8113 37.22ZM45.3246 42.2229L37.22 34.1172C44.0239 25.6124 42.6231 13.1063 34.1182 6.4025C30.9174 3.70097 26.714 2.20011 22.5117 2H21.8113H21.1109C10.805 2.40023 2.40023 10.7049 2 21.0108V21.7112V22.3115C2.30017 33.2177 11.4053 41.8226 22.3115 41.5225C26.614 41.4224 30.7163 39.9215 34.1182 37.22L42.2229 45.3246C43.1234 46.2251 44.4251 46.2251 45.3246 45.3246C46.2251 44.5242 46.2251 43.1224 45.3246 42.2229Z"></path></svg>
                         </div>
-                        <input placeholder="원하는 상품을 입력해주세요" type="search" class="search-input">
+                        <input placeholder="원하는 상품을 입력해주세요" type="storeSearch" class="storeSearch-input">
                         <input type="submit">
                     </form>
 
-                    <button type="button" class="search-button-reset">
+                    <button type="button" class="storeSearch-button-reset">
                         <!-- 검색어 리셋 버튼 js에서 display:flex으로 변경필요 -->
                         <span>
                             <div name="remove" class="icon">
@@ -27,14 +27,14 @@
                         </span>
                     </button>
                 </div>
-                <button type="button" class="SearchHeader-search-close">
+                <button type="button" class="SearchHeader-storeSearch-close">
                     <div class="close-icon icon">
                         <svg width="10" height="10" fill="#1C1C1C" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.28544 5.00257L2.01916 2.73642C1.82521 2.54248 1.82974 2.23083 2.01598 2.02765C2.21448 1.81131 2.5294 1.8394 2.72795 2.02108L2.72969 2.02268L4.99738 4.2905L7.26357 2.02431C7.4575 1.83056 7.7691 1.83508 7.97226 2.02115C8.1886 2.21946 8.16077 2.53473 7.97878 2.73311L7.97723 2.73479L5.70945 5.00257L7.97564 7.26876C8.16953 7.46283 8.16504 7.77425 7.97884 7.97756L7.97724 7.9793L7.97557 7.98097C7.78164 8.17472 7.47008 8.17023 7.26691 7.98417L7.26519 7.98259L4.99738 5.71465L2.73129 7.981C2.53725 8.17469 2.22572 8.17025 2.02253 7.98417L2.01908 7.98101L2.01592 7.97756C1.82971 7.77425 1.82526 7.46279 2.01916 7.26872L4.28544 5.00257Z"></path></svg>
                     </div>
                 </button>
             </div>
             <!-- 분리선 -->
-            <div class="SearchHeader-search-divider"></div>
+            <div class="SearchHeader-storeSearch-divider"></div>
             
             <div class="AutoComplete-Container">
                 <div class="AutoComplete-Result-Wrapper">

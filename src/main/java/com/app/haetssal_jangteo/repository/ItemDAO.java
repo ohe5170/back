@@ -22,8 +22,18 @@ public class ItemDAO {
     }
 
 //    상품 옵션 등록
-    public void saveOption(ItemOptionDTO option) {
-        itemMapper.insertOption(option);
+    public void saveOption(ItemOptionVO itemOptionVO) {
+        itemMapper.insertOption(itemOptionVO);
+    }
+
+//    상품 옵션 삭제
+    public void deleteOption(Long id) {
+        itemMapper.deleteOption(id);
+    }
+
+//    상품 옵션 삭제(상품 id)
+    public void deleteOptionByItemId(Long itemId) {
+        itemMapper.deleteOptionByItemId(itemId);
     }
 
 //    상품 id로 상품 하나 조회
@@ -39,5 +49,25 @@ public class ItemDAO {
 //    상품 전체 조회
     public List<ItemDTO> findAll() {
         return itemMapper.selectAll();
+    }
+
+//    특정 상품과 같은 카테고리의 상품 조회
+    public List<ItemDTO> findSameCategoryItems(Long categoryId, Long subCategoryId, Long thisItemId) {
+        return itemMapper.selectSameCategoryItems(categoryId, subCategoryId, thisItemId);
+    }
+
+//    상품 조회 수 증가
+    public void increaseViewCount(Long id) {
+        itemMapper.updateViewCount(id);
+    }
+
+//    상품 수정
+    public void update(ItemVO itemVO) {
+        itemMapper.update(itemVO);
+    }
+
+//    상품 삭제
+    public void delete(Long id) {
+        itemMapper.delete(id);
     }
 }

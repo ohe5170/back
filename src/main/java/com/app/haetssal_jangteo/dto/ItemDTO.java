@@ -34,11 +34,17 @@ public class ItemDTO {
     private String updatedDatetime;
     private String categoryName;
 
+//    상품 가게 정보
+    private Long storeId;
+    private String storeName;
 
-//    상품 옵션들
+//    상품 옵션 (저장을 위한 값)
     private List<ItemOptionDTO> itemOptions = new ArrayList<>();
-//    상품 이미지들
+    private String[] optionIdsToDelete;
+
+//    상품 썸네일
     private List<FileItemDTO> itemFiles = new ArrayList<>();
+    private String[] fileIdsToDelete;
 
 //    toVO
     public ItemVO toVO() {

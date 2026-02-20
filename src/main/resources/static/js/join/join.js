@@ -106,6 +106,8 @@ emailChkInput.addEventListener("keyup", (e) => {
             confirmSpan.innerHTML = "인증이 완료되었습니다.";
 
             joinInfo.email = emailInput.value;
+
+            confirmBtn.style['pointer-events'] = "none";
         } else {
             emailChkInput.style.border = "1px solid rgb(255, 87, 87)";
             confirmSpan.style.color = "rgb(255, 87, 87)";

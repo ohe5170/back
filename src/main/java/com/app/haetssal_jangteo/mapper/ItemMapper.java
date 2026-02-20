@@ -5,6 +5,7 @@ import com.app.haetssal_jangteo.domain.ItemVO;
 import com.app.haetssal_jangteo.dto.ItemDTO;
 import com.app.haetssal_jangteo.dto.ItemOptionDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,10 +16,16 @@ public interface ItemMapper {
     public void insert(ItemDTO itemDTO);
 
 //    상품 옵션 등록
-    public void insertOption(ItemOptionDTO itemOptionDTO);
+    public void insertOption(ItemOptionVO itemOptionVO);
+
+//    상품 옵션 삭제
+    public void deleteOption(Long id);
+
+//    상품 옵션 삭제(상품 id)
+    public void deleteOptionByItemId(Long itemId);
 
 //    상품 수정
-    public void update(ItemDTO itemDTO);
+    public void update(ItemVO itemVO);
 
 //    상품 상태 변경
     public void updateState(ItemDTO itemDTO);
@@ -41,4 +48,13 @@ public interface ItemMapper {
 
 //    카테고리 id로 상품들 조회
 
+//    특정 상품과 같은 카테고리의 상품 조회
+    public List<ItemDTO> selectSameCategoryItems(
+            @Param("categoryId") Long categoryId,
+            @Param("subCategoryId") Long subCategoryId,
+            @Param("thisItemId") Long thisItemId
+    );
+
+//    상품 삭제(soft delete)
+    public void delete(Long id);
 }

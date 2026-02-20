@@ -1,12 +1,9 @@
 package com.app.haetssal_jangteo.repository;
 
 import com.app.haetssal_jangteo.domain.FileItemVO;
-import com.app.haetssal_jangteo.domain.FileVO;
-import com.app.haetssal_jangteo.dto.FileDTO;
 import com.app.haetssal_jangteo.dto.FileItemDTO;
 import com.app.haetssal_jangteo.mapper.FileItemMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,7 +14,7 @@ public class FileItemDAO {
     private final FileItemMapper fileItemMapper;
 
     // 아이템 이미지 등록
-    public void save(FileDTO fileItemVO) {
+    public void save(FileItemVO fileItemVO) {
         fileItemMapper.insert(fileItemVO);
     }
 
@@ -26,7 +23,16 @@ public class FileItemDAO {
         return fileItemMapper.selectImagesByItemId(itemId);
     }
 
-    //    추가
+    // 상품 id와 타입으로 이미지 조회
+    public List<FileItemDTO> findImagesByIdAndFileItemType(Long itemId, String type) {
+        return fileItemMapper.selectImagesByIdAndFileItemType(itemId, type);
+    }
+
+    // 상품 이미지 삭제
+    public void delete(Long id) {
+        fileItemMapper.delete(id);
+    }
+
     // 추가
     public static void save(FileItemVO fileItemVO) {
         FileItemMapper.insert(fileItemVO);
@@ -35,10 +41,5 @@ public class FileItemDAO {
     //    목록
     public List<FileItemDTO>  findAllByPostId(Long id) {
         return FileItemMapper.selectAllByItemId(id);
-    }
-
-    //    삭제
-    public void delete(Long id){
-        FileItemMapper.delete(id);
     }
 }

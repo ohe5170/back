@@ -1,5 +1,7 @@
 package com.app.haetssal_jangteo.service;
 
+import com.app.haetssal_jangteo.common.enumeration.User;
+import com.app.haetssal_jangteo.dto.SellerDTO;
 import com.app.haetssal_jangteo.dto.UserDTO;
 import com.app.haetssal_jangteo.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +23,6 @@ public class UserServiceTests {
         userDTO.setUserPassword("1234");
         userDTO.setUserPhone("01032323232");
         userDTO.setUserName("김민중인데");
-        userDTO.setUserIntro("서비스ㅔ스트요");
 
         userService.haetssalJoin(userDTO);
     }
@@ -31,7 +32,6 @@ public class UserServiceTests {
     public void kakaoJoinTest() {
         UserDTO userDTO = new UserDTO();
 
-        userDTO.setId(7L); // 아이디 어떻게할지 논의
         userDTO.setUserEmail("asdf@naver.com");
         userDTO.setUserPassword("1234");
         userDTO.setUserPhone("01033333333");
@@ -39,5 +39,22 @@ public class UserServiceTests {
         userDTO.setUserIntro("카카오조인테스트요");
 
         userService.kakaoJoin(userDTO);
+    }
+
+    @Test
+    public void haetssalSellerJoinTest() {
+        UserDTO userDTO = new UserDTO();
+        SellerDTO sellerDTO = new SellerDTO();
+
+        userDTO.setUserEmail("sokkomann@naver.com");
+        userDTO.setUserPassword("1234");
+        userDTO.setUserPhone("0105555");
+        userDTO.setUserName("테스트");
+        userDTO.setUserType(User.SELLER);
+        sellerDTO.setSellerBankName("테스트은행");
+        sellerDTO.setSellerDepositor("테스트");
+        sellerDTO.setSellerAccountNumber("0987654321");
+
+        userService.haetssalSellerJoin(userDTO, sellerDTO);
     }
 }

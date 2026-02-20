@@ -10,8 +10,7 @@ create table tbl_user (
                           user_email varchar(255) UNIQUE NOT NULL,
                           user_password varchar(255),
                           user_phone varchar(255) UNIQUE NOT NULL,
-                          user_reg_type enum('haetssal', 'social') default 'haetssal',
-                          user_type enum('normal', 'seller', 'admin') default 'normal',
+                          user_type enum('normal', 'seller', 'admin'),
                           user_name varchar(100) NOT NULL,
                           user_intro longtext,
                           user_visit_count int default 1,
@@ -24,7 +23,7 @@ create table tbl_user (
 -- 소셜 회원 테이블
 create table tbl_auth (
                           id bigint unsigned PRIMARY KEY,
-                          auth_provider varchar(100) default 'kakao',
+                          auth_provider enum('haetssal', 'social'),
                           constraint  fk_user_auth foreign key (id)
                               references tbl_user(id)
 );

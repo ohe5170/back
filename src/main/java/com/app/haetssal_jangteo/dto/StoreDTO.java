@@ -11,6 +11,7 @@ public class StoreDTO {
     private Long id;
     private Long storeMarketId;
     private Long storeOwnerId;
+    private Long storeCategoryId;
     private String storeName;
     private String storeIntro;
     private String storeAddress;
@@ -20,11 +21,20 @@ public class StoreDTO {
     private String createdDatetime;
     private String updatedDatetime;
 
+    // 가게 프로필 이미지
+    private String fileName;
+    private String fileOriginName;
+    private String fileSavePath;
+
+    // 삭제할 상점 이미지 id
+    private String toDeleteFileId;
+
     public StoreVO toVO() {
         return StoreVO.builder()
                 .id(id)
                 .storeMarketId(storeMarketId)
                 .storeOwnerId(storeOwnerId)
+                .storeCategoryId(storeCategoryId)
                 .storeName(storeName)
                 .storeIntro(storeIntro)
                 .storeAddress(storeAddress)

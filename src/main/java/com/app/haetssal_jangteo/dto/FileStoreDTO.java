@@ -34,7 +34,7 @@ public class FileStoreDTO {
                 .build();
     }
 
-    public FileStoreVO toFileMarketVO() {
+    public FileStoreVO toFileStoreVO() {
         return FileStoreVO.builder().id(id).storeId(storeId).build();
     }
 }

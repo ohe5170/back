@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>seller-join-page</title>
-    <link rel="stylesheet" href="../static/css/join.css">
+    <link rel="stylesheet" href="/css/join.css">
 </head>
 <body>
     <div class="JoinPage-Layout">
         <div class="JoinPage-Wrapper">
-            <div class="JoinPage-Container">
+            <form action="/user/seller-join" name="sellerJoinFormTag" method="post" class="JoinPage-Container">
                 <!-- 판매자 회원가입 page 1  -->
                 <div class="JoinPage-ContentWrapper user-info">
                     <div class="JoinPage-HeaderWrapper">
@@ -18,15 +18,15 @@
                         </div>
                     </div>
                     <div class="JoinPage-BodyWrapper">
-                        <form class="JoinPage-BodyContainer">
+                        <div class="JoinPage-BodyContainer">
                             <div name="email" class="JoinPage-InputWrapper">
                                 <label for="email" class="JoinPage-InputLabel">
                                     <span>*</span>
                                     이메일
                                 </label>
-                                <input class="JoinPage-Input" id="email" type="text" placeholder="이메일을 입력해주세요" autocomplete="off" autocapitalize="off">
+                                <input name="userEmail" class="JoinPage-Input" id="email" type="text" placeholder="이메일을 입력해주세요" autocomplete="off" autocapitalize="off">
                                 <span class="JoinPage-PassNotice"></span>
-                                <button class="JoinPage-EmailCheck off" type="button">
+                                <button class="JoinPage-EmailCheck" type="button">
                                     인증번호 요청
                                 </button>
                             </div>
@@ -43,7 +43,7 @@
                                     <span>*</span>
                                     비밀번호
                                 </label>
-                                <input class="JoinPage-Input" id="password" type="password" placeholder="비밀번호를 입력해주세요" autocomplete="off" autocapitalize="off">
+                                <input name="userPassword" class="JoinPage-Input" id="password" type="password" placeholder="비밀번호를 입력해주세요" autocomplete="off" autocapitalize="off">
                                 <span class="JoinPage-PassNotice">대문자, 소문자, 숫자, 특수문자를 최소 1개 포함하여, 8~15자를 입력해주세요.</span>
 
                                 <div class="JoinPage-PassVisible off">
@@ -78,7 +78,7 @@
                                     <span>*</span>
                                     연락처
                                 </label>
-                                <input class="JoinPage-Input" id="phone" type="text" placeholder="연락처를 입력해주세요" autocomplete="off" autocapitalize="off">
+                                <input name="userPhone" class="JoinPage-Input" id="phone" type="text" placeholder="연락처를 입력해주세요" autocomplete="off" autocapitalize="off">
                                 <span class="JoinPage-PassNotice">' - ' 빼고 입력해주세요.</span>
                             </div>
 
@@ -87,10 +87,10 @@
                                     <span>*</span>
                                     이름
                                 </label>
-                                <input class="JoinPage-Input" id="nickname" type="text" placeholder="이름을 입력해주세요" autocomplete="off" autocapitalize="off">
+                                <input name="userName" class="JoinPage-Input" id="nickname" type="text" placeholder="이름을 입력해주세요" autocomplete="off" autocapitalize="off">
                                 <span class="JoinPage-PassNotice">타인에게 불쾌감, 모욕감을 느끼게할 수 있는 표현은 지양해주세요.</span>
                             </div>
-                        </form>
+                        </div>
                     </div>
 
                     <div class="JoinPage-FooterWrapper">
@@ -106,20 +106,20 @@
                         </div>
                     </div>
                     <div class="JoinPage-BodyWrapper">
-                        <form class="JoinPage-BodyContainer">
+                        <div class="JoinPage-BodyContainer">
                             <div name="bankName" class="JoinPage-InputWrapper">
                                 <label for="bankName" class="JoinPage-InputLabel">
                                     <span>*</span>
                                     은행명
                                 </label>
-                                <input class="JoinPage-Input" id="bankName" type="text" placeholder="은행명을 입력해주세요" autocomplete="off" autocapitalize="off">
+                                <input name="sellerBankName" class="JoinPage-Input" id="bankName" type="text" placeholder="은행명을 입력해주세요" autocomplete="off" autocapitalize="off">
                             </div>
                             <div name="accountHolerName" class="JoinPage-InputWrapper">
                                 <label for="accountHolerName" class="JoinPage-InputLabel">
                                     <span>*</span>
                                     예금주명
                                 </label>
-                                <input class="JoinPage-Input" id="accountHolerName" type="text" placeholder="연락처를 입력해주세요" autocomplete="off" autocapitalize="off">
+                                <input name="sellerDepositor" class="JoinPage-Input" id="accountHolerName" type="text" placeholder="연락처를 입력해주세요" autocomplete="off" autocapitalize="off">
                                 <span class="JoinPage-PassNotice">예금주의 이름을 입력해주세요.</span>
                             </div>
                             <div name="bankAccountNum" class="JoinPage-InputWrapper">
@@ -127,13 +127,13 @@
                                     <span>*</span>
                                     은행 계좌 번호
                                 </label>
-                                <input class="JoinPage-Input" id="bankAccountNum" type="password" placeholder="계좌번호를 입력해주세요" autocomplete="off" autocapitalize="off">
+                                <input name="sellerAccountNumber" class="JoinPage-Input" id="bankAccountNum" type="password" placeholder="계좌번호를 입력해주세요" autocomplete="off" autocapitalize="off">
                                 <span class="JoinPage-PassNotice">은행 계좌 번호를 ' - ' 없이 입력해주세요.</span>
                                 <button class="JoinPage-EmailCheck off" type="button">
                                     계좌 인증
                                 </button>
                             </div>
-                        </form>
+                        </div>
                     </div>
 
                     <div class="JoinPage-FooterWrapper">
@@ -143,9 +143,10 @@
 
                 <!-- 페이지 오른쪽 이미지 -->
                 <div class="JoinPage-RightImage"></div>
-            </div>
+            </form>
         </div>
      </div>
 </body>
+<script src="/js/join/service.js"></script>
 <script src="/js/seller-join/seller-join.js"></script>
 </html>

@@ -1,5 +1,6 @@
 package com.app.haetssal_jangteo.controller.user;
 
+import com.app.haetssal_jangteo.dto.SellerDTO;
 import com.app.haetssal_jangteo.dto.UserDTO;
 import com.app.haetssal_jangteo.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +32,11 @@ public class UserController {
     @PostMapping("join")
     public RedirectView join(UserDTO userDTO){
         userService.haetssalJoin(userDTO);
-        return new RedirectView("/login/login");
+        return new RedirectView("/user/login-select");
     }
 
-    @GetMapping("login")
-    public String goToLoginForm() {return "login/login";}
+    @GetMapping("login-select")
+    public String goToLoginForm() {return "login/login-select";}
 
     @GetMapping("social-join")
     public String goToKakaoJoinForm(){
@@ -46,6 +47,23 @@ public class UserController {
     @PostMapping("social-join")
     public RedirectView kakaoJoin(UserDTO userDTO){
         userService.kakaoJoin(userDTO);
-        return new RedirectView("/login/login");
+        return new RedirectView("/user/login-select");
+    }
+
+    @GetMapping("seller-join")
+    public String goToSellerJoinForm(){
+        return "join/seller-join";
+    }
+
+    //    리다이렉트 안하면 새로고침할때마다 인서트되버림
+    @PostMapping("seller-join")
+    public RedirectView sellerJoin(UserDTO userDTO, SellerDTO sellerDTO){
+        userService.haetssalSellerJoin(userDTO, sellerDTO);
+        return new RedirectView("/user/login-select");
+    }
+
+    @GetMapping("login-haetssal")
+    public String goToHaetssalLoginForm() {
+        return "login/login-haetssal";
     }
 }

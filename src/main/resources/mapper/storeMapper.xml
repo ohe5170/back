@@ -1,57 +1,121 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.haetssal_jangteo.mapper.StoreMapper">
+    <sql id="storeSearch">
+        <trim prefix="(" prefixOverrides="and" suffix=")">
+            <if test="storeSearch.region != null and storeSearch.region != ''.toString()">
+                and store_address like concat('%', #{storeSearch.region}, '%')
+            </if>
+            <if test="storeSearch.categoryId != null">
+                and store_category_id = #{storeSearch.categoryId}
+            </if>
+            <if test="storeSearch.marketId != null">
+                and store_market_id = #{storeSearch.marketId}
+            </if>
+            <if test="storeSearch.state != null and storeSearch.state != ''.toString()">
+                and store_state = #{storeSearch.state}
+            </if>
+        </trim>
+        <choose>
+            <when test="storeSearch.order == 'asc'">
+                order by store_name asc
+            </when>
+            <when test="storeSearch.order == 'desc'">
+                order by store_name desc
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+    </sql>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into tbl_store (store_market_id, store_owner_id, store_name, store_intro, store_address)
-        values (#{storeMarketId}, #{storeOwnerId}, #{storeName}, #{storeIntro}, #{storeAddress});
+        insert into tbl_store (store_market_id, store_owner_id, store_category_id, store_name, store_intro, store_address)
+        values (#{storeMarketId}, #{storeOwnerId}, #{storeCategoryId}, #{storeName}, #{storeIntro}, #{storeAddress});
     </insert>
 
     <select id="selectAll">
-        select id, store_market_id, store_owner_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
+        select id, store_market_id, store_owner_id, store_category_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
         from tbl_store
     </select>
 
     <select id="selectByMarketId">
-        select id, store_market_id, store_owner_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
+        select id, store_market_id, store_owner_id, store_category_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
         from tbl_store
-        where store_market_id = #{storeMarketId}
+        where store_market_id = #{marketId}
     </select>
 
     <select id="selectById">
-        select id, store_market_id, store_owner_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
+        select id, store_market_id, store_owner_id, store_category_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
         from tbl_store
         where id = #{id}
     </select>
 
     <select id="selectByStoreName">
-        select id, store_market_id, store_owner_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
+        select id, store_market_id, store_owner_id, store_category_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
         from tbl_store
         where store_name = #{storeName}
     </select>
 
     <select id="selectByStoreOwnerId">
-        select id, store_market_id, store_owner_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
+        select id, store_market_id, store_owner_id, store_category_id, store_name, store_intro, store_address, store_score, store_state, store_is_confirmed, created_datetime, updated_datetime
         from tbl_store
-        where store_owner_id = #{storeOwnerId}
+        where store_owner_id = #{ownerId}
+    </select>
+    
+    <select id="selectBySearch">
+        select
+            distinct
+            s.id, s.store_name, s.store_address, s.store_category_id,
+            s.store_state, s.store_market_id, s.store_intro,
+
+            f.file_name as fileName,
+            f.file_origin_name as fileOriginName,
+            f.file_saved_path as fileSavePath
+        from tbl_store s
+        left join tbl_file_store fs on s.id = fs.store_id
+        left join tbl_file f on f.id = fs.id
+        <where>
+            <include refid="storeSearch"></include>
+        </where>
+        limit #{criteria.count} offset #{criteria.offset}
+    </select>
+    
+    <select id="selectTotal">
+        select count(*)
+        from tbl_store
+        <where>
+            <include refid="storeSearch"></include>
+        </where>
     </select>
 
     <update id="update">
         update tbl_store
         set store_name = #{storeName},
             store_intro = #{storeIntro},
+            store_category_id = #{storeCategoryId},
+            store_address = #{storeAddress},
             updated_datetime = current_timestamp
         where id = #{id}
     </update>
 
     <update id="updateState">
         update tbl_store
-        set store_state = #{storeState}
+        set store_state = #{state}
         where id = #{id}
     </update>
 
     <update id="updateIsConfirmed">
         update tbl_store
-        set store_is_confirmed = #{storeIsConfirmed}
+        set
+            store_is_confirmed = true,
+            store_state = 'open'
+        where id = #{id}
+    </update>
+
+    <update id="delete">
+        update tbl_store
+        set store_state = 'close'
         where id = #{id}
     </update>
 </mapper>

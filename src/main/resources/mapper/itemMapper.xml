@@ -16,13 +16,10 @@
         set item_name = #{itemName},
             item_price = #{itemPrice},
             item_stock = #{itemStock},
-            item_content = #{itemContent}
-        where id = #{id}
-    </update>
-    
-    <update id="updateState">
-        update tbl_item
-        set item_state = #{itemState}
+            item_content = #{itemContent},
+            item_category_id = #{itemCategoryId},
+            item_subcategory_id = #{itemSubCategoryId},
+            updated_datetime = current_timestamp
         where id = #{id}
     </update>
 
@@ -35,12 +32,14 @@
     <select id="selectAll">
         select id, item_store_id, item_category_id, item_name, item_type, item_stock, item_price, item_delivery_fee, item_content, item_state, item_view_count, created_datetime, updated_datetime
         from tbl_item
+        where item_state = 'active'
     </select>
 
     <select id="selectById">
         select id, item_store_id, item_category_id, item_subcategory_id, item_name, item_type, item_stock, item_price, item_delivery_fee, item_content, item_state, item_view_count, created_datetime, updated_datetime
         from tbl_item
         where id = #{id}
+        and item_state = 'active';
     </select>
 
     <select id="selectAllOptions">
@@ -48,4 +47,61 @@
         from tbl_item_option
         where option_item_id = #{optionItemId}
     </select>
+
+    <select id="selectSameCategoryItems">
+        select
+            i.id,
+            i.item_store_id,
+            i.item_category_id,
+            i.item_subcategory_id,
+            i.item_name,
+            i.item_type,
+            i.item_stock,
+            i.item_price,
+            i.item_delivery_fee,
+            i.item_content,
+            i.item_state,
+            i.item_view_count,
+            i.created_datetime,
+            i.updated_datetime,
+
+            s.id as storeId,
+            s.store_name as storeName
+        from tbl_item i
+        left join tbl_category c on i.item_category_id = c.id
+        left join tbl_sub_category sc on i.item_subcategory_id = sc.id
+        join tbl_store s on i.item_store_id = s.id
+        <where>
+            <choose>
+                <when test="subCategoryId != null">
+                    i.item_subcategory_id = #{subCategoryId}
+                </when>
+                <otherwise>
+                    i.item_category_id = #{categoryId}
+                </otherwise>
+            </choose>
+            <if test="thisItemId != null">
+                and i.id != #{thisItemId}
+            </if>
+            and i.item_state = 'active'
+        </where>
+        order by i.created_datetime desc
+        limit 10
+    </select>
+
+    <update id="delete">
+        update tbl_item
+        set item_state = 'inactive'
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOption">
+        delete from tbl_item_option
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteOptionByItemId">
+        delete from tbl_item_option
+        where option_item_id = #{itemId}
+    </delete>
 </mapper>

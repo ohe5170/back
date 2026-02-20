@@ -2,18 +2,14 @@ package com.app.haetssal_jangteo.service.item;
 
 import com.app.haetssal_jangteo.common.enumeration.FileItemType;
 import com.app.haetssal_jangteo.common.enumeration.Filetype;
-import com.app.haetssal_jangteo.common.exception.ItemfoundFailException;
-import com.app.haetssal_jangteo.domain.FileItemVO;
+import com.app.haetssal_jangteo.common.exception.FileNotFoundException;
+import com.app.haetssal_jangteo.common.exception.ItemNotFoundException;
+import com.app.haetssal_jangteo.domain.FileVO;
 import com.app.haetssal_jangteo.domain.ItemOptionVO;
 import com.app.haetssal_jangteo.domain.ItemVO;
-import com.app.haetssal_jangteo.dto.FileDTO;
-import com.app.haetssal_jangteo.dto.FileItemDTO;
-import com.app.haetssal_jangteo.dto.ItemDTO;
-import com.app.haetssal_jangteo.dto.ItemOptionDTO;
-import com.app.haetssal_jangteo.repository.CategoryDAO;
-import com.app.haetssal_jangteo.repository.FileDAO;
-import com.app.haetssal_jangteo.repository.FileItemDAO;
-import com.app.haetssal_jangteo.repository.ItemDAO;
+import com.app.haetssal_jangteo.dto.*;
+import com.app.haetssal_jangteo.repository.*;
+import com.app.haetssal_jangteo.util.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,16 +19,15 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(rollbackFor = Exception.class)
 public class ItemService {
     private final ItemDAO itemDAO;
+    private final ItemDetailDAO itemDetailDAO;
     private final CategoryDAO categoryDAO;
     private final FileDAO fileDAO;
     private final FileItemDAO fileItemDAO;
@@ -48,7 +43,6 @@ public class ItemService {
         String todayPath = getTodayPath();
         String path = rootPath + todayPath;
 
-
         // 임시로 상품 가게 id 등록
         itemDTO.setItemStoreId(2L);
 
@@ -57,10 +51,10 @@ public class ItemService {
         // 옵션이 있다면, 저장
         List<ItemOptionDTO> options = itemDTO.getItemOptions();
         if(!options.isEmpty()) {
-            itemDTO.getItemOptions().forEach(option -> {
+            itemDTO.getItemOptions().forEach(optionDTO -> {
                 // 저장된 상품 id 주입
-                option.setOptionItemId(itemDTO.getId());
-                itemDAO.saveOption(option);
+                optionDTO.setOptionItemId(itemDTO.getId());
+                itemDAO.saveOption(optionDTO.toVO());
             });
         }
 
@@ -79,11 +73,140 @@ public class ItemService {
                 saveImages(images, itemDTO.getId(), todayPath, path, fileItemType);
             }
         });
-
     }
 
-    // 상품 불러오기
-    public void detail(Long id) {
+    // 상품 상세 정보 불러오기
+    public ItemDetailDTO detail(Long id) {
+        Optional<ItemDetailDTO> itemDetailDTO = itemDetailDAO.findItemDetailById(id);
+
+        if(itemDetailDTO.isPresent()) {
+            ItemDetailDTO dto = itemDetailDTO.get();
+
+            List<ItemOptionDTO> options = itemDAO.findOptionsById(dto.getId())
+                    .stream().map((optionVO) -> toOptionDTO(optionVO)).collect(Collectors.toList());
+            List<FileItemDTO> thumbnails = fileItemDAO.findImagesByIdAndFileItemType(dto.getId(), "thumbnail").stream().collect(Collectors.toList());
+
+            // 마지막 로그인 nn전
+            String latestLogin = DateUtils.toRelativeTime(dto.getOwnerLatestLogin());
+            dto.setOwnerLatestLogin(latestLogin);
+
+            dto.setItemOptions(options);
+            dto.setItemThumbnails(thumbnails);
+
+            // 조회수 증가
+            itemDAO.increaseViewCount(dto.getId());
+
+            return dto;
+        } else {
+            throw new ItemNotFoundException();
+        }
+    }
+
+    // 상품 id과 같은 카테고리의 상품들 불러오기
+    public List<ItemDTO> getSameCategoryItems(Long id) {
+        ItemVO currentItem = itemDAO.findById(id).orElseThrow(ItemNotFoundException::new);
+
+        List<ItemDTO> sameCategoryItems = itemDAO.findSameCategoryItems(
+                currentItem.getItemCategoryId(),
+                currentItem.getItemSubCategoryId(),
+                currentItem.getId()
+        );
+
+        // 가져온 각 상품들의 썸네일을 가져와 저장
+        sameCategoryItems.stream().forEach((item) -> {
+            item.setItemFiles(fileItemDAO.findImagesByIdAndFileItemType(item.getId(), "thumbnail"));
+        });
+
+        return sameCategoryItems;
+    }
+
+    // id를 받아와서 해당 상품이 있으면 image return
+    public ItemDescImageDTO getItemDescImages(Long id) {
+        if(itemDAO.findById(id).isPresent()) {
+            ItemDescImageDTO imageDTO = new ItemDescImageDTO();
+            imageDTO.setId(id);
+            imageDTO.setItemDescImages(fileItemDAO.findImagesByIdAndFileItemType(id, "desc"));
+            imageDTO.setItemSellerImages(fileItemDAO.findImagesByIdAndFileItemType(id, "seller-info"));
+            imageDTO.setItemRefundImages(fileItemDAO.findImagesByIdAndFileItemType(id, "refund"));
+
+            return imageDTO;
+        } else {
+            throw new ItemNotFoundException();
+        }
+    }
+
+    // 상품 수정
+    public void update(ItemDTO itemDTO,
+                       ArrayList<MultipartFile> itemThumbnails,
+                       ArrayList<MultipartFile> itemDescImages,
+                       ArrayList<MultipartFile> itemSellerImages,
+                       ArrayList<MultipartFile> itemRefundImages) {
+        String rootPath = "C:/file/";
+        String todayPath = getTodayPath();
+        String path = rootPath + todayPath;
+
+        itemDAO.update(itemDTO.toVO());
+
+        FileDTO fileDTO = new FileDTO();
+        FileItemDTO fileItemDTO = new FileItemDTO();
+
+        // 새로 받아온 옵션 저장
+        itemDTO.getItemOptions().forEach((optionDTO) -> {
+            optionDTO.setOptionItemId(itemDTO.getId());
+            itemDAO.saveOption(optionDTO.toVO());
+        });
+
+        Map<List<MultipartFile>, FileItemType> imageMap = Map.of(
+                itemThumbnails, FileItemType.THUMBNAIL,
+                itemDescImages, FileItemType.DESC,
+                itemSellerImages, FileItemType.SELLER_INFO,
+                itemRefundImages, FileItemType.REFUND
+        );
+
+        imageMap.forEach((images, fileItemType) -> {
+            if(!images.isEmpty()) {
+                saveImages(images, itemDTO.getId(), todayPath, path, fileItemType);
+            }
+        });
+
+        // ------------- 삭제 -------------
+        // 옵션
+        if(itemDTO.getOptionIdsToDelete() != null) {
+            Arrays.stream(itemDTO.getOptionIdsToDelete()).forEach((optionId) -> {
+                itemDAO.deleteOption(Long.valueOf(optionId));
+            });
+        }
+
+        // 파일(이미지)
+        if(itemDTO.getFileIdsToDelete() != null) {
+            Arrays.stream(itemDTO.getFileIdsToDelete()).forEach((fileId) -> {
+                FileVO fileVO = fileDAO.findById(Long.valueOf(fileId)).orElseThrow(FileNotFoundException::new);
+                File file = new File(rootPath + fileVO.getFileSavedPath(), fileVO.getFileName());
+                if(file.exists()) {
+                    file.delete();
+                }
+                fileItemDAO.delete(Long.valueOf(fileId));
+                fileDAO.delete(Long.valueOf(fileId));
+            });
+        }
+    }
+
+//    삭제
+    public void delete(Long id) {
+        // 상품 id로 옵션 삭제
+        itemDAO.deleteOptionByItemId(id);
+        // 실제 파일 삭제
+        fileItemDAO.findImagesById(id).forEach(fileItemDTO -> {
+            File file = new File("C:/file/" + fileItemDTO.getFileSavedPath(), fileItemDTO.getFileName());
+            if(file.exists()) {
+                file.delete();
+            }
+
+            // 파일 id 가져와서 서버의 데이터 삭제
+            Long fileId = fileItemDTO.getId();
+            fileItemDAO.delete(fileId);
+            fileDAO.delete(fileId);
+        });
 
     }
 
@@ -125,5 +248,39 @@ public class ItemService {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    // toItemDTO
+    public ItemDTO toItemDTO (ItemVO itemVO) {
+        ItemDTO itemDTO = new ItemDTO();
+        itemDTO.setId(itemVO.getId());
+        itemDTO.setItemStoreId(itemVO.getItemStoreId());
+        itemDTO.setItemCategoryId(itemVO.getItemCategoryId());
+        itemDTO.setItemSubCategoryId(itemVO.getItemSubCategoryId());
+        itemDTO.setItemName(itemVO.getItemName());
+        itemDTO.setItemType(itemVO.getItemType());
+        itemDTO.setItemPrice(itemVO.getItemPrice());
+        itemDTO.setItemStock(itemVO.getItemStock());
+        itemDTO.setItemDeliveryFee(itemVO.getItemDeliveryFee());
+        itemDTO.setItemContent(itemVO.getItemContent());
+        itemDTO.setItemState(itemVO.getItemState());
+        itemDTO.setItemViewCount(itemDTO.getItemViewCount());
+        itemDTO.setCreatedDatetime(itemVO.getCreatedDatetime());
+        itemDTO.setUpdatedDatetime(itemVO.getUpdatedDatetime());
+
+        return itemDTO;
+    }
+
+    // toOptionDTO
+    public ItemOptionDTO toOptionDTO (ItemOptionVO option) {
+        ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
+        itemOptionDTO.setId(option.getId());
+        itemOptionDTO.setOptionItemId(option.getOptionItemId());
+        itemOptionDTO.setOptionName(option.getOptionName());
+        itemOptionDTO.setOptionDetail(option.getOptionDetail());
+        itemOptionDTO.setOptionPrice(option.getOptionPrice());
+        itemOptionDTO.setOptionStock(option.getOptionStock());
+
+        return itemOptionDTO;
     }
 }
