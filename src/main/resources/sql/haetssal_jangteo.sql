@@ -1,5 +1,9 @@
 use haetssal_jangteo;
 
+ALTER TABLE tbl_item MODIFY COLUMN item_state ENUM('active', 'inactive', 'pending') DEFAULT 'active';
+ALTER TABLE tbl_market MODIFY COLUMN market_state ENUM('active', 'inactive', 'pending') DEFAULT 'active';
+
+
 -- 회원 테이블
 create table tbl_user (
                           id bigint unsigned auto_increment PRIMARY KEY,
@@ -40,8 +44,12 @@ create table tbl_market (
                             id bigint unsigned PRIMARY KEY,
                             market_region varchar(100) NOT NULL,
                             market_name varchar(255) NOT NULL,
+<<<<<<< HEAD
+                            market_state enum('active', 'inactive', 'pending') default 'active',
+=======
                             market_location varchar(255) NOT NULL,
                             market_state enum('active', 'inactive') default 'active',
+>>>>>>> 2e8ba375a546e8aafeca4a8e72e822a630a6e2cd
                             created_datetime datetime default current_timestamp,
                             updated_datetime datetime default current_timestamp
 );
@@ -52,6 +60,7 @@ create table tbl_store (
                            id bigint unsigned auto_increment PRIMARY KEY,
                            store_market_id bigint unsigned NOT NULL,
                            store_owner_id bigint unsigned NOT NULL,
+                           store_category_id bigint unsigned not null,
                            store_name varchar(255) NOT NULL,
                            store_intro longtext NOT NULL,
                            store_address varchar(255) NOT NULL,
@@ -63,7 +72,9 @@ create table tbl_store (
                            constraint fk_market_store foreign key(store_market_id)
                                references tbl_market (id),
                            constraint fk_owner_user foreign key (store_owner_id)
-                               references tbl_user (id)
+                               references tbl_user (id),
+                           constraint fk_store_category foreign key (store_category_id)
+                               references tbl_category (id)
 );
 
 -- 카테고리 테이블
@@ -94,7 +105,7 @@ create table tbl_item (
     item_price varchar(255) default '0',
     item_delivery_fee varchar(255) default '0',
     item_content longtext NOT NULL,
-    item_state enum('active', 'inactive') default 'active',
+    item_state enum('active', 'inactive', 'pending') default 'active',
     item_view_count int default 0,
     created_datetime datetime default current_timestamp,
     updated_datetime datetime default current_timestamp,

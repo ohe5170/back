@@ -33,4 +33,13 @@ public class FileItemDAO {
         fileItemMapper.delete(id);
     }
 
+    // 추가
+    public static void save(FileItemVO fileItemVO) {
+        FileItemMapper.insert(fileItemVO);
+    }
+
+    //    목록
+    public List<FileItemDTO>  findAllByPostId(Long id) {
+        return FileItemMapper.selectAllByItemId(id);
+    }
 }

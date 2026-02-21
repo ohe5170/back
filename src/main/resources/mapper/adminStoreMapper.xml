@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.haetssal_jangteo.mapper.AdminMarketMapper">
+
+    <select id="selectDistinctRegions">
+        select distinct market_region
+        from tbl_market
+        where market_region is not null and market_region != ''
+        order by market_region
+    </select>
+
+    <select id="selectAllMarkets">
+        select id, market_region, market_name, market_location, market_state, created_datetime, updated_datetime
+        from tbl_market
+        order by id desc
+    </select>
+
+    <select id="selectAll">
+        select id, market_region, market_name, market_location, market_state, created_datetime, updated_datetime
+        from tbl_market
+        <where>
+            <if test="search.keyword != null and search.keyword != ''">
+                and market_name like concat('%', #{search.keyword}, '%')
+            </if>
+            <if test="search.marketRegion != null and search.marketRegion != ''">
+                and market_region = #{search.marketRegion}
+            </if>
+            <if test="search.marketState != null and search.marketState != ''">
+                and market_state = #{search.marketState}
+            </if>
+        </where>
+        order by id desc
+        limit #{criteria.count} offset #{criteria.offset}
+    </select>
+
+    <select id="selectTotal">
+        select count(*)
+        from tbl_market
+        <where>
+            <if test="search.keyword != null and search.keyword != ''">
+                and market_name like concat('%', #{search.keyword}, '%')
+            </if>
+            <if test="search.marketRegion != null and search.marketRegion != ''">
+                and market_region = #{search.marketRegion}
+            </if>
+            <if test="search.marketState != null and search.marketState != ''">
+                and market_state = #{search.marketState}
+            </if>
+        </where>
+    </select>
+
+    <update id="update">
+        update tbl_market
+        set market_name     = #{marketName},
+            market_region   = #{marketRegion},
+            market_location = #{marketLocation},
+            market_state    = #{marketState},
+            updated_datetime = now()
+        where id = #{id}
+    </update>
+
+</mapper>

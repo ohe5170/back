@@ -1,39 +1,39 @@
 package com.app.haetssal_jangteo.mapper;
 
-import com.app.haetssal_jangteo.domain.ItemVO;
+import com.app.haetssal_jangteo.common.enumeration.State;
 import com.app.haetssal_jangteo.dto.ItemDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Optional;
+import java.util.List;
 
 @SpringBootTest
 @Slf4j
-public class AdminMapperTests {
+public class AdminMapperTest {
 
     @Autowired
-    private AdminMapper adminMapper;
+    private AdminItemMapper adminMapper;
 
     @Test
-    public void testInsert() {
+    public void testUpdate() {
         ItemDTO itemDTO = new ItemDTO();
-        itemDTO.setId(8L);
-        itemDTO.setItemStoreId(1L);
+        itemDTO.setId(1L);
+        itemDTO.setItemName("배 박스");
+        itemDTO.setItemPrice("20000");
+        itemDTO.setItemType("normal");
         itemDTO.setItemCategoryId(1L);
-        itemDTO.setItemName("사과 박스");
-        itemDTO.setItemPrice("15000");
-        itemDTO.setItemStock("40");
-        itemDTO.setItemContent("사과 1 BOX (10KG)");
+        itemDTO.setItemState(State.ACTIVE);
+        itemDTO.setUpdatedDatetime("2016-01-24 00:00:00");
 
-        adminMapper.insert(itemDTO);
+        adminMapper.update(itemDTO.toVO());
     }
 
     @Test
-    public void testSelectById() {
-        Optional<ItemVO> foundItem = adminMapper.selectById(1L);
-        log.info("{}........", foundItem);
+    public void testSelectAll() {
+        List<ItemDTO> itemList = adminMapper.selectAll();
+        log.info("{}.......", itemList);
     }
 }
 
