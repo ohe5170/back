@@ -38,7 +38,6 @@ public class FileUserDTO {
         return FileUserVO.builder()
                 .id(id)
                 .userId(userId)
-                .fileItemType(fileItemType)
                 .build();
     }
 }

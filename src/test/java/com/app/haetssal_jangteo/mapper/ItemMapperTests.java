@@ -119,4 +119,11 @@ public class ItemMapperTests {
         log.info("{}.......", itemList);
     }
 
+    @Test
+    public void testSelectByStoreId() {
+        List<ItemDTO> itemList = itemMapper.selectByStoreId(2L);
+
+        log.info("{}........", itemList);
+    }
+
 }

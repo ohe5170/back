@@ -4,6 +4,7 @@ import com.app.haetssal_jangteo.common.pagination.Criteria;
 import com.app.haetssal_jangteo.common.search.StoreSearch;
 import com.app.haetssal_jangteo.domain.StoreVO;
 import com.app.haetssal_jangteo.dto.StoreDTO;
+import com.app.haetssal_jangteo.dto.StoreDetailDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -29,7 +29,7 @@ public class CategoryDAO {
         return categoryMapper.selectSubOneById(id);
     }
 
-//    상위 카테로기로 하위 카테고리 전체 조회
+//    상위 카테고리로 하위 카테고리 전체 조회
     public List<SubCategoryVO> findSubAllById(Long id) {
         return categoryMapper.selectByParentId(id);
     }

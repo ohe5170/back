@@ -4,9 +4,7 @@ import com.app.haetssal_jangteo.common.enumeration.Filetype;
 import com.app.haetssal_jangteo.common.pagination.Criteria;
 import com.app.haetssal_jangteo.common.search.StoreSearch;
 import com.app.haetssal_jangteo.dto.*;
-import com.app.haetssal_jangteo.repository.FileDAO;
-import com.app.haetssal_jangteo.repository.FileStoreDAO;
-import com.app.haetssal_jangteo.repository.StoreDAO;
+import com.app.haetssal_jangteo.repository.*;
 import com.app.haetssal_jangteo.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -14,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 @Slf4j
@@ -23,9 +23,15 @@ public class StoreServiceTests {
     @Autowired
     private StoreDAO storeDAO;
     @Autowired
+    private StoreDetailDAO storeDetailDAO;
+    @Autowired
     private FileDAO fileDAO;
     @Autowired
+    private FileItemDAO fileItemDAO;
+    @Autowired
     private FileStoreDAO fileStoreDAO;
+    @Autowired
+    private ItemDAO itemDAO;
 
     @Test
     public void testSave() {
@@ -84,5 +90,33 @@ public class StoreServiceTests {
         storeWithPagingDTO.setStores(stores);
 
         log.info("{}....", storeWithPagingDTO);
+    }
+
+    @Test
+    public void detail() {
+        Optional<StoreDetailDTO> storeDetailDTO = storeDetailDAO.findById(2L);
+
+        if(storeDetailDTO.isPresent()) {
+            StoreDetailDTO dto = storeDetailDTO.get();
+
+            // item 가져오기 + 썸내일 같이 가져오기
+            List<ItemDTO> items = itemDAO.findByStoreId(dto.getId()).stream()
+                    .map(itemDTO -> {
+                        List<FileItemDTO> thumbnails = fileItemDAO.findImagesByIdAndFileItemType(itemDTO.getId(), "thumbnail").stream().collect(Collectors.toList());
+                        itemDTO.setItemFiles(thumbnails);
+                        return itemDTO;
+                    }).collect(Collectors.toList());
+
+            // 마지막 로그인 nn전
+            String latestLogin = DateUtils.toRelativeTime(dto.getOwnerLatestLogin());
+            dto.setOwnerLatestLogin(latestLogin);
+
+            // 상품 중 10개 만 가져오기
+            dto.setStoreItems(items.subList(0, Math.min(items.size(), 10)));
+
+            log.info("{}.......", dto);
+        } else {
+            log.info("상품 없음....");
+        }
     }
 }

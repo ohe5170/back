@@ -2,16 +2,12 @@ package com.app.haetssal_jangteo.service.store;
 
 import com.app.haetssal_jangteo.common.enumeration.Filetype;
 import com.app.haetssal_jangteo.common.exception.FileNotFoundException;
+import com.app.haetssal_jangteo.common.exception.StoreNotFoundException;
 import com.app.haetssal_jangteo.common.pagination.Criteria;
 import com.app.haetssal_jangteo.common.search.StoreSearch;
 import com.app.haetssal_jangteo.domain.FileVO;
-import com.app.haetssal_jangteo.dto.FileDTO;
-import com.app.haetssal_jangteo.dto.FileStoreDTO;
-import com.app.haetssal_jangteo.dto.StoreDTO;
-import com.app.haetssal_jangteo.dto.StoreWithPagingDTO;
-import com.app.haetssal_jangteo.repository.FileDAO;
-import com.app.haetssal_jangteo.repository.FileStoreDAO;
-import com.app.haetssal_jangteo.repository.StoreDAO;
+import com.app.haetssal_jangteo.dto.*;
+import com.app.haetssal_jangteo.repository.*;
 import com.app.haetssal_jangteo.util.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,14 +19,19 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(rollbackFor = Exception.class)
 public class StoreService {
     private final StoreDAO storeDAO;
+    private final StoreDetailDAO storeDetailDAO;
+    private final ItemDAO itemDAO;
     private final FileDAO fileDAO;
+    private final FileItemDAO fileItemDAO;
     private final FileStoreDAO fileStoreDAO;
 
     // 가게 등록
@@ -121,6 +122,45 @@ public class StoreService {
         };
     }
 
+    // 가게 상세 조회
+    public StoreDetailDTO detail(Long id) {
+        Optional<StoreDetailDTO> storeDetailDTO = storeDetailDAO.findById(id);
+
+        if(storeDetailDTO.isPresent()) {
+            StoreDetailDTO dto = storeDetailDTO.get();
+
+            // item 가져오기 + 썸내일 같이 가져오기
+            List<ItemDTO> items = itemDAO.findByStoreId(dto.getId()).stream()
+                    .map(itemDTO -> {
+                        List<FileItemDTO> thumbnails = fileItemDAO.findImagesByIdAndFileItemType(itemDTO.getId(), "thumbnail").stream().collect(Collectors.toList());
+                        if(!thumbnails.isEmpty()) {
+                            itemDTO.setItemFiles(thumbnails);
+                        }
+                        System.out.println("받아온 이미지: " + itemDTO.getItemFiles());
+                        return itemDTO;
+
+                    }).collect(Collectors.toList());
+
+            // 마지막 로그인 nn전
+            String latestLogin = DateUtils.toRelativeTime(dto.getOwnerLatestLogin());
+            dto.setOwnerLatestLogin(latestLogin);
+
+            // 상품 중 10개 만 가져오기
+            dto.setStoreItems(items.subList(0, Math.min(items.size(), 10)));
+
+            // 상품 개수
+            dto.setItemCount(items.size());
+
+            // 후기 개수
+
+            // 나중에 후기도 받아와야 함
+
+            return dto;
+        } else {
+            throw new StoreNotFoundException();
+        }
+    }
+
     // 가게 상태 변경
     public void setState(Long id, String state) {
         storeDAO.setState(id, state);
@@ -131,15 +171,15 @@ public class StoreService {
         storeDAO.changeIsConfirmed(id);
     }
 
-    // 가게 전체 조회
-    public List<StoreDTO> findAll() {
-        return storeDAO.findAll();
-    }
-
     // 검색으로 가게 조회
     public StoreWithPagingDTO findBySearch(int page, StoreSearch storeSearch) {
         StoreWithPagingDTO storeWithPagingDTO = new StoreWithPagingDTO();
+
         Criteria criteria = new Criteria(page, storeDAO.findTotal(storeSearch));
+        storeWithPagingDTO.setTotal(storeDAO.findTotal(storeSearch));
+
+        System.out.println("현재 criteria : " + criteria);
+        System.out.println("조회된 상품 수 : " + storeDAO.findTotal(storeSearch));
 
         List<StoreDTO> stores = storeDAO.findBySearch(criteria, storeSearch);
 

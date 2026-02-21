@@ -46,6 +46,11 @@ public class ItemDAO {
         return itemMapper.selectAllOptions(id);
     }
 
+//    가게 id로 상품들 조회
+    public List<ItemDTO> findByStoreId(Long storeId) {
+        return itemMapper.selectByStoreId(storeId);
+    }
+
 //    상품 전체 조회
     public List<ItemDTO> findAll() {
         return itemMapper.selectAll();

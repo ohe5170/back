@@ -29,7 +29,7 @@ select
 from tbl_file_user fu
 join tbl_file f on fu.id = f.id;
 
-# 가게 프로필을 조회하는 view
+# 가게 프로필 이미지을 조회하는 view
 create view vw_file_store as
 select
     f.id,
@@ -82,3 +82,31 @@ left join tbl_file_store fs on fs.store_id = s.id
 left join tbl_file f on fs.id = f.id;
 
 drop view vw_item_detail;
+
+# 가게의 상세 정보를 조회하는 view
+create view vw_store_detail as
+select
+    s.id,
+    s.store_market_id,
+    s.store_owner_id,
+    s.store_name,
+    s.store_intro,
+    s.store_address,
+    s.store_score,
+
+    s.store_category_id,
+    c.category_name as storeCategoryName,
+
+    u.user_latest_login as ownerLatestLogin,
+
+    f.file_name as fileName,
+    f.file_origin_name as fileOriginName,
+    f.file_saved_path as fileSavedPath
+from tbl_store s
+join tbl_user u on s.store_owner_id = u.id
+inner join tbl_category c on s.store_category_id = c.id
+left join tbl_file_store fs on fs.store_id = s.id
+left join tbl_file f on f.id = fs.id;
+
+drop view vw_store_detail;
+

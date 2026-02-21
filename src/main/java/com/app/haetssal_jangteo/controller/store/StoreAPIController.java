@@ -1,9 +1,11 @@
 package com.app.haetssal_jangteo.controller.store;
 
 import com.app.haetssal_jangteo.common.search.StoreSearch;
+import com.app.haetssal_jangteo.dto.CategoryDTO;
 import com.app.haetssal_jangteo.dto.MarketDTO;
 import com.app.haetssal_jangteo.dto.StoreDTO;
 import com.app.haetssal_jangteo.dto.StoreWithPagingDTO;
+import com.app.haetssal_jangteo.service.category.CategoryService;
 import com.app.haetssal_jangteo.service.market.MarketService;
 import com.app.haetssal_jangteo.service.store.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +24,17 @@ import java.util.List;
 public class StoreAPIController {
     private final StoreService storeService;
     private final MarketService marketService;
+    private final CategoryService categoryService;
 
     @GetMapping("region/{region}")
     public List<MarketDTO> getMarkets(@PathVariable String region) {
         log.info("받아온 지역 정보: {}", region);
         return marketService.findByRegion(region);
+    }
+
+    @GetMapping("/category")
+    public List<CategoryDTO> getCategories() {
+        return categoryService.findAll();
     }
 
     @GetMapping("list/{page}")

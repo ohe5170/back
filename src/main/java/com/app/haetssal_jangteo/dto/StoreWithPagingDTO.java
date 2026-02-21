@@ -14,4 +14,5 @@ import java.util.List;
 public class StoreWithPagingDTO {
     private List<StoreDTO> stores;
     private Criteria criteria;
+    private int total;
 }

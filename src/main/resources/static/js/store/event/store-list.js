@@ -4,8 +4,12 @@ const orderByBox = document.querySelector(".orderby-box");
 const orderValueList = orderByBox.querySelectorAll(".filter-combo");
 
 const ddFilter = document.querySelector(".dropdown-filter");
+const filterBtn = document.querySelector(".condition-filter");
 
 const heartButtons = document.querySelectorAll(".like-button");
+
+// 검색한 값 표시하는 text
+const searchParamText = document.querySelector(".current-region-market");
 
 // ################# 검색용 값 #################
 const region = document.querySelector("input[name=region]");
@@ -21,10 +25,12 @@ let criteria = {hasMore: true}
 let page = 1;
 let checkScroll = true;
 
-// storeService.getList(page, {})
+document.addEventListener("DOMContentLoaded", async (e) => {
+    await document.querySelector(".category-each-box.all").click();
+})
 
 window.addEventListener("scroll", async (e) => {
-    if(checkScroll || !criteria.hasMore) {
+    if(!checkScroll || !criteria.hasMore) {
         return;
     }
     // 현재 스크롤 위치
@@ -36,11 +42,17 @@ window.addEventListener("scroll", async (e) => {
 
     // 바닥에 닿았을 때 store 요청
     if(scrollCurrentPosition + windowHeight >= documentHeight - 1) {
+        console.log("바닥!");
         checkScroll = false;
-        criteria = await storeService.getList(++page, {});
+        criteria = await storeService.getList(++page,
+            {region: region.value, marketId: marketId.value, categoryId: categoryId.value, state: state.value, orderValue: orderValue.value},
+            storeLayout.showList);
     }
 
-})
+    setTimeout(() => {
+        checkScroll = true;
+    }, 1000);
+});
 
 // 1. 펼치고 닫고, 
 // a를 펼치려고 클릭했을때, b가 펼쳐져있는걸 닫아버림
@@ -72,9 +84,15 @@ regionBoxes.forEach((regionBox) => {
             state.value = "";
             orderValue.value = "";
 
+            searchParamText.innerHTML = "전체 검색"
+
+            // 전체 가게 조회
+            page = 1;
+            criteria.hasMore = true;
             await storeService.getList(page, {}, storeLayout.showList);
         } else {
             // 그외의 지역을 누르면 장터를 조회해서 뿌리기
+            searchParamText.innerHTML = regionText;
             await storeService.getMarkets(regionInput.value, storeLayout.showMarketList);
         }
 
@@ -86,17 +104,21 @@ regionBoxes.forEach((regionBox) => {
                 let selectedMarketId = market.getAttribute("value");
 
                 if(market.classList.contains("all-seoul")) {
+                    page = 1;
                     marketId.value = "";
+                    searchParamText.innerHTML = `${regionText} - ${market.innerHTML}`;
                     await storeService.getList(page,
-                        {region: region.value, marketId: marketId.value, categoryId: categoryId.value, state: state.value, orderValue: orderValue.value},
+                        {region: region.value, marketId: marketId.value},
                         storeLayout.showList);
                 } else {
+                    page = 1;
                     marketId.value = selectedMarketId;
-                    console.log(marketId.value);
+                    console.log("장터 id: " + marketId.value);
                     await storeService.getList(page,
-                        {region: region.value, marketId: marketId.value, categoryId: categoryId.value, state: state.value, orderValue: orderValue.value},
+                        {region: region.value, marketId: marketId.value},
                         storeLayout.showList);
                 }
+                searchParamText.innerHTML = `${regionText} - ${market.innerHTML}`;
             })
         })
 
@@ -124,6 +146,7 @@ orderValueList.forEach(value => {
             <i class="combobox-arrow"></i>
         `;
 
+        page = 1;
         orderInput.value = optionValue;
 
         // 정렬 값과 함께 상품 조회
@@ -134,13 +157,47 @@ orderValueList.forEach(value => {
 });
 
 // 3. 필터 버튼 이벤트 
-ddFilter.addEventListener("click", (e) => {
+ddFilter.addEventListener("click", async (e) => {
     let condition = ddFilter.classList.contains("clicked");
     ddFilter.classList.toggle("clicked", !condition);
+
+    if(!condition) {
+        await storeService.getCategories(storeLayout.showCategories);
+    }
+
+    // 3-1. 필터 버튼 클릭 시 이벤트
+    const categoryBoxes = document.querySelectorAll(".dd-filter-item");
+    const ddFilterText = ddFilter.querySelector(".filter-text");
+    categoryBoxes.forEach(category => {
+        category.addEventListener("click", async (e) => {
+            const id = category.getAttribute("value");
+            const categoryName = category.innerHTML;
+
+            ddFilterText.innerHTML = categoryName;
+            categoryId.value = id;
+
+            await storeService.getList(page, {region: region.value, marketId: marketId.value, categoryId: categoryId.value}, storeLayout.showList);
+        })
+    })
 });
 
-// 3-1. 필터 버튼 클릭 시 이벤트
+// 영업 중인 가게만 보기 버튼 클릭 이벤트
+filterBtn.addEventListener("click", async (e) => {
+    let condition = filterBtn.classList.contains("clicked");
+    filterBtn.classList.toggle("clicked", !condition);
 
+    if(!condition) {
+        state.value = "open";
+        await storeService.getList(page,
+            {region: region.value, marketId: marketId.value, categoryId: categoryId.value, state: state.value},
+            storeLayout.showList);
+    } else {
+        state.value = "";
+        await storeService.getList(page,
+            {region: region.value, marketId: marketId.value, categoryId: categoryId.value, state: state.value},
+            storeLayout.showList);
+    }
+});
 
 // 4. 바깥쪽 클릭했을때 펼쳐진거 닫는 이벤트
 document.addEventListener("click", (e) => {
@@ -169,6 +226,7 @@ const showModal = (modalMessage) => {
     document.getElementById("content-wrap").innerHTML = modalMessage;
     document.querySelector("div.like-modal").style.animation = "popUp 0.5s";
     document.querySelector("div.modal").style.display = "flex";
+
     setTimeout(() => {
         document.querySelector("div.like-modal").style.animation =
             "popDown 0.5s";

@@ -396,6 +396,10 @@ button {
     border: none;
 }
 
+.condition-filter.clicked {
+    background: #FFB74D;
+}
+
 .combobox-opener span {
     position: relative;
     display: block;

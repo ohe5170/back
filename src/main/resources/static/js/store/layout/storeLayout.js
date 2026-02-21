@@ -36,18 +36,35 @@ const storeLayout = (() => {
       marketContainer.innerHTML = text;
    }
 
+   const showCategories = (categories) => {
+      const categoryBox = document.querySelector(".dd-filter-box");
+
+      let text = ``;
+      if(categories) {
+         categories.forEach(category => {
+            text += `
+            <li>
+                <button type="button" class="dd-filter-item" value="${category.id}">${category.categoryName}</button>
+            </li>
+            `
+         })
+      }
+      categoryBox.innerHTML = text;
+   }
+
    const showList = (storeWithPaging) => {
       const storeContainer = document.querySelector(".card-list-wrapper");
       const storeCount = document.querySelector(".count-contents");
 
       const stores = storeWithPaging.stores;
       const criteria = storeWithPaging.criteria;
+      const total = storeWithPaging.total;
 
       let count = ``;
       let text = ``;
       if(stores) {
          count = `
-         <span>${stores.length}</span>개의 상점이 있습니다.
+         <span>${total}</span>개의 상점이 있습니다.
          `;
 
          stores.forEach(store => {
@@ -95,12 +112,14 @@ const storeLayout = (() => {
       }
       storeCount.innerHTML = count;
 
-      console.log(criteria.page);
+      console.log("page : " + criteria.page);
       if(criteria.page === 1) {
          storeContainer.innerHTML = text;
       } else {
          storeContainer.innerHTML += text;
       }
+
+      return criteria;
    }
 
    const stateToString = (state) => {
@@ -121,6 +140,7 @@ const storeLayout = (() => {
    }
 
    return {showMarketDropdown: showMarketDropdown,
+            showCategories: showCategories,
             showMarketList: showMarketList,
             showList: showList};
 })();

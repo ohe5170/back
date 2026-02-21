@@ -23,7 +23,7 @@
                         <div class="region-list">
                             <input type="hidden" name="region" value="">
                             <input type="hidden" name="marketId" value="">
-                            <div class="category-each-box">
+                            <div class="category-each-box all">
                                 <!-- 전체지역, 누르면 전체시장 목록 페이지 -->
                                 <div class="region-icon">
                                     <img src="/images/region/Korea_Map.svg.png">
@@ -213,12 +213,6 @@
                                     <div class="tab-arrow">▼</div>
                                 </div>
                                 <div class="tab-button">
-                                    <a href="https://www.naver.com" class="dropdown-market all-seoul">전체보기</a>
-                                    <a href="https://www.naver.com" class="dropdown-market">무슨시장</a>
-                                    <a href="https://www.naver.com" class="dropdown-market">무슨시장</a>
-                                    <a href="https://www.naver.com" class="dropdown-market">무슨시장</a>
-                                    <a href="https://www.naver.com" class="dropdown-market">무슨시장</a>
-                                    <a href="https://www.naver.com" class="dropdown-market">무슨시장</a>
                                 </div>
                             </div>
                         </div>
@@ -233,7 +227,7 @@
 
                     <!-- 지역이름과 장터개수 -->
                     <div class="divider">
-                        <div class="current-region-market">서울시 - 가락시장</div>
+                        <div class="current-region-market"></div>
                     </div>
                 </div>
 
@@ -249,7 +243,7 @@
                                         <input type="hidden" name="categoryId" value="">
                                         <input type="hidden" name="state" value="">
                                         <button type="button" class="filter filter-btn category-filter">
-                                            <div class="filter-text">주판매 카테고리</div>
+                                            <div class="filter-text">카테고리 전체</div>
                                             <div class="dropdown-arrow">
                                                 <svg class="arrow-svg" width="16" height="16" viewBox="0 0 16 16"
                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -261,36 +255,9 @@
                                         </button>
                                         <!-- 세부카테고리 버튼 클릭시 드롭다운 목록 -->
                                         <ul class="dd-filter-box">
-                                            <li>
-                                                <button type="button" class="dd-filter-item">축산물</button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dd-filter-item">농산물</button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dd-filter-item">수산물</button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dd-filter-item">반찬.장류</button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dd-filter-item">가공식품</button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dd-filter-item">건강식품</button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dd-filter-item">생활용품</button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dd-filter-item">주방용품</button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dd-filter-item">가전</button>
-                                            </li>
                                         </ul>
                                     </div>
-                                    <!-- 세번째필터 -->
+                                    <!-- 두번째필터 -->
                                     <button type="button" class="filter filter-btn condition-filter">
                                         <div class="svg-inmedia">
                                             <span>영업중인 가게만 보기</span>
@@ -324,42 +291,10 @@
 
                         <!-- 상점의 개수 뽑기 -->
                         <div class="count-contents">
-                            <span>(등록or필터된 개수)n</span>
-                            개의 상점이 있습니다.
                         </div>
 
                         <!-- 전체 카드들 -->
                         <div class="card-list-wrapper">
-
-                            <!-- 상점 하나의 카드 -->
-                            <div class="market-card-wrapper">
-                                <div class="each-card">
-                                    <a href="https://www.naver.com" class="market-card">
-                                        <div class="card-image-wrap">
-                                            <img src="/images/market/gwangjang.png" class="card-image">
-                                        </div>
-                                        <!-- 이미지 아래에 정보 -->
-                                        <!-- 카테고리, 이름, 간단설명, 줄 긋고, 위치, 영업시간 -->
-                                        <div class="card-info">
-                                            <div class="card-market-category">농산물</div>
-                                            <div class="card-market-name">가게 이름</div>
-                                            <div class="card-description">가게 설명</div>
-                                            <div class="card-info-line"></div>
-                                            <div class="card-guide">
-                                                <div class="guide-location">
-                                                    <div class="location">위치</div>
-                                                    <div class="market-location"></div>
-                                                </div>
-                                                <div class="guide-hour">
-                                                    <div class="hours">상태</div>
-                                                    <div class="card-business-hour"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="vertical-card-divider"></div>
-                                    </a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

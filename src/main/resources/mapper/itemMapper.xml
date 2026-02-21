@@ -89,6 +89,13 @@
         limit 10
     </select>
 
+    <select id="selectByStoreId">
+        select
+            id, item_store_id, item_category_id, item_subcategory_id, item_name, item_type, item_stock, item_price, item_delivery_fee, item_content, item_state, item_view_count, created_datetime, updated_datetime
+        from tbl_item
+        where item_store_id = #{storeId}
+    </select>
+
     <update id="delete">
         update tbl_item
         set item_state = 'inactive'

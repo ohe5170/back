@@ -45,6 +45,7 @@ public interface ItemMapper {
 //    회원 id로 상품들 조회
 
 //    가게 id로 상품들 조회
+    public List<ItemDTO> selectByStoreId(Long storeId);
 
 //    카테고리 id로 상품들 조회
 
