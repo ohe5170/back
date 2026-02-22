@@ -6,9 +6,11 @@ import com.app.haetssal_jangteo.common.exception.StoreNotFoundException;
 import com.app.haetssal_jangteo.common.pagination.Criteria;
 import com.app.haetssal_jangteo.common.search.StoreSearch;
 import com.app.haetssal_jangteo.domain.FileVO;
+import com.app.haetssal_jangteo.domain.StoreVO;
 import com.app.haetssal_jangteo.dto.*;
 import com.app.haetssal_jangteo.repository.*;
 import com.app.haetssal_jangteo.util.DateUtils;
+import jakarta.mail.Store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,12 +74,12 @@ public class StoreService {
     }
 
     // 가게 정보 수정
-    public void setStore(StoreDTO storeDTO, MultipartFile multipartFile) {
+    public void update(StoreDTO storeDTO, MultipartFile multipartFile) {
         String rootPath = "C:/file/";
         String todayPath = getTodayPath();
         String path = rootPath + todayPath;
 
-        storeDAO.setStore(storeDTO.toVO());
+        storeDAO.update(storeDTO.toVO());
 
         FileDTO fileDTO = new FileDTO();
         FileStoreDTO fileStoreDTO = new FileStoreDTO();
@@ -215,5 +217,24 @@ public class StoreService {
     // 오늘자 경로 생성
     public String getTodayPath(){
         return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+    }
+
+    // toDTO
+    public StoreDTO toDTO(StoreVO storeVO) {
+        StoreDTO storeDTO = new StoreDTO();
+        storeDTO.setId(storeVO.getId());
+        storeDTO.setStoreMarketId(storeVO.getStoreMarketId());
+        storeDTO.setStoreOwnerId(storeVO.getStoreOwnerId());
+        storeDTO.setStoreCategoryId(storeVO.getStoreCategoryId());
+        storeDTO.setStoreName(storeVO.getStoreName());
+        storeDTO.setStoreIntro(storeVO.getStoreIntro());
+        storeDTO.setStoreAddress(storeVO.getStoreAddress());
+        storeDTO.setStoreScore(storeVO.getStoreScore());
+        storeDTO.setStoreState(storeVO.getStoreState());
+        storeDTO.setStoreIsConfirmed(storeVO.isStoreIsConfirmed());
+        storeDTO.setCreatedDatetime(storeVO.getCreatedDatetime());
+        storeDTO.setUpdatedDatetime(storeVO.getUpdatedDatetime());
+
+        return storeDTO;
     }
 }
