@@ -13,6 +13,7 @@
             store_category_id,
             storeCategoryName,
             ownerLatestLogin,
+            fileId,
             fileName,
             fileOriginName,
             fileSavedPath

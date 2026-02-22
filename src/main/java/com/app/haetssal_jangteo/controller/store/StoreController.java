@@ -47,4 +47,19 @@ public class StoreController {
         return "store/store-detail";
     }
 
+    @GetMapping("/update")
+    public String goToUpdate(Long id, Model model) {
+        model.addAttribute("store", storeService.detail(id));
+        return "store/store-update";
+    }
+
+    @PostMapping("/update")
+    public RedirectView update(StoreDTO storeDTO,
+                               MultipartFile multipartFile,
+                               RedirectAttributes redirectAttributes) {
+        storeService.update(storeDTO, multipartFile);
+        redirectAttributes.addAttribute("id", storeDTO.getId());
+        return new RedirectView("/store/detail");
+    }
+
 }
