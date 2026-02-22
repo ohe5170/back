@@ -18,7 +18,7 @@ const marketId = document.querySelector("input[name=marketId]");
 const state = document.querySelector("input[name=state]");
 const orderValue = document.querySelector("input[name=orderValue]");
 
-// ################# 검색 #################
+// ################# 무한 스크롤 #################
 let criteria = {hasMore: true}
 
 // 무한 스크롤 이벤트

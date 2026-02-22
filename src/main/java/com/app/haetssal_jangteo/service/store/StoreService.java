@@ -130,15 +130,13 @@ public class StoreService {
             StoreDetailDTO dto = storeDetailDTO.get();
 
             // item 가져오기 + 썸내일 같이 가져오기
-            List<ItemDTO> items = itemDAO.findByStoreId(dto.getId()).stream()
+            List<ItemDTO> items = itemDAO.findByStoreId(dto.getId(), null).stream()
                     .map(itemDTO -> {
                         List<FileItemDTO> thumbnails = fileItemDAO.findImagesByIdAndFileItemType(itemDTO.getId(), "thumbnail").stream().collect(Collectors.toList());
                         if(!thumbnails.isEmpty()) {
                             itemDTO.setItemFiles(thumbnails);
                         }
-                        System.out.println("받아온 이미지: " + itemDTO.getItemFiles());
                         return itemDTO;
-
                     }).collect(Collectors.toList());
 
             // 마지막 로그인 nn전

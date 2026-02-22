@@ -7,6 +7,7 @@ const ddBoxesInReviewTab = document.querySelectorAll(".dd-box-reviewtab");
 const keyWordsInDashAndReviewTab = document.querySelectorAll(".keyword-item");
 const ArrowsNextToKeyWord = document.querySelectorAll(".key-dd-icon");
 
+
 const showAllReview = document.querySelector(".all-review-btn");
 const showAllProducts = document.querySelector(".show-all-products");
 
@@ -22,9 +23,57 @@ const photoReview = document.querySelector(".photo-review-count");
 
 const magamBtn = document.querySelector(".filter-magam-btn");
 
+// 가게 id, 소유주 id input
+const storeId = document.querySelector("input[name=storeId]");
+const ownerId = document.querySelector("input[name=ownerId]");
+
+// ################# 무한 스크롤 #################
+let criteria = {hasMore: true}
+
+// 무한 스크롤 이벤트
+let page = 1;
+let checkScroll = true;
+
+// 초기 화면에서 "프로필" 네비게이션을 누르기
+document.addEventListener("DOMContentLoaded", async (e) => {
+    await mainContents[0].click();
+})
+
+window.addEventListener("scroll", async (e) => {
+    if(!checkScroll || !criteria.hasMore) {
+        return;
+    }
+
+    // 현재 스크롤 위치
+    const scrollCurrentPosition = window.scrollY;
+    // 화면 높이
+    const windowHeight = window.innerHeight;
+    // 문서 높이
+    const documentHeight = document.documentElement.scrollHeight;
+
+    // 바닥에 닿았을 때 store 요청
+    if(scrollCurrentPosition + windowHeight >= documentHeight - 1) {
+        console.log("바닥!");
+        checkScroll = false;
+        // 여기서 후기랑 아이템에 따라 가져와야하는게 다름
+        if(!showAllReview.classList.contains("clicked")) {
+            // 아이템 받아오기
+            criteria = await storeService.getItemsForDetail(++page, storeId.value, storeLayout.showItems);
+        } else {
+            // 후기 받아오기
+            console.log("후기 눌림!");
+        }
+    }
+
+    setTimeout(() => {
+        checkScroll = true;
+    }, 1000);
+});
+
 // 1. 프로필/판매상품/리뷰 탭 눌렀을때 이벤트
 portals.forEach((portal, i) => {
-    portal.addEventListener("click", (e) => {
+    portal.addEventListener("click", async (e) => {
+        const navName = portal.getAttribute("name");
 
         mainContents.forEach((main) => {
             main.classList.remove("on");
@@ -34,9 +83,23 @@ portals.forEach((portal, i) => {
             eachPortal.classList.remove("selected");
         });
 
-        // let condition =  e.target.classList.contains("selected");
-        e.target.classList.add("selected");
-        mainContents[i].classList.add("on");
+        switch (navName) {
+            case "profile":
+                e.target.classList.add("selected");
+                mainContents[i].classList.add("on");
+                break;
+            case "sales":
+                page = 1;
+                await storeService.getItemsForDetail(page, storeId.value, storeLayout.showItems);
+                e.target.classList.add("selected");
+                mainContents[i].classList.add("on");
+                break;
+            case "reviews":
+                // 후기 요청 필요
+                e.target.classList.add("selected");
+                mainContents[i].classList.add("on");
+                break;
+        }
 
         underline.style.left = `${e.target.offsetLeft}px`;
         underline.style.width = `${e.target.offsetWidth}px`;
@@ -59,6 +122,8 @@ showAllReview.addEventListener("click", (e) => {
     underline.style.left = `${portals[2].offsetLeft}px`;
     underline.style.width = `${portals[2].offsetWidth}px`;
 
+    // 후기 가져오기
+
     window.scrollTo({
         top: 0, behavior: "smooth"
     });
@@ -79,13 +144,15 @@ showReviews.addEventListener("click", (e) => {
         underline.style.width = `${portals[2].offsetWidth}px`;
     }
 
+    // 후기 가져오기
+
     window.scrollTo({
         top: 0, behavior: "smooth"
     });
 });
 
 // 1-4. 프로필 대시보드(기본화면) 중간에 상품전체보기 눌렀을때 이벤트
-showAllProducts.addEventListener("click", (e) => {
+showAllProducts.addEventListener("click", async (e) => {
     
     mainContents[0].classList.remove("on");
     portals[0].classList.remove("selected");
@@ -95,6 +162,10 @@ showAllProducts.addEventListener("click", (e) => {
 
     underline.style.left = `${portals[1].offsetLeft}px`;
     underline.style.width = `${portals[1].offsetWidth}px`;
+
+    // 해당 가게 상품 가져오기
+    page = 1;
+    await storeService.getItemsForDetail(page, storeId.value, storeLayout.showItems);
 
     window.scrollTo({
         top: 0, behavior: "smooth"

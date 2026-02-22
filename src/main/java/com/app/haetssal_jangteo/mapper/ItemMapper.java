@@ -1,5 +1,6 @@
 package com.app.haetssal_jangteo.mapper;
 
+import com.app.haetssal_jangteo.common.pagination.Criteria;
 import com.app.haetssal_jangteo.domain.ItemOptionVO;
 import com.app.haetssal_jangteo.domain.ItemVO;
 import com.app.haetssal_jangteo.dto.ItemDTO;
@@ -45,7 +46,7 @@ public interface ItemMapper {
 //    회원 id로 상품들 조회
 
 //    가게 id로 상품들 조회
-    public List<ItemDTO> selectByStoreId(Long storeId);
+    public List<ItemDTO> selectByStoreId(@Param("storeId") Long storeId, @Param("criteria")Criteria criteria);
 
 //    카테고리 id로 상품들 조회
 
@@ -55,6 +56,9 @@ public interface ItemMapper {
             @Param("subCategoryId") Long subCategoryId,
             @Param("thisItemId") Long thisItemId
     );
+
+//    상품 id로 상품 개수 조회
+    public int selectTotalByStoreId(Long storeId);
 
 //    상품 삭제(soft delete)
     public void delete(Long id);

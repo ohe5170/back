@@ -1,5 +1,6 @@
 package com.app.haetssal_jangteo.repository;
 
+import com.app.haetssal_jangteo.common.pagination.Criteria;
 import com.app.haetssal_jangteo.domain.ItemOptionVO;
 import com.app.haetssal_jangteo.domain.ItemVO;
 import com.app.haetssal_jangteo.dto.ItemDTO;
@@ -47,8 +48,8 @@ public class ItemDAO {
     }
 
 //    가게 id로 상품들 조회
-    public List<ItemDTO> findByStoreId(Long storeId) {
-        return itemMapper.selectByStoreId(storeId);
+    public List<ItemDTO> findByStoreId(Long storeId, Criteria criteria) {
+        return itemMapper.selectByStoreId(storeId, criteria);
     }
 
 //    상품 전체 조회
@@ -69,6 +70,11 @@ public class ItemDAO {
 //    상품 수정
     public void update(ItemVO itemVO) {
         itemMapper.update(itemVO);
+    }
+
+//    상품 개수 조회
+    public int findTotal(Long id) {
+        return itemMapper.selectTotalByStoreId(id);
     }
 
 //    상품 삭제

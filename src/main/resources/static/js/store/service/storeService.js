@@ -35,7 +35,22 @@ const storeService = (() => {
         }
     }
 
-    return {getMarkets: getMarkets,
-            getCategories: getCategories,
-            getList: getList};
+    const getItemsForDetail = async (page, id, callback) => {
+        page = page || 1;
+
+        const response = await fetch(`/api/store/detail/items/${page}?id=${id}`);
+        const itemWithPaging = await response.json();
+        if(callback) {
+            return callback(itemWithPaging);
+        }
+    }
+
+    // const getItemsWith
+
+    return {
+        getMarkets: getMarkets,
+        getCategories: getCategories,
+        getList: getList,
+        getItemsForDetail: getItemsForDetail
+    };
 })();

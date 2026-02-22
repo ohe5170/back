@@ -13,6 +13,10 @@
         <main class="main-layout">
             <div th:object="${storeDetail}" class="page-container">
 
+                <!-- 가게 id, 소유주 id -->
+                <input type="hidden" name="storeId" th:value="${storeDetail.id}">
+                <input type="hidden" name="ownerId" th:value="${storeDetail.storeOwnerId}">
+
                 <!-- 상단 판매자 요약 정보 -->
                 <div class="profile-conatiner">
                     <div class="profile-wrapper">
@@ -31,11 +35,11 @@
                                         <div class="seller-level-wrapper">
                                             <div class="each-seller-level">
                                                 <div class="seller-level-info">
-                                                    받은 리뷰 수
+                                                    받은 후기 수
                                                     <svg class="arrow-in-follower" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.5 9L7.87504 15L6.75 13.7999L11.2499 9L6.75 4.20005L7.87504 3L13.5 9Z" fill="#545454"></path></svg>
                                                 </div>
                                                 <!-- 나중에 받아와야 함 -->
-                                                <div class="count-people"></div>
+                                                <div class="count-people">0</div>
                                             </div>
                                             <div class="each-seller-level">
                                                 <div class="seller-level-info">
@@ -60,11 +64,12 @@
                                                 <svg viewBox="0 0 32 35" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M25.5 9.8C27.3226 9.8 28.8 8.32254 28.8 6.5C28.8 4.67746 27.3226 3.2 25.5 3.2C23.6775 3.2 22.2 4.67746 22.2 6.5C22.2 8.32254 23.6775 9.8 25.5 9.8ZM25.5 13C29.0899 13 32 10.0899 32 6.5C32 2.91015 29.0899 0 25.5 0C21.9102 0 19 2.91015 19 6.5C19 7.00407 19.0574 7.49475 19.166 7.96584L13.2462 11.8889L10.9897 13.2996C9.82276 12.1847 8.24135 11.4999 6.5 11.4999C2.91015 11.4999 0 14.4101 0 17.9999C0 21.5898 2.91015 24.4999 6.5 24.4999C8.22679 24.4999 9.79631 23.8266 10.9603 22.7281L19.0878 27.4291C19.0301 27.7775 19 28.1352 19 28.4999C19 32.0898 21.9102 34.9999 25.5 34.9999C29.0899 34.9999 32 32.0898 32 28.4999C32 24.9101 29.0899 21.9999 25.5 21.9999C23.4257 21.9999 21.5784 22.9716 20.3882 24.4846L12.6783 20.0251C12.8871 19.3878 13 18.7071 13 17.9999C13 17.3061 12.8913 16.6376 12.6899 16.0106L14.9785 14.5798L20.6465 10.8236C21.8369 12.159 23.5703 13 25.5 13ZM6.5 21.2999C8.32254 21.2999 9.8 19.8225 9.8 17.9999C9.8 16.1774 8.32254 14.6999 6.5 14.6999C4.67746 14.6999 3.2 16.1774 3.2 17.9999C3.2 19.8225 4.67746 21.2999 6.5 21.2999ZM28.8 28.4999C28.8 30.3225 27.3226 31.7999 25.5 31.7999C23.6775 31.7999 22.2 30.3225 22.2 28.4999C22.2 26.6774 23.6775 25.1999 25.5 25.1999C27.3226 25.1999 28.8 26.6774 28.8 28.4999Z" fill="#6D6D6D"></path></svg>
                                             </div>공유
                                         </button>
+                                        <a th:href="@{/store/update(id=${storeDetail})}" class="edit-button">수정</a>
                                     </div>
                                 </th:block>
                                 <th:block th:if="${session.user != null && session.user.id == storeDetail.storeOwnerId}">
                                     <div class="share-btn-wrap">
-                                        <button class="edit-button">수정</button>
+                                        <a th:href="@{/store/update(id=${storeDetail})}" class="edit-button">수정</a>
                                     </div>
                                 </th:block>
                             </div>
@@ -74,13 +79,13 @@
                         <div class="profile-list-wrapper">
                             <div class="profile-lists">
                                 <span class="each-profile-box">
-                                    <div class="portal-box selected">프로필</div>
+                                    <div name="profile" class="portal-box selected">프로필</div>
                                 </span>
                                 <span class="each-profile-box">
-                                    <div th:text="*{'판매상품 ' + itemCount}" class="portal-box">판매상품 11</div>
+                                    <div name="sales" th:text="${'판매상품 ' + storeDetail.itemCount}" class="portal-box"></div>
                                 </span>
                                 <span class="each-profile-box">
-                                    <div class="portal-box">리뷰</div>
+                                    <div name="reviews" class="portal-box">후기</div>
                                 </span>
                             </div>
                             <div class="underline"></div>
@@ -89,7 +94,7 @@
                 </div>
 
                 <!-- 가게상세로 이동했을때 나타나는 기본 화면. on, off 클래스 사용 -->
-                <div class="main-screen default-content-container on">
+                <div name="profile-box" class="main-screen default-content-container on">
                     <div class="profile-description">
                         <div class="description-wrapper">
                             <span th:text="*{storeIntro}"></span>
@@ -843,7 +848,7 @@
                 </div>
 
                 <!-- 판매상품목록을 눌렀을때 나타남 on, off 클래스 사용 -->
-                <div class="main-screen products-content-container">
+                <div name="sales-box" class="main-screen products-content-container">
                     <div class="products-content-wrapper">
                         <div class="products-list-container">
                             <button type="button" class="filter filter-magam-btn">
@@ -853,220 +858,15 @@
                                 </div>
                             </button>
                             <div class="products-count-box">
-                                <span>11</span>개의 상품이 있습니다.
+                                <span>0</span>개의 상품이 있습니다.
                             </div>
-                            <div class="products-list-wrap">
-                                <!-- 상품 하나의 카드 -->
-                                <div class="product-card-wrapper">
-                                    <div class="product-each-card">
-
-                                        <!-- 바로밑에 문장은 상품상세로 이동해야함 -->
-                                        <div class="product-card">
-                                            <div class="card-image-wrap">
-                                                <img src="https://img.tumblbug.com/eyJidWNrZXQiOiJ0dW1ibGJ1Zy1pbWctcHJvZCIsImtleSI6ImNvdmVyLzQxODcwYWVlLTRlMWYtNDQ3Ni1hOWUzLWNjMTQ2Mjk0N2VmOC82YzNlODZlNC1jNTNlLTQ2ZDAtOGRiMy0yMmFjZTk4YTAyZDkuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo0NjUsImhlaWdodCI6NDY1LCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6bnVsbH0sInJvdW5kQ3JvcCI6ZmFsc2UsInJvdGF0ZSI6bnVsbH19" class="card-image">
-                                                <button class="like-button">
-                                                    <svg class="black-heart" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.463 15.3087L19.9993 15.7933L20.5356 15.3087L22.2643 13.747C22.2643 13.747 22.2643 13.7469 22.2643 13.7469C23.615 12.5269 25.9852 12.7532 27.3097 14.2118L27.3156 14.2182L27.3216 14.2246C28.9912 15.9843 29.0145 19.0158 27.2167 20.9218L19.9995 27.9864L12.7818 20.9218C10.9839 19.0158 11.0075 15.984 12.6769 14.2246L12.6829 14.2182L12.6888 14.2118C14.0133 12.7532 16.3836 12.5269 17.7343 13.7469C17.7343 13.7469 17.7343 13.7469 17.7344 13.747L19.463 15.3087Z"fill="currentColor" fill-opacity="0.25" stroke="white"stroke-width="1.6"></path><g filter="url(#filter0_dd_909_4706012)"><path fill-rule="evenodd" clip-rule="evenodd"d="M19.9992 17.111L17.0789 14.4725C17.0789 14.4725 17.079 14.4726 17.0789 14.4725C16.1903 13.67 14.4337 13.7447 13.4126 14.8691L13.3995 14.8835L13.3861 14.8976C12.0903 16.2633 12.039 18.6949 13.4805 20.2374L19.9994 26.6181L26.518 20.2374C27.9595 18.6949 27.9084 16.2637 26.6123 14.8976L26.5989 14.8835L26.5859 14.8691C25.5648 13.7447 23.8085 13.6699 22.9198 14.4725C22.9198 14.4725 22.9198 14.4724 22.9198 14.4725L19.9992 17.111ZM21.728 13.1533C23.4567 11.5918 26.3291 11.942 27.902 13.6739C29.8776 15.7563 29.8775 19.2796 27.7872 21.4827L19.9995 29.1058L12.2112 21.4827C10.1209 19.2796 10.121 15.7559 12.0965 13.6739C13.6694 11.942 16.5419 11.5917 18.2706 13.1533L19.9993 14.7151L21.728 13.1533Z"fill="white"></path></g><defs><filter id="filter0_dd_909_4706012" x="8.62891" y="10.1571"width="22.7422" height="20.9487"filterUnits="userSpaceOnUse"color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="1"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix><feBlend mode="normal" in2="BackgroundImageFix"result="effect1_dropShadow_909_4706012"></feBlend><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="0.5"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"></feColorMatrix><feBlend mode="normal" in2="effect1_dropShadow_909_4706012"result="effect2_dropShadow_909_4706012"></feBlend><feBlend mode="normal" in="SourceGraphic"in2="effect2_dropShadow_909_4706012" result="shape"></feBlend></filter></defs></svg>
-                                                    <svg class="red-heart" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><g filter="url(#filter0_dd_909_4706251)"><path fill-rule="evenodd" clip-rule="evenodd"d="M19.9993 14.7154L18.2706 13.1536C16.5419 11.592 13.6694 11.9423 12.0965 13.6742C10.121 15.7562 10.1209 19.2799 12.2112 21.483L19.9995 29.1061L27.7872 21.483C29.8775 19.2799 29.8776 15.7566 27.902 13.6742C26.3291 11.9423 23.4567 11.5921 21.728 13.1536L19.9993 14.7154Z"fill="#F86453"></path></g><defs><filter id="filter0_dd_909_4706251" x="-2" y="-2" width="44"height="44" filterUnits="userSpaceOnUse"color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="1"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix><feBlend mode="normal" in2="BackgroundImageFix"result="effect1_dropShadow_909_4706251"></feBlend><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="0.5"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"></feColorMatrix><feBlend mode="normal" in2="effect1_dropShadow_909_4706251"result="effect2_dropShadow_909_4706251"></feBlend><feBlend mode="normal" in="SourceGraphic"in2="effect2_dropShadow_909_4706251" result="shape"></feBlend></filter></defs></svg>
-                                                </button>
-                                            </div>
-                                            <!-- 이미지 아래에 정보 -->
-                                            <!-- 카테고리, 이름, 간단설명, 줄 긋고, 위치, 영업시간 -->
-                                            <div class="card-info">
-                                                <div class="info-box">
-                                                    <div class="card-product-creator">
-                                                        <div class="card-creator">
-                                                            <div>가게 이름이에요</div>
-                                                        </div>
-                                                        <div class="card-product-category">농산물</div>
-                                                    </div>
-                                                    <div class="card-product-info">
-                                                        <a class="card-product-name" href="https://tumblbug.com/97_whiskey_valentine2026">애플망고</a>
-                                                        <div class="card-description">어디청과에서 무슨무슨 맛있는 어쩌고 저쩌고</div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-product-price">10000원</div>
-                                                <div class="vertical-card-divider"></div>
-                                            </div>             
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 상품 하나의 카드 -->
-                                <div class="product-card-wrapper">
-                                    <div class="product-each-card">
-
-                                        <!-- 바로밑에 문장은 상품상세로 이동해야함 -->
-                                        <div class="product-card">
-                                            <div class="card-image-wrap">
-                                                <img src="https://img.tumblbug.com/eyJidWNrZXQiOiJ0dW1ibGJ1Zy1pbWctcHJvZCIsImtleSI6ImNvdmVyLzQxODcwYWVlLTRlMWYtNDQ3Ni1hOWUzLWNjMTQ2Mjk0N2VmOC82YzNlODZlNC1jNTNlLTQ2ZDAtOGRiMy0yMmFjZTk4YTAyZDkuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo0NjUsImhlaWdodCI6NDY1LCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6bnVsbH0sInJvdW5kQ3JvcCI6ZmFsc2UsInJvdGF0ZSI6bnVsbH19" class="card-image">
-                                                <button class="like-button">
-                                                    <svg class="black-heart" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.463 15.3087L19.9993 15.7933L20.5356 15.3087L22.2643 13.747C22.2643 13.747 22.2643 13.7469 22.2643 13.7469C23.615 12.5269 25.9852 12.7532 27.3097 14.2118L27.3156 14.2182L27.3216 14.2246C28.9912 15.9843 29.0145 19.0158 27.2167 20.9218L19.9995 27.9864L12.7818 20.9218C10.9839 19.0158 11.0075 15.984 12.6769 14.2246L12.6829 14.2182L12.6888 14.2118C14.0133 12.7532 16.3836 12.5269 17.7343 13.7469C17.7343 13.7469 17.7343 13.7469 17.7344 13.747L19.463 15.3087Z"fill="currentColor" fill-opacity="0.25" stroke="white"stroke-width="1.6"></path><g filter="url(#filter0_dd_909_4706012)"><path fill-rule="evenodd" clip-rule="evenodd"d="M19.9992 17.111L17.0789 14.4725C17.0789 14.4725 17.079 14.4726 17.0789 14.4725C16.1903 13.67 14.4337 13.7447 13.4126 14.8691L13.3995 14.8835L13.3861 14.8976C12.0903 16.2633 12.039 18.6949 13.4805 20.2374L19.9994 26.6181L26.518 20.2374C27.9595 18.6949 27.9084 16.2637 26.6123 14.8976L26.5989 14.8835L26.5859 14.8691C25.5648 13.7447 23.8085 13.6699 22.9198 14.4725C22.9198 14.4725 22.9198 14.4724 22.9198 14.4725L19.9992 17.111ZM21.728 13.1533C23.4567 11.5918 26.3291 11.942 27.902 13.6739C29.8776 15.7563 29.8775 19.2796 27.7872 21.4827L19.9995 29.1058L12.2112 21.4827C10.1209 19.2796 10.121 15.7559 12.0965 13.6739C13.6694 11.942 16.5419 11.5917 18.2706 13.1533L19.9993 14.7151L21.728 13.1533Z"fill="white"></path></g><defs><filter id="filter0_dd_909_4706012" x="8.62891" y="10.1571"width="22.7422" height="20.9487"filterUnits="userSpaceOnUse"color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="1"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix><feBlend mode="normal" in2="BackgroundImageFix"result="effect1_dropShadow_909_4706012"></feBlend><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="0.5"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"></feColorMatrix><feBlend mode="normal" in2="effect1_dropShadow_909_4706012"result="effect2_dropShadow_909_4706012"></feBlend><feBlend mode="normal" in="SourceGraphic"in2="effect2_dropShadow_909_4706012" result="shape"></feBlend></filter></defs></svg>
-                                                    <svg class="red-heart" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><g filter="url(#filter0_dd_909_4706251)"><path fill-rule="evenodd" clip-rule="evenodd"d="M19.9993 14.7154L18.2706 13.1536C16.5419 11.592 13.6694 11.9423 12.0965 13.6742C10.121 15.7562 10.1209 19.2799 12.2112 21.483L19.9995 29.1061L27.7872 21.483C29.8775 19.2799 29.8776 15.7566 27.902 13.6742C26.3291 11.9423 23.4567 11.5921 21.728 13.1536L19.9993 14.7154Z"fill="#F86453"></path></g><defs><filter id="filter0_dd_909_4706251" x="-2" y="-2" width="44"height="44" filterUnits="userSpaceOnUse"color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="1"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix><feBlend mode="normal" in2="BackgroundImageFix"result="effect1_dropShadow_909_4706251"></feBlend><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="0.5"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"></feColorMatrix><feBlend mode="normal" in2="effect1_dropShadow_909_4706251"result="effect2_dropShadow_909_4706251"></feBlend><feBlend mode="normal" in="SourceGraphic"in2="effect2_dropShadow_909_4706251" result="shape"></feBlend></filter></defs></svg>
-                                                </button>
-                                            </div>
-                                            <!-- 이미지 아래에 정보 -->
-                                            <!-- 카테고리, 이름, 간단설명, 줄 긋고, 위치, 영업시간 -->
-                                            <div class="card-info">
-                                                <div class="info-box">
-                                                    <div class="card-product-creator">
-                                                        <div class="card-creator">
-                                                            <div>가게 이름이에요</div>
-                                                        </div>
-                                                        <div class="card-product-category">농산물</div>
-                                                    </div>
-                                                    <div class="card-product-info">
-                                                        <a class="card-product-name" href="https://tumblbug.com/97_whiskey_valentine2026">애플망고</a>
-                                                        <div class="card-description">어디청과에서 무슨무슨 맛있는 어쩌고 저쩌고</div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-product-price">10000원</div>
-                                                <div class="vertical-card-divider"></div>
-                                            </div>             
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 상품 하나의 카드 -->
-                                <div class="product-card-wrapper">
-                                    <div class="product-each-card">
-
-                                        <!-- 바로밑에 문장은 상품상세로 이동해야함 -->
-                                        <div class="product-card">
-                                            <div class="card-image-wrap">
-                                                <img src="https://img.tumblbug.com/eyJidWNrZXQiOiJ0dW1ibGJ1Zy1pbWctcHJvZCIsImtleSI6ImNvdmVyLzQxODcwYWVlLTRlMWYtNDQ3Ni1hOWUzLWNjMTQ2Mjk0N2VmOC82YzNlODZlNC1jNTNlLTQ2ZDAtOGRiMy0yMmFjZTk4YTAyZDkuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo0NjUsImhlaWdodCI6NDY1LCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6bnVsbH0sInJvdW5kQ3JvcCI6ZmFsc2UsInJvdGF0ZSI6bnVsbH19" class="card-image">
-                                                <button class="like-button">
-                                                    <svg class="black-heart" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.463 15.3087L19.9993 15.7933L20.5356 15.3087L22.2643 13.747C22.2643 13.747 22.2643 13.7469 22.2643 13.7469C23.615 12.5269 25.9852 12.7532 27.3097 14.2118L27.3156 14.2182L27.3216 14.2246C28.9912 15.9843 29.0145 19.0158 27.2167 20.9218L19.9995 27.9864L12.7818 20.9218C10.9839 19.0158 11.0075 15.984 12.6769 14.2246L12.6829 14.2182L12.6888 14.2118C14.0133 12.7532 16.3836 12.5269 17.7343 13.7469C17.7343 13.7469 17.7343 13.7469 17.7344 13.747L19.463 15.3087Z"fill="currentColor" fill-opacity="0.25" stroke="white"stroke-width="1.6"></path><g filter="url(#filter0_dd_909_4706012)"><path fill-rule="evenodd" clip-rule="evenodd"d="M19.9992 17.111L17.0789 14.4725C17.0789 14.4725 17.079 14.4726 17.0789 14.4725C16.1903 13.67 14.4337 13.7447 13.4126 14.8691L13.3995 14.8835L13.3861 14.8976C12.0903 16.2633 12.039 18.6949 13.4805 20.2374L19.9994 26.6181L26.518 20.2374C27.9595 18.6949 27.9084 16.2637 26.6123 14.8976L26.5989 14.8835L26.5859 14.8691C25.5648 13.7447 23.8085 13.6699 22.9198 14.4725C22.9198 14.4725 22.9198 14.4724 22.9198 14.4725L19.9992 17.111ZM21.728 13.1533C23.4567 11.5918 26.3291 11.942 27.902 13.6739C29.8776 15.7563 29.8775 19.2796 27.7872 21.4827L19.9995 29.1058L12.2112 21.4827C10.1209 19.2796 10.121 15.7559 12.0965 13.6739C13.6694 11.942 16.5419 11.5917 18.2706 13.1533L19.9993 14.7151L21.728 13.1533Z"fill="white"></path></g><defs><filter id="filter0_dd_909_4706012" x="8.62891" y="10.1571"width="22.7422" height="20.9487"filterUnits="userSpaceOnUse"color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="1"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix><feBlend mode="normal" in2="BackgroundImageFix"result="effect1_dropShadow_909_4706012"></feBlend><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="0.5"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"></feColorMatrix><feBlend mode="normal" in2="effect1_dropShadow_909_4706012"result="effect2_dropShadow_909_4706012"></feBlend><feBlend mode="normal" in="SourceGraphic"in2="effect2_dropShadow_909_4706012" result="shape"></feBlend></filter></defs></svg>
-                                                    <svg class="red-heart" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><g filter="url(#filter0_dd_909_4706251)"><path fill-rule="evenodd" clip-rule="evenodd"d="M19.9993 14.7154L18.2706 13.1536C16.5419 11.592 13.6694 11.9423 12.0965 13.6742C10.121 15.7562 10.1209 19.2799 12.2112 21.483L19.9995 29.1061L27.7872 21.483C29.8775 19.2799 29.8776 15.7566 27.902 13.6742C26.3291 11.9423 23.4567 11.5921 21.728 13.1536L19.9993 14.7154Z"fill="#F86453"></path></g><defs><filter id="filter0_dd_909_4706251" x="-2" y="-2" width="44"height="44" filterUnits="userSpaceOnUse"color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="1"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix><feBlend mode="normal" in2="BackgroundImageFix"result="effect1_dropShadow_909_4706251"></feBlend><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="0.5"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"></feColorMatrix><feBlend mode="normal" in2="effect1_dropShadow_909_4706251"result="effect2_dropShadow_909_4706251"></feBlend><feBlend mode="normal" in="SourceGraphic"in2="effect2_dropShadow_909_4706251" result="shape"></feBlend></filter></defs></svg>
-                                                </button>
-                                            </div>
-                                            <!-- 이미지 아래에 정보 -->
-                                            <!-- 카테고리, 이름, 간단설명, 줄 긋고, 위치, 영업시간 -->
-                                            <div class="card-info">
-                                                <div class="info-box">
-                                                    <div class="card-product-creator">
-                                                        <div class="card-creator">
-                                                            <div>가게 이름이에요</div>
-                                                        </div>
-                                                        <div class="card-product-category">농산물</div>
-                                                    </div>
-                                                    <div class="card-product-info">
-                                                        <a class="card-product-name" href="https://tumblbug.com/97_whiskey_valentine2026">애플망고</a>
-                                                        <div class="card-description">어디청과에서 무슨무슨 맛있는 어쩌고 저쩌고</div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-product-price">10000원</div>
-                                                <div class="vertical-card-divider"></div>
-                                            </div>             
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 상품 하나의 카드 -->
-                                <div class="product-card-wrapper">
-                                    <div class="product-each-card">
-
-                                        <!-- 바로밑에 문장은 상품상세로 이동해야함 -->
-                                        <div class="product-card">
-                                            <div class="card-image-wrap">
-                                                <img src="https://img.tumblbug.com/eyJidWNrZXQiOiJ0dW1ibGJ1Zy1pbWctcHJvZCIsImtleSI6ImNvdmVyLzQxODcwYWVlLTRlMWYtNDQ3Ni1hOWUzLWNjMTQ2Mjk0N2VmOC82YzNlODZlNC1jNTNlLTQ2ZDAtOGRiMy0yMmFjZTk4YTAyZDkuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo0NjUsImhlaWdodCI6NDY1LCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6bnVsbH0sInJvdW5kQ3JvcCI6ZmFsc2UsInJvdGF0ZSI6bnVsbH19" class="card-image">
-                                                <button class="like-button">
-                                                    <svg class="black-heart" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.463 15.3087L19.9993 15.7933L20.5356 15.3087L22.2643 13.747C22.2643 13.747 22.2643 13.7469 22.2643 13.7469C23.615 12.5269 25.9852 12.7532 27.3097 14.2118L27.3156 14.2182L27.3216 14.2246C28.9912 15.9843 29.0145 19.0158 27.2167 20.9218L19.9995 27.9864L12.7818 20.9218C10.9839 19.0158 11.0075 15.984 12.6769 14.2246L12.6829 14.2182L12.6888 14.2118C14.0133 12.7532 16.3836 12.5269 17.7343 13.7469C17.7343 13.7469 17.7343 13.7469 17.7344 13.747L19.463 15.3087Z"fill="currentColor" fill-opacity="0.25" stroke="white"stroke-width="1.6"></path><g filter="url(#filter0_dd_909_4706012)"><path fill-rule="evenodd" clip-rule="evenodd"d="M19.9992 17.111L17.0789 14.4725C17.0789 14.4725 17.079 14.4726 17.0789 14.4725C16.1903 13.67 14.4337 13.7447 13.4126 14.8691L13.3995 14.8835L13.3861 14.8976C12.0903 16.2633 12.039 18.6949 13.4805 20.2374L19.9994 26.6181L26.518 20.2374C27.9595 18.6949 27.9084 16.2637 26.6123 14.8976L26.5989 14.8835L26.5859 14.8691C25.5648 13.7447 23.8085 13.6699 22.9198 14.4725C22.9198 14.4725 22.9198 14.4724 22.9198 14.4725L19.9992 17.111ZM21.728 13.1533C23.4567 11.5918 26.3291 11.942 27.902 13.6739C29.8776 15.7563 29.8775 19.2796 27.7872 21.4827L19.9995 29.1058L12.2112 21.4827C10.1209 19.2796 10.121 15.7559 12.0965 13.6739C13.6694 11.942 16.5419 11.5917 18.2706 13.1533L19.9993 14.7151L21.728 13.1533Z"fill="white"></path></g><defs><filter id="filter0_dd_909_4706012" x="8.62891" y="10.1571"width="22.7422" height="20.9487"filterUnits="userSpaceOnUse"color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="1"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix><feBlend mode="normal" in2="BackgroundImageFix"result="effect1_dropShadow_909_4706012"></feBlend><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="0.5"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"></feColorMatrix><feBlend mode="normal" in2="effect1_dropShadow_909_4706012"result="effect2_dropShadow_909_4706012"></feBlend><feBlend mode="normal" in="SourceGraphic"in2="effect2_dropShadow_909_4706012" result="shape"></feBlend></filter></defs></svg>
-                                                    <svg class="red-heart" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><g filter="url(#filter0_dd_909_4706251)"><path fill-rule="evenodd" clip-rule="evenodd"d="M19.9993 14.7154L18.2706 13.1536C16.5419 11.592 13.6694 11.9423 12.0965 13.6742C10.121 15.7562 10.1209 19.2799 12.2112 21.483L19.9995 29.1061L27.7872 21.483C29.8775 19.2799 29.8776 15.7566 27.902 13.6742C26.3291 11.9423 23.4567 11.5921 21.728 13.1536L19.9993 14.7154Z"fill="#F86453"></path></g><defs><filter id="filter0_dd_909_4706251" x="-2" y="-2" width="44"height="44" filterUnits="userSpaceOnUse"color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="1"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix><feBlend mode="normal" in2="BackgroundImageFix"result="effect1_dropShadow_909_4706251"></feBlend><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="0.5"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"></feColorMatrix><feBlend mode="normal" in2="effect1_dropShadow_909_4706251"result="effect2_dropShadow_909_4706251"></feBlend><feBlend mode="normal" in="SourceGraphic"in2="effect2_dropShadow_909_4706251" result="shape"></feBlend></filter></defs></svg>
-                                                </button>
-                                            </div>
-                                            <!-- 이미지 아래에 정보 -->
-                                            <!-- 카테고리, 이름, 간단설명, 줄 긋고, 위치, 영업시간 -->
-                                            <div class="card-info">
-                                                <div class="info-box">
-                                                    <div class="card-product-creator">
-                                                        <div class="card-creator">
-                                                            <div>가게 이름이에요</div>
-                                                        </div>
-                                                        <div class="card-product-category">농산물</div>
-                                                    </div>
-                                                    <div class="card-product-info">
-                                                        <a class="card-product-name" href="https://tumblbug.com/97_whiskey_valentine2026">애플망고</a>
-                                                        <div class="card-description">어디청과에서 무슨무슨 맛있는 어쩌고 저쩌고</div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-product-price">10000원</div>
-                                                <div class="vertical-card-divider"></div>
-                                            </div>             
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 상품 하나의 카드 -->
-                                <div class="product-card-wrapper">
-                                    <div class="product-each-card">
-
-                                        <!-- 바로밑에 문장은 상품상세로 이동해야함 -->
-                                        <div class="product-card">
-                                            <div class="card-image-wrap">
-                                                <img src="https://img.tumblbug.com/eyJidWNrZXQiOiJ0dW1ibGJ1Zy1pbWctcHJvZCIsImtleSI6ImNvdmVyLzQxODcwYWVlLTRlMWYtNDQ3Ni1hOWUzLWNjMTQ2Mjk0N2VmOC82YzNlODZlNC1jNTNlLTQ2ZDAtOGRiMy0yMmFjZTk4YTAyZDkuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo0NjUsImhlaWdodCI6NDY1LCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6bnVsbH0sInJvdW5kQ3JvcCI6ZmFsc2UsInJvdGF0ZSI6bnVsbH19" class="card-image">
-                                                <button class="like-button">
-                                                    <svg class="black-heart" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.463 15.3087L19.9993 15.7933L20.5356 15.3087L22.2643 13.747C22.2643 13.747 22.2643 13.7469 22.2643 13.7469C23.615 12.5269 25.9852 12.7532 27.3097 14.2118L27.3156 14.2182L27.3216 14.2246C28.9912 15.9843 29.0145 19.0158 27.2167 20.9218L19.9995 27.9864L12.7818 20.9218C10.9839 19.0158 11.0075 15.984 12.6769 14.2246L12.6829 14.2182L12.6888 14.2118C14.0133 12.7532 16.3836 12.5269 17.7343 13.7469C17.7343 13.7469 17.7343 13.7469 17.7344 13.747L19.463 15.3087Z"fill="currentColor" fill-opacity="0.25" stroke="white"stroke-width="1.6"></path><g filter="url(#filter0_dd_909_4706012)"><path fill-rule="evenodd" clip-rule="evenodd"d="M19.9992 17.111L17.0789 14.4725C17.0789 14.4725 17.079 14.4726 17.0789 14.4725C16.1903 13.67 14.4337 13.7447 13.4126 14.8691L13.3995 14.8835L13.3861 14.8976C12.0903 16.2633 12.039 18.6949 13.4805 20.2374L19.9994 26.6181L26.518 20.2374C27.9595 18.6949 27.9084 16.2637 26.6123 14.8976L26.5989 14.8835L26.5859 14.8691C25.5648 13.7447 23.8085 13.6699 22.9198 14.4725C22.9198 14.4725 22.9198 14.4724 22.9198 14.4725L19.9992 17.111ZM21.728 13.1533C23.4567 11.5918 26.3291 11.942 27.902 13.6739C29.8776 15.7563 29.8775 19.2796 27.7872 21.4827L19.9995 29.1058L12.2112 21.4827C10.1209 19.2796 10.121 15.7559 12.0965 13.6739C13.6694 11.942 16.5419 11.5917 18.2706 13.1533L19.9993 14.7151L21.728 13.1533Z"fill="white"></path></g><defs><filter id="filter0_dd_909_4706012" x="8.62891" y="10.1571"width="22.7422" height="20.9487"filterUnits="userSpaceOnUse"color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="1"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix><feBlend mode="normal" in2="BackgroundImageFix"result="effect1_dropShadow_909_4706012"></feBlend><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="0.5"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"></feColorMatrix><feBlend mode="normal" in2="effect1_dropShadow_909_4706012"result="effect2_dropShadow_909_4706012"></feBlend><feBlend mode="normal" in="SourceGraphic"in2="effect2_dropShadow_909_4706012" result="shape"></feBlend></filter></defs></svg>
-                                                    <svg class="red-heart" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><g filter="url(#filter0_dd_909_4706251)"><path fill-rule="evenodd" clip-rule="evenodd"d="M19.9993 14.7154L18.2706 13.1536C16.5419 11.592 13.6694 11.9423 12.0965 13.6742C10.121 15.7562 10.1209 19.2799 12.2112 21.483L19.9995 29.1061L27.7872 21.483C29.8775 19.2799 29.8776 15.7566 27.902 13.6742C26.3291 11.9423 23.4567 11.5921 21.728 13.1536L19.9993 14.7154Z"fill="#F86453"></path></g><defs><filter id="filter0_dd_909_4706251" x="-2" y="-2" width="44"height="44" filterUnits="userSpaceOnUse"color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="1"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix><feBlend mode="normal" in2="BackgroundImageFix"result="effect1_dropShadow_909_4706251"></feBlend><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="0.5"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"></feColorMatrix><feBlend mode="normal" in2="effect1_dropShadow_909_4706251"result="effect2_dropShadow_909_4706251"></feBlend><feBlend mode="normal" in="SourceGraphic"in2="effect2_dropShadow_909_4706251" result="shape"></feBlend></filter></defs></svg>
-                                                </button>
-                                            </div>
-                                            <!-- 이미지 아래에 정보 -->
-                                            <!-- 카테고리, 이름, 간단설명, 줄 긋고, 위치, 영업시간 -->
-                                            <div class="card-info">
-                                                <div class="info-box">
-                                                    <div class="card-product-creator">
-                                                        <div class="card-creator">
-                                                            <div>김망고</div>
-                                                        </div>
-                                                        <div class="card-product-category">농산물</div>
-                                                    </div>
-                                                    <div class="card-product-info">
-                                                        <a class="card-product-name" href="https://tumblbug.com/97_whiskey_valentine2026">애플망고</a>
-                                                        <div class="card-description">어디청과에서 무슨무슨 맛있는 어쩌고 저쩌고</div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-product-price">10000원</div>
-                                                <div class="vertical-card-divider"></div>
-                                            </div>             
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 상품 하나의 카드 -->
-                                <div class="product-card-wrapper">
-                                    <div class="product-each-card">
-
-                                        <!-- 바로밑에 문장은 상품상세로 이동해야함 -->
-                                        <div class="product-card">
-                                            <div class="card-image-wrap">
-                                                <img src="https://img.tumblbug.com/eyJidWNrZXQiOiJ0dW1ibGJ1Zy1pbWctcHJvZCIsImtleSI6ImNvdmVyLzQxODcwYWVlLTRlMWYtNDQ3Ni1hOWUzLWNjMTQ2Mjk0N2VmOC82YzNlODZlNC1jNTNlLTQ2ZDAtOGRiMy0yMmFjZTk4YTAyZDkuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo0NjUsImhlaWdodCI6NDY1LCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6bnVsbH0sInJvdW5kQ3JvcCI6ZmFsc2UsInJvdGF0ZSI6bnVsbH19" class="card-image">
-                                                <button class="like-button">
-                                                    <svg class="black-heart" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.463 15.3087L19.9993 15.7933L20.5356 15.3087L22.2643 13.747C22.2643 13.747 22.2643 13.7469 22.2643 13.7469C23.615 12.5269 25.9852 12.7532 27.3097 14.2118L27.3156 14.2182L27.3216 14.2246C28.9912 15.9843 29.0145 19.0158 27.2167 20.9218L19.9995 27.9864L12.7818 20.9218C10.9839 19.0158 11.0075 15.984 12.6769 14.2246L12.6829 14.2182L12.6888 14.2118C14.0133 12.7532 16.3836 12.5269 17.7343 13.7469C17.7343 13.7469 17.7343 13.7469 17.7344 13.747L19.463 15.3087Z"fill="currentColor" fill-opacity="0.25" stroke="white"stroke-width="1.6"></path><g filter="url(#filter0_dd_909_4706012)"><path fill-rule="evenodd" clip-rule="evenodd"d="M19.9992 17.111L17.0789 14.4725C17.0789 14.4725 17.079 14.4726 17.0789 14.4725C16.1903 13.67 14.4337 13.7447 13.4126 14.8691L13.3995 14.8835L13.3861 14.8976C12.0903 16.2633 12.039 18.6949 13.4805 20.2374L19.9994 26.6181L26.518 20.2374C27.9595 18.6949 27.9084 16.2637 26.6123 14.8976L26.5989 14.8835L26.5859 14.8691C25.5648 13.7447 23.8085 13.6699 22.9198 14.4725C22.9198 14.4725 22.9198 14.4724 22.9198 14.4725L19.9992 17.111ZM21.728 13.1533C23.4567 11.5918 26.3291 11.942 27.902 13.6739C29.8776 15.7563 29.8775 19.2796 27.7872 21.4827L19.9995 29.1058L12.2112 21.4827C10.1209 19.2796 10.121 15.7559 12.0965 13.6739C13.6694 11.942 16.5419 11.5917 18.2706 13.1533L19.9993 14.7151L21.728 13.1533Z"fill="white"></path></g><defs><filter id="filter0_dd_909_4706012" x="8.62891" y="10.1571"width="22.7422" height="20.9487"filterUnits="userSpaceOnUse"color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="1"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix><feBlend mode="normal" in2="BackgroundImageFix"result="effect1_dropShadow_909_4706012"></feBlend><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="0.5"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"></feColorMatrix><feBlend mode="normal" in2="effect1_dropShadow_909_4706012"result="effect2_dropShadow_909_4706012"></feBlend><feBlend mode="normal" in="SourceGraphic"in2="effect2_dropShadow_909_4706012" result="shape"></feBlend></filter></defs></svg>
-                                                    <svg class="red-heart" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><g filter="url(#filter0_dd_909_4706251)"><path fill-rule="evenodd" clip-rule="evenodd"d="M19.9993 14.7154L18.2706 13.1536C16.5419 11.592 13.6694 11.9423 12.0965 13.6742C10.121 15.7562 10.1209 19.2799 12.2112 21.483L19.9995 29.1061L27.7872 21.483C29.8775 19.2799 29.8776 15.7566 27.902 13.6742C26.3291 11.9423 23.4567 11.5921 21.728 13.1536L19.9993 14.7154Z"fill="#F86453"></path></g><defs><filter id="filter0_dd_909_4706251" x="-2" y="-2" width="44"height="44" filterUnits="userSpaceOnUse"color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="1"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix><feBlend mode="normal" in2="BackgroundImageFix"result="effect1_dropShadow_909_4706251"></feBlend><feColorMatrix in="SourceAlpha" type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"result="hardAlpha"></feColorMatrix><feOffset></feOffset><feGaussianBlur stdDeviation="0.5"></feGaussianBlur><feComposite in2="hardAlpha" operator="out"></feComposite><feColorMatrix type="matrix"values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"></feColorMatrix><feBlend mode="normal" in2="effect1_dropShadow_909_4706251"result="effect2_dropShadow_909_4706251"></feBlend><feBlend mode="normal" in="SourceGraphic"in2="effect2_dropShadow_909_4706251" result="shape"></feBlend></filter></defs></svg>
-                                                </button>
-                                            </div>
-                                            <!-- 이미지 아래에 정보 -->
-                                            <!-- 카테고리, 이름, 간단설명, 줄 긋고, 위치, 영업시간 -->
-                                            <div class="card-info">
-                                                <div class="info-box">
-                                                    <div class="card-product-creator">
-                                                        <div class="card-creator">
-                                                            <div>김망고</div>
-                                                        </div>
-                                                        <div class="card-product-category">농산물</div>
-                                                    </div>
-                                                    <div class="card-product-info">
-                                                        <a class="card-product-name" href="https://tumblbug.com/97_whiskey_valentine2026">애플망고</a>
-                                                        <div class="card-description">어디청과에서 무슨무슨 맛있는 어쩌고 저쩌고</div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-product-price">10000원</div>
-                                                <div class="vertical-card-divider"></div>
-                                            </div>             
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="products-list-wrap"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- 상품후기를 눌렀을때 나타남 -->
-                <div class="main-screen review-contents-container">
+                <div name="review-box" class="main-screen review-contents-container">
                     <div class="reviews-wrapper">
 
                             <!-- 리뷰 왼쪽에 간단 리뷰요약 -->
@@ -1898,4 +1698,6 @@
 </body>
 <script src="/js/store/event/store-detail.js"></script>
 <script src="/js/store/event/store-detail-banner.js"></script>
+<script src="/js/store/service/storeService.js"></script>
+<script src="/js/store/layout/storeLayout.js"></script>
 </html>
