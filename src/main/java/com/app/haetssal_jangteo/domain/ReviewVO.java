@@ -1,6 +1,7 @@
 package com.app.haetssal_jangteo.domain;
 
 import com.app.haetssal_jangteo.audit.Period;
+import com.app.haetssal_jangteo.common.enumeration.State;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -17,5 +18,5 @@ public class ReviewVO extends Period {
     private int reviewScoreDelivery;
     private int reviewScoreKind;
     private String reviewContent;
-    private String reviewState;
+    private State reviewState;
 }

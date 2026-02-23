@@ -16,7 +16,6 @@
         select id, user_email, user_password, user_phone, user_type, user_name, user_intro, user_visit_count, user_latest_login, user_state, created_datetime, updated_datetime
         from tbl_user
     </select>
-
     <select id="selectAll" parameterType="map" resultType="com.app.haetssal_jangteo.dto.ItemDTO">
         select i.id, i.item_store_id, i.item_category_id, i.item_name, i.item_type,
         i.item_stock, i.item_price, i.item_delivery_fee, i.item_content,

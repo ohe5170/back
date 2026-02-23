@@ -11,6 +11,6 @@ public interface FileReviewMapper {
     // 리뷰 이미지 등록
     public void insert(FileReviewVO fileReviewVO);
 
-    // 리뷰 id로 이미지 조회
-    public List<FileReviewDTO> selectAllByReviewId(Long reviewId);
+    // 리뷰 아이디로 이미지 조회
+    public List<FileReviewDTO> selectImagesByReviewId(Long reviewId);
 }

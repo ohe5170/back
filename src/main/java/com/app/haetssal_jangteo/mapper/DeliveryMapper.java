@@ -17,6 +17,6 @@ public interface DeliveryMapper {
     // 지금화면에서(유저 id로) 모든 배송지 조회
     public List<DeliveryDTO> selectAllByUserId(Long userId);
 
-    // 배송지 수정인데 안할건데 혹시몰라서 일단씀
+    // 배송지 수정(이름)인데 안할건데 혹시몰라서 일단씀
 //    public void updateName(DeliveryDTO deliveryDTO);
 }

@@ -1,5 +1,6 @@
 package com.app.haetssal_jangteo.dto;
 
+import com.app.haetssal_jangteo.common.enumeration.State;
 import com.app.haetssal_jangteo.domain.ReviewVO;
 import lombok.*;
 
@@ -19,7 +20,7 @@ public class ReviewDTO {
     private int reviewScoreDelivery;
     private int reviewScoreKind;
     private String reviewContent;
-    private String reviewState;
+    private State reviewState;
     private String createdDatetime;
     private String updatedDatetime;
 

@@ -47,7 +47,7 @@ public class UserDAO {
     public Optional<UserDTO> findForLogin(UserDTO userDTO) {
         return userMapper.selectUserForLogin(userDTO);
     }
-//    로그인했을때
+//    로그인했을때 정보업뎃(로그인횟수랑 최근로그인언젠지)
     public void setUserVisit(Long id) {
         userMapper.updateVisitCountAndLatestLogin(id);
     }
@@ -104,8 +104,4 @@ public class UserDAO {
         userMapper.updatePassword(userDTO);
     }
 
-////   첫번째대시보드에서 통합수정...
-//    public void updateProfile(UserDTO userDTO) {
-//        userMapper.updateProfile(userDTO);
-//    }
 }

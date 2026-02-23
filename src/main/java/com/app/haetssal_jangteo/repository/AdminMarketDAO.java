@@ -19,10 +19,10 @@ public class AdminMarketDAO {
         return adminStoreMapper.selectTotal(search);
     }
 
-    //    가게 목록 조회
-    public List<MarketVO> findAll(Criteria criteria, Search search) {
-        return adminStoreMapper.selectAll(criteria, search);
-    }
+//    //    가게 목록 조회
+//    public List<MarketVO> findAll(Criteria criteria, Search search) {
+//        return adminStoreMapper.selectAll(criteria, search);
+//    }
 
     //    지역 목록 조회
     public List<String> findRegions() {
@@ -30,7 +30,7 @@ public class AdminMarketDAO {
     }
 
     //    수정
-    public void setMarket(MarketVO marketVO) {
-        adminStoreMapper.update(marketVO);
-    }
+//    public void setMarket(MarketVO marketVO) {
+//        adminStoreMapper.update(marketVO);
+//    }
 }

@@ -39,7 +39,7 @@
         select id, item_store_id, item_category_id, item_subcategory_id, item_name, item_type, item_stock, item_price, item_delivery_fee, item_content, item_state, item_view_count, created_datetime, updated_datetime
         from tbl_item
         where id = #{id}
-        and item_state = 'active';
+        and item_state = 'active'
     </select>
 
     <select id="selectAllOptions">
