@@ -443,6 +443,7 @@
 
 .UserSetting-DeliveryList {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     color: rgb(158, 158, 158);
@@ -459,6 +460,8 @@
     border-right-width: 1px;
     margin-left: 0px;
     margin-right: 0px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .UserSetting-EmptyDelivery {
@@ -478,6 +481,44 @@
     margin: 0px 0px 12px;
     width: 1em;
     height: 1em;
+}
+
+.Delivery-Card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgb(230, 230, 230);
+    width: 100%;
+}
+
+.Delivery-Card:first-child {
+    border-top: 1px solid rgb(230, 230, 230);
+}
+
+.Delivery-CardInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 14px;
+    color: rgb(60, 60, 60);
+    line-height: 1.5;
+}
+
+.Delivery-DeleteBtn {
+    background: transparent;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: rgb(100, 100, 100);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.Delivery-DeleteBtn:hover {
+    border-color: rgb(100, 100, 100);
+    color: rgb(40, 40, 40);
 }
 
 /* 설정 오른쪽 설명 박스 부분 */

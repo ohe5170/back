@@ -11,5 +11,4 @@ import lombok.*;
 public class FileUserVO {
     private Long id;
     private Long userId;
-    private FileItemType fileItemType;
 }

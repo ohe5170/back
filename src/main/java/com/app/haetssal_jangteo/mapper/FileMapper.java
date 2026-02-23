@@ -18,3 +18,4 @@ public interface FileMapper {
     // 파일 삭제
     public void delete(Long id);
 }
+

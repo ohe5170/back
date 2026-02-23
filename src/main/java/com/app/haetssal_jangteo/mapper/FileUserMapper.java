@@ -13,4 +13,7 @@ public interface FileUserMapper {
 
     // 유저 id로 프로필 이미지 조회
     public Optional<FileUserDTO> selectById(Long userId);
+
+    // 유저 id로 프로필 이미지삭제
+    public void deleteByUserId(Long userId);
 }

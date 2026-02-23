@@ -2,24 +2,19 @@ package com.app.haetssal_jangteo.service.oauth;
 
 import com.app.haetssal_jangteo.common.enumeration.Provider;
 import com.app.haetssal_jangteo.common.exception.KakaoLoginException;
-import com.app.haetssal_jangteo.repository.user.UserDAO;
-import com.app.haetssal_jangteo.common.exception.LoginFailException;
+import com.app.haetssal_jangteo.repository.UserDAO;
 import com.app.haetssal_jangteo.dto.UserDTO;
-import com.app.haetssal_jangteo.repository.user.UserDAO;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.LoginException;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Optional;
 
 @Service

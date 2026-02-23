@@ -8,6 +8,7 @@ import com.app.haetssal_jangteo.common.enumeration.User;
 import com.app.haetssal_jangteo.domain.UserVO;
 import com.app.haetssal_jangteo.domain.OAuthVO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Getter @Setter @ToString
@@ -16,7 +17,7 @@ import lombok.*;
 public class UserDTO {
     private Long id;
     private String userEmail;
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String userPassword;
     private String userPhone;
     private User userType;
@@ -30,6 +31,12 @@ public class UserDTO {
     private Provider authProvider;
     private boolean remember;
     private String profileImageUrl;
+    // 유저프로필 이미지
+    private String fileName;
+    private String fileOriginName;
+    private String fileSavedPath;
+    // 삭제할 상점 이미지 id
+    private String toDeleteFileId;
 
     public UserVO toUserVO() {
         return UserVO.builder()

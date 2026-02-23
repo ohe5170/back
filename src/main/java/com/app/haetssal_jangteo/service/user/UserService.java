@@ -1,18 +1,17 @@
 package com.app.haetssal_jangteo.service.user;
 
 import com.app.haetssal_jangteo.common.enumeration.Provider;
-import com.app.haetssal_jangteo.common.enumeration.SellerState;
 import com.app.haetssal_jangteo.common.enumeration.User;
 import com.app.haetssal_jangteo.common.exception.LoginFailException;
 import com.app.haetssal_jangteo.domain.UserVO;
-import com.app.haetssal_jangteo.dto.SellerDTO;
-import com.app.haetssal_jangteo.dto.UserDTO;
-import com.app.haetssal_jangteo.repository.user.UserDAO;
+import com.app.haetssal_jangteo.dto.*;
+import com.app.haetssal_jangteo.repository.UserDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor //주입!
@@ -20,6 +19,8 @@ import java.util.Optional;
 public class UserService {
 //    주입!
     private final UserDAO userDAO;
+
+//==========================회원가입, 로그인============================
 
 //    이메일검사. 쓸숭있나요? => true
     public boolean checkEmail(String memberEmail) {

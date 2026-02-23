@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/css/userInfo.css">
-    <link rel="stylesheet" href="../../static/css/mypage.css">
+    <link rel="stylesheet" href="/css/userInfo.css">
+    <link rel="stylesheet" href="/css/mypage.css">
 </head>
 <body>
     <main class="MainLayout-Wrapper">
@@ -56,7 +56,7 @@
                         <div class="UserSetting-AvatarWrapper">
                             <!-- 해당 div에 "background url()"로 이미지 삽입 -->
                             <div class="UserSetting-Avatar">
-                                <img src="../../static/images/haetsal-jangteo-logo.svg" alt="유저 프로필">
+                                <img th:src="${profileImage.fileSavedPath == '/images/' ? '/images/' + profileImage.fileName : '/api/files/display?filePath=' + profileImage.fileSavedPath + '&fileName=' + profileImage.fileName}" alt="유저 프로필">
                             </div>
                         </div>
                         
@@ -105,7 +105,7 @@
                             <p class="UserSetting-FormTitle">이름</p>
                             <button class="UserSetting-FormButton" type="button">변경</button>
                         </div>
-                        <div>홍길동</div>
+                        <div th:text="${userInfo.userName}">홍길동</div>
 
                         <!-- 유저 이름 수정 input -->
                         <div class="UserSetting-InputWrapper">
@@ -134,9 +134,9 @@
                         </div>
 
                         <!-- 소개글이 없을 시, 표시 -->
-                        <p class="UserSetting-Empty">등록된 소개가 없습니다.</p>
+                        <p class="UserSetting-Empty" th:if="${userInfo.userIntro == null or userInfo.userIntro == ''}">등록된 소개가 없습니다.</p>
                         <!-- 소개글이 있으면 한 줄마다 p로 출력 -->
-                        <p></p>
+                        <p th:if="${userInfo.userIntro != null and userInfo.userIntro != ''}" th:text="${userInfo.userIntro}"></p>
 
                         <!-- 유저 소개글 수정 textarea -->
                         <div class="UserSetting-TextareaWrapper">
@@ -172,19 +172,19 @@
                 <div class="UserSetting-Container">
                     <!-- 유저 이메일 -->
                     <div id="user-email" class="UserSetting-FormWrapper">
-                        <div class="UserSetting-FormHeader">
-                            <p class="UserSetting-FormTitle">이메일</p>
-                            <button class="UserSetting-FormButton" type="button">변경</button>
-                        </div>
-                        <div>example@example.com</div>
+<!--                        <div class="UserSetting-FormHeader">-->
+<!--                            <p class="UserSetting-FormTitle">이메일</p>-->
+<!--                            <button class="UserSetting-FormButton" type="button">변경</button>-->
+<!--                        </div>-->
+                        <div th:text="${userInfo.userEmail}">example@example.com</div>
                         <!-- 이메일 인증 전송 후, 인증 전까지 보일 div -->
-                        <div class="UserSetting-EmailConfirm">
-                            신청하신 이메일(example@example.com)로 인증메일이 발송되었습니다. 이메일 확인 후 인증 링크를 클릭하시면 이메일이 변경이 완료되며, 변경하신 이메일로 로그인할 수 있습니다.
-                            <div class="UserSetting-EmailDesc">
-                                인증메일을 받지 못하셨나요? 
-                                <button type="button" class="UserSetting-EmailResend">인증메일 재전송</button>
-                            </div>
-                        </div>
+<!--                        <div class="UserSetting-EmailConfirm">-->
+<!--                            신청하신 이메일(example@example.com)로 인증메일이 발송되었습니다. 이메일 확인 후 인증 링크를 클릭하시면 이메일이 변경이 완료되며, 변경하신 이메일로 로그인할 수 있습니다.-->
+<!--                            <div class="UserSetting-EmailDesc">-->
+<!--                                인증메일을 받지 못하셨나요? -->
+<!--                                <button type="button" class="UserSetting-EmailResend">인증메일 재전송</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <!-- 이메일 인증, 미인증에 따라 표시될 svg 다르게 하기. -->
                         <div class="UserSetting-EmailChecked">  
                             <div class="UserSetting-Checked">
@@ -193,32 +193,26 @@
                                 </div>
                                 인증된 이메일입니다.
                             </div>
-                            <div class="UserSetting-Alert">
-                                <div class="Svg-Icon">
-                                    <svg viewBox="0 0 48 48"><path fill-rule="evenodd" clip-rule="evenodd" d="M24 43.8C13 43.8 4.2 35 4.2 24C4.2 13 13 4.2 24 4.2C35 4.2 43.8 13 43.8 24C43.8 35 35 43.8 24 43.8ZM24 2C11.9 2 2 11.9 2 24C2 36.1 11.9 46 24 46C36.1 46 46 36.1 46 24C46 11.9 36.1 2 24 2ZM24 32.3C22.7 32.3 21.8 33.401 21.8 34.6C21.8 35.8 22.9 36.8 24.1 36.8C25.4 36.8 26.3 35.7 26.3 34.5C26.3 33.3 25.3 32.3 24 32.3ZM24.1 29.0998H24C23.3 28.9998 22.7 28.4008 22.9 27.7008C22.8825 27.1051 22.8619 26.3713 22.8388 25.5474C22.7299 21.6673 22.565 15.7867 22.4 12.8998V12.7998C22.3 11.8998 23.1 11.2998 24.2 11.2998C25.3 11.2998 26 11.8998 26 12.7998V12.9998C25.8994 14.7101 25.8241 17.5591 25.7486 20.414C25.6741 23.2344 25.5994 26.0604 25.5 27.7998V27.9008C25.4 28.5998 24.8 29.0998 24.1 29.0998Z"></path></svg>
-                                </div>
-                                미인증 이메일입니다.
-                            </div>
                         </div>
-                        <!-- 유저 이메일 수정 input -->
-                        <div class="UserSetting-InputWrapper">
-                            <div class="UserSetting-InputContainer">
-                                <span class="UserSetting-Input">
-                                    <input id="email" name="email" type="text" placeholder="이메일을 입력해주세요" autocapitalize="off" autocomplete="off">
-                                </span>
-                                <!-- input에서 벗어났을 때, 값이 비어있으면 밑에 경고문 출력 -->
-                                <div class="UserSetting-InputWrong">
-                                    <!-- innerHTML으로 "비워두시면 안됩니다." -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Submit 버튼 -->
-                        <!-- 이메일 인증 api 만들어야 함 -->
-                        <div class="UserSetting-SubmitWrapper">
-                            <button class="UserSetting-SubmitButton">
-                                <span>인증메일 전송</span>
-                            </button>
-                        </div>
+<!--                        &lt;!&ndash; 유저 이메일 수정 input &ndash;&gt;-->
+<!--                        <div class="UserSetting-InputWrapper">-->
+<!--                            <div class="UserSetting-InputContainer">-->
+<!--                                <span class="UserSetting-Input">-->
+<!--                                    <input id="email" name="email" type="text" placeholder="이메일을 입력해주세요" autocapitalize="off" autocomplete="off">-->
+<!--                                </span>-->
+<!--                                &lt;!&ndash; input에서 벗어났을 때, 값이 비어있으면 밑에 경고문 출력 &ndash;&gt;-->
+<!--                                <div class="UserSetting-InputWrong">-->
+<!--                                    &lt;!&ndash; innerHTML으로 "비워두시면 안됩니다." &ndash;&gt;-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; Submit 버튼 &ndash;&gt;-->
+<!--                        &lt;!&ndash; 이메일 인증 api 만들어야 함 &ndash;&gt;-->
+<!--                        <div class="UserSetting-SubmitWrapper">-->
+<!--                            <button class="UserSetting-SubmitButton">-->
+<!--                                <span>인증메일 전송</span>-->
+<!--                            </button>-->
+<!--                        </div>-->
                     </div>
 
                     <!-- 유저 비밀번호 -->
@@ -268,33 +262,32 @@
                     <div id="user-phone" class="UserSetting-FormWrapper">
                         <div class="UserSetting-FormHeader">
                             <p class="UserSetting-FormTitle">연락처</p>
-                            <button class="UserSetting-FormButton" type="button">변경</button>
                         </div>
-                        <div>01012345678</div>
-                        <div class="UserSetting-InputDescription">
-                            연락처는 월 1회만 변경이 가능합니다.
-                        </div>
+                        <div th:text="${userInfo.userPhone}">01012345678</div>
+<!--                        <div class="UserSetting-InputDescription">-->
+<!--                            연락처는 월 1회만 변경이 가능합니다.-->
+<!--                        </div>-->
 
                         <!-- 유저 연락처 수정 input -->
-                        <div class="UserSetting-InputWrapper">
-                            <div class="UserSetting-InputContainer">
-                                <span class="UserSetting-Input">
-                                    <input id="phone" name="phone" type="text" placeholder="연락처를 입력해주세요" autocapitalize="off" autocomplete="off">
-                                </span>
-                                <div class="UserSetting-InputWrong"></div>
-                                <div class="UserSetting-InputDescription">
-                                "-" 없이 입력해주세요.
-                                </div>
-                            </div>
-                        </div>
+<!--                        <div class="UserSetting-InputWrapper">-->
+<!--                            <div class="UserSetting-InputContainer">-->
+<!--                                <span class="UserSetting-Input">-->
+<!--                                    <input id="phone" name="phone" type="text" placeholder="연락처를 입력해주세요" autocapitalize="off" autocomplete="off">-->
+<!--                                </span>-->
+<!--                                <div class="UserSetting-InputWrong"></div>-->
+<!--                                <div class="UserSetting-InputDescription">-->
+<!--                                "-" 없이 입력해주세요.-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
 
                         <!-- Submit 버튼 -->
                         <!-- 전화번호 인증 api 연동하기 -->
-                        <div class="UserSetting-SubmitWrapper">
-                            <button class="UserSetting-SubmitButton">
-                                <span>인증</span>
-                            </button>
-                        </div>
+<!--                        <div class="UserSetting-SubmitWrapper">-->
+<!--                            <button class="UserSetting-SubmitButton">-->
+<!--                                <span>인증</span>-->
+<!--                            </button>-->
+<!--                        </div>-->
                     </div>
                     
                     <!-- 유저 연동 계정 확인 -->
@@ -306,7 +299,7 @@
                         <!-- 회원의 가입 유형에 따라 span에 다르게 표시 -->
                         <div class="UserSetting-UserType">
                             회원님은 
-                            <span>네이버</span>
+                            <span th:text="${userInfo.authProvider}">네이버</span>
                             로 함께하고 계십니다.
                         </div>
                     </div>
@@ -316,7 +309,7 @@
                 <div class="UserSetting-DescBox">
                     <p class="DescBox-Quetion">이메일과 연락처는 어디에 쓰이나요?</p>
                     <div class="DescBox-Answer">
-                        이메일과 연락처로 회원님을 식별합니다. 두 정보 모두 인증이 필요하며, 인증받지 않은 회원은 해당 사이트의 서비스를 이용하실 수 없습니다.
+                        이메일과 연락처로 회원님을 식별합니다. 회원가입 단계에서 이메일 인증이 필요하며, 인증받지 않은 회원은 해당 사이트의 서비스를 이용하실 수 없습니다.
                     </div>
                 </div>
             </div>
@@ -490,10 +483,11 @@
         
     </main>
 </body>
-<script src="../../static/js/user/modify.js"></script>
-<script src="../../static/js/user/modify/setUserProfile.js"></script>
-<script src="../../static/js/user/modify/setUserAccount.js"></script>
-<script src="../../static/js/user/modify/setUserDelivery.js"></script>
+<script src="/js/user/modify/service.js"></script>
+<script src="/js/user/modify/modify.js"></script>
+<script src="/js/user/modify/setUserProfile.js"></script>
+<script src="/js/user/modify/setUserAccount.js"></script>
+<script src="/js/user/modify/setUserDelivery.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </html>

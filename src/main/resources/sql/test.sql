@@ -18,6 +18,8 @@ select * from tbl_file_item;
 
 select * from tbl_file_user;
 
+select * from vw_file_user;
+
 delete from tbl_file
 where file_type = 'image';
 
@@ -45,6 +47,7 @@ insert into tbl_store (
     store_owner_id, store_market_id, store_name, store_intro, store_address)
 values ((select max(id) from tbl_user),
            (select max(id) from tbl_market),'테스트상점','소개','주소');
+
 
 select id from tbl_store;
 

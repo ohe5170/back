@@ -54,8 +54,8 @@ menus.forEach((menu, i) => {
     });
 });
 
-const getUserInfo = async () => {
-    // 유저 정보 받아오는 로직 짜야함
-};
+// const getUserInfo = async (() => {
+//     // 유저 정보 받아오는 로직 짜야함
+// })();
 
 document.querySelector('.Navigation-Span[name="user-info"]')?.click();

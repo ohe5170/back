@@ -112,38 +112,73 @@ introInput.addEventListener("keyup", (e) => {
     intro = e.target.value;
 });
 
-userImageSubmitBtn.addEventListener("click", (e) => {
-    if (userImage) {
-        alert("회원님의 프로필 이미지가 변경되었습니다.");
-        userInfoSettingBtns[0].click();
-    } else {
-        userInfoSettingBtns[0].click();
+// userImageSubmitBtn.addEventListener("click", (e) => {
+//     if (userImage) {
+//         alert("회원님의 프로필 이미지가 변경되었습니다.");
+//         userInfoSettingBtns[0].click();
+//     } else {
+//         userInfoSettingBtns[0].click();
+//     }
+// });
+//
+// userNameSubmitBtn.addEventListener("click", (e) => {
+//     if (name) {
+//         alert("회원님의 이름이 변경되었습니다.");
+//         userInfoSettingBtns[1].click();
+//     } else {
+//         userInfoSettingBtns[1].click();
+//     }
+// });
+//
+// introSubmitBtn.addEventListener("click", (e) => {
+//     if (intro) {
+//         alert("회원님의 소개글이 변경되었습니다.");
+//         userInfoSettingBtns[2].click();
+//     } else {
+//         userInfoSettingBtns[2].click();
+//     }
+// });
+
+userImageSubmitBtn.addEventListener("click", async (e) => {
+    if (imageInput.files[0]) {
+        const formData = new FormData();
+        formData.append("file", imageInput.files[0]);
+        const response = await profileService.updateImage(formData);
+        const result = await response.text();
+        if (result === "success") {
+            alert("프로필 이미지가 변경되었습니다.");
+            location.reload();
+            return;
+        }
+        alert("이미지 변경에 실패했습니다.");
     }
+    userInfoSettingBtns[0].click();
 });
 
-userNameSubmitBtn.addEventListener("click", (e) => {
-    if (name) {
-        alert("회원님의 이름이 변경되었습니다.");
-        userInfoSettingBtns[1].click();
-    } else {
-        userInfoSettingBtns[1].click();
+userNameSubmitBtn.addEventListener("click", async (e) => {
+    if (nameInput.value) {
+        const response = await profileService.updateName(nameInput.value);
+        const result = await response.text();
+        if (result === "success") {
+            alert("이름이 변경되었습니다.");
+            location.reload();
+            return;
+        }
+        alert("이름 변경에 실패했습니다.");
     }
+    userInfoSettingBtns[1].click();
 });
 
-introSubmitBtn.addEventListener("click", (e) => {
-    if (intro) {
-        alert("회원님의 소개글이 변경되었습니다.");
-        userInfoSettingBtns[2].click();
-    } else {
-        userInfoSettingBtns[2].click();
+introSubmitBtn.addEventListener("click", async (e) => {
+    if (introInput.value) {
+        const response = await profileService.updateIntro(introInput.value);
+        const result = await response.text();
+        if (result === "success") {
+            alert("소개글이 변경되었습니다.");
+            location.reload();
+            return;
+        }
+        alert("소개글 변경에 실패했습니다.");
     }
+    userInfoSettingBtns[2].click();
 });
-
-// 변경된 이미지 파일 반영하기
-const changeImage = (id, image) => {};
-
-// 변경된 이름 반영하기
-const changeName = (id, name) => {};
-
-// 변경된 소개글 반영하기
-const changeIntro = (id, intro) => {};

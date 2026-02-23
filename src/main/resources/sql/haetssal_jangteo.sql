@@ -24,16 +24,46 @@ create table tbl_auth (
                               references tbl_user(id)
 );
 
+-- 배송지 테이블
 create table tbl_delivery (
     id bigint unsigned auto_increment PRIMARY KEY,
     user_id bigint unsigned not null,
+    delivery_name varchar(255),
     delivery_address varchar(255) not null,
     delivery_detail_address varchar(255) not null,
     delivery_receiver varchar(100) not null,
+    delivery_is_main boolean default false,
     receiver_phone varchar(255) not null,
     created_datetime datetime default current_timestamp,
+    updated_datetime datetime default current_timestamp,
     constraint fk_user_delivery foreign key (user_id)
     references tbl_user(id)
+);
+
+-- 주문 테이블
+create table tbl_order (
+   id bigint unsigned primary key,
+   user_id bigint unsigned not null,
+   order_delivery_type enum('post', 'take'),
+   order_state enum('pending', 'complete') default 'pending',
+   order_purchase_date datetime default current_timestamp,
+   order_take_date datetime not null,
+   constraint fk_payment_user foreign key (user_id)
+   references tbl_user(id)
+);
+
+-- 결제 테이블
+# TODO
+
+-- 주문 상품 목록 테이블
+create table tbl_order_item (
+    id bigint unsigned primary key,
+    order_id bigint unsigned not null,
+    item_id bigint unsigned not null,
+    constraint fk_list_order foreign key (order_id)
+    references tbl_order(id),
+    constraint fk_list_item foreign key (item_id)
+    references tbl_item(id)
 );
 
 -- 판매자 테이블
@@ -59,11 +89,18 @@ create table tbl_market (
 );
 
 
+-- 카테고리 테이블
+create table tbl_category (
+                              id bigint unsigned PRIMARY KEY,
+                              category_name varchar(100) NOT NULL
+);
+
 -- 가게 테이블
 create table tbl_store (
                            id bigint unsigned auto_increment PRIMARY KEY,
                            store_market_id bigint unsigned NOT NULL,
                            store_owner_id bigint unsigned NOT NULL,
+                           store_category_id bigint unsigned not null,
                            store_name varchar(255) NOT NULL,
                            store_intro longtext NOT NULL,
                            store_address varchar(255) NOT NULL,
@@ -75,13 +112,9 @@ create table tbl_store (
                            constraint fk_market_store foreign key(store_market_id)
                                references tbl_market (id),
                            constraint fk_owner_user foreign key (store_owner_id)
-                               references tbl_user (id)
-);
-
--- 카테고리 테이블
-create table tbl_category (
-                              id bigint unsigned PRIMARY KEY,
-                              category_name varchar(100) NOT NULL
+                               references tbl_user (id),
+                           constraint fk_store_category foreign key (store_category_id)
+                               references tbl_category (id)
 );
 
 
@@ -151,7 +184,7 @@ create table tbl_keyword (
 
 -- 후기 테이블
 create table tbl_review (
-                            
+
     id bigint unsigned auto_increment PRIMARY KEY,
     review_item_id bigint unsigned NOT NULL,
     review_user_id bigint unsigned NOT NULL,
@@ -166,7 +199,7 @@ create table tbl_review (
     references tbl_item(id),
     constraint fk_review_user foreign key (review_user_id)
     references tbl_user(id)
-                            
+
 );
 
 -- 찜 테이블

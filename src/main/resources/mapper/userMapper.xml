@@ -37,4 +37,46 @@
             user_latest_login = current_timestamp
         where id = #{id}
     </update>
+
+    <select id="selectById">
+        select
+            u.id, user_email, user_password, user_phone, user_type,
+            user_name, user_intro, user_visit_count, user_latest_login,
+            user_state, created_datetime, updated_datetime, a.auth_provider
+        from tbl_user u join tbl_auth a
+        on u.id = a.id
+        where u.id = #{id}
+    </select>
+
+    <update id="updateName">
+        update tbl_user
+        set user_name = #{userName}, updated_datetime = current_timestamp
+        where id = #{id}
+    </update>
+
+    <update id="updateIntro">
+        update tbl_user
+        set user_intro = #{userIntro}, updated_datetime = current_timestamp
+        where id = #{id}
+    </update>
+
+    <update id="updatePassword">
+        update tbl_user
+        set user_password = #{userPassword}, updated_datetime = current_timestamp
+        where id = #{id}
+    </update>
+
+    <update id="updateUpdatedDatetimeForProfile">
+        update tbl_user
+        set updated_datetime = current_timestamp
+        where id = #{id}
+    </update>
+
+    <!-- 지금 화면은 개별 수정인데.. 혹시 대시보드마다 저장버튼 만들면..? -->
+<!--    <update id="updateFirstDashboard">-->
+<!--        update tbl_user-->
+<!--        set user_name = #{userName},-->
+<!--            user_intro = #{userIntro}-->
+<!--        where id = #{id}-->
+<!--    </update>-->
 </mapper>

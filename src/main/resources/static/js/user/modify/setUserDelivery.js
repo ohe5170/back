@@ -61,10 +61,29 @@ deliveryCheckBoxs.forEach((box) => {
     });
 });
 
-addAddressBtn.addEventListener("click", (e) => {
+addAddressBtn.addEventListener("click",async (e) => {
     // 배송지 추가하는 로직 넣어야 함.
+    if (!receiverName || !address || !receiverPhone) {
+        alert("필수 항목을 입력해주세요.");
+        return;
+    }
 
-    deliveryAddModal.classList.add("off");
+    const deliveryData = {
+        deliveryReceiver: receiverName,
+        deliveryAddress: address,
+        deliveryDetailAddress: addressDetail,
+        receiverPhone: receiverPhone
+    };
+
+    const response = await profileService.addDelivery(deliveryData);
+    const result = await response.text();
+    if (result === "success") {
+        alert("배송지가 추가되었습니다.");
+        deliveryAddModal.classList.add("off");
+        loadDeliveryList();
+        return;
+    }
+    alert("배송지 추가에 실패했습니다.");
 });
 
 // 다음 주소 api 부분
@@ -120,3 +139,56 @@ document.addEventListener("DOMContentLoaded", function () {
         apiBody.innerHTML = "";
     };
 });
+
+
+// 배송지 목록뿌리기
+const loadDeliveryList = async () => {
+    const response = await profileService.getDeliveryList();
+    const list = await response.json();
+    const deliveryListDiv = document.querySelector(".UserSetting-DeliveryList");
+
+    // 내용 비우기
+    deliveryListDiv.innerHTML = "";
+
+    if (list.length === 0) {
+        deliveryListDiv.innerHTML = `
+            <div class="UserSetting-EmptyDelivery">
+                등록된 배송지가 없습니다.<br/>배송지를 추가해주세요.
+            </div>
+        `;
+        return;
+    }
+
+    for (let i = 0; i < list.length; i++) {
+        const delivery = list[i];
+
+        const card = document.createElement("div");
+        card.classList.add("Delivery-Card");
+
+        const info = document.createElement("div");
+        info.classList.add("Delivery-CardInfo");
+        info.innerHTML = delivery.deliveryReceiver + " / " + delivery.receiverPhone
+            + "<br/>" + delivery.deliveryAddress + " " + (delivery.deliveryDetailAddress || "");
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.classList.add("Delivery-DeleteBtn");
+        deleteBtn.innerText = "삭제";
+
+        deleteBtn.addEventListener("click", async () => {
+            if (!confirm("배송지를 삭제하시겠습니까?")) return;
+
+            const delResponse = await profileService.removeDelivery(delivery.id);
+            const delResult = await delResponse.text();
+
+            if (delResult === "success") {
+                alert("배송지가 삭제되었습니다.");
+                loadDeliveryList();
+            }
+        });
+
+        card.appendChild(info);
+        card.appendChild(deleteBtn);
+        deliveryListDiv.appendChild(card);
+    }
+};
+loadDeliveryList();
