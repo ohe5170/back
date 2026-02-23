@@ -25,6 +25,7 @@ public class StoreDetailDTO {
     private String ownerLatestLogin;
 
     // 가게 프로필 정보
+    private Long fileId;
     private String fileName;
     private String fileOriginName;
     private String fileSavedPath;

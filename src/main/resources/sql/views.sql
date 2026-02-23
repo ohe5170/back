@@ -99,6 +99,7 @@ select
 
     u.user_latest_login as ownerLatestLogin,
 
+    f.id as fileId,
     f.file_name as fileName,
     f.file_origin_name as fileOriginName,
     f.file_saved_path as fileSavedPath

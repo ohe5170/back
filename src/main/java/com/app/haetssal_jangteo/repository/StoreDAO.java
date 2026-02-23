@@ -22,7 +22,7 @@ public class StoreDAO {
     }
 
     // 가게 정보 수정
-    public void setStore(StoreVO storeVO) {
+    public void update(StoreVO storeVO) {
         storeMapper.update(storeVO);
     }
 
