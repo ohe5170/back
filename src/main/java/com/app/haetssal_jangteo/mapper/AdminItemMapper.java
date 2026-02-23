@@ -14,10 +14,16 @@ import java.util.List;
 public interface AdminItemMapper {
     //    전체 상품 조회
     public List<ItemDTO> selectAllItems();
+
     //    목록
     public List<ItemDTO> selectAll(@Param("criteria") Criteria criteria, @Param("search") Search search);
+
     //    전체 개수
     public int selectTotal(@Param("search") Search search);
+
+    //    카테고리 목록 조회 (distinct)
+    List<String> selectDistinctCategories();
+
     //     수정
     public void update(ItemVO itemVO);
 }

@@ -8,11 +8,12 @@ import lombok.ToString;
 
 import java.util.List;
 
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 @NoArgsConstructor
-public class StoreWithPagingDTO {
-    private List<StoreDTO> stores;
+public class UserWithPagingDTO {
+    private List<UserDTO> users;
     private Criteria criteria;
     private int total;
 }

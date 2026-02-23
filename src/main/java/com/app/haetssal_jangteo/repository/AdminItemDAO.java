@@ -25,6 +25,11 @@ public class AdminItemDAO {
         return adminItemMapper.selectAll(criteria, search);
     }
 
+    //    카테고리 목록 조회
+    public List<String> findCategories() {
+        return adminItemMapper.selectDistinctCategories();
+    }
+
     //    수정
     public void setItem(ItemVO itemVO){
         adminItemMapper.update(itemVO);

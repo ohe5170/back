@@ -19,5 +19,5 @@ public interface AdminUserMapper {
     public List<UserDTO> selectAll(@Param("criteria") Criteria criteria, @Param("search") Search search);
 
     //    수정
-    void update(UserDTO UserDTO);
+    public void update(UserDTO UserDTO);
 }

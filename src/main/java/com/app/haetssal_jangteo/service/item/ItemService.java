@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(rollbackFor = Exception.class)
-public class ItemService {
+public class   ItemService {
     private final ItemDAO itemDAO;
     private final ItemDetailDAO itemDetailDAO;
     private final CategoryDAO categoryDAO;
