@@ -61,7 +61,7 @@ public class ProfileService {
         UUID uuid = UUID.randomUUID();
         fileDTO.setFileSavedPath(todayPath);
         fileDTO.setFileSize(String.valueOf(file.getSize()));
-        fileDTO.setFileOriginalName(file.getOriginalFilename());
+        fileDTO.setFileOriginName(file.getOriginalFilename());
         fileDTO.setFileName(uuid.toString() + "_" + file.getOriginalFilename());
         fileDTO.setFileType(file.getContentType().contains("image") ? Filetype.IMAGE : Filetype.DOCUMENT);
         fileDAO.save(fileDTO);
