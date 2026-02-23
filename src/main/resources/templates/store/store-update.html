@@ -46,15 +46,14 @@
                         <div class="main-contents-container">
                             <form action="/store/update" method="post" enctype="multipart/form-data" class="main-wrap">
 
-                                <!-- 상품 소유주 id input -->
-                                <!-- 로그인 완성되면 변경 -->
-                                <!-- <input type="hidden" name="storeOwnerId" th:value="${session.user.id}"> -->
-                                <input type="hidden" name="storeOwnerId" value="2">
+                                <!-- 가게 id, 소유주 id input -->
+                                <input type="hidden" name="id" th:value="*{id}">
+                                <input type="hidden" name="storeOwnerId" th:value="*{storeOwnerId}">
 
                                 <div id="marketNameContainer" class="each-content-container">
                                     <div class="each-left-container">
                                         <div class="each-left-wrap">
-                                            <div class="each-left-content">상점명
+                                            <div class="each-left-content">가게명
                                                 <div class="required-icon svg-wrap">
                                                     <svg viewBox="0 0 48 48"><path d="M20.332 6.1C20.332 6.04477 20.3768 6 20.432 6H27.1968C27.252 6 27.2968 6.04477 27.2968 6.1V18.2295C27.2968 18.3066 27.3803 18.3547 27.447 18.316L37.8336 12.289C37.8815 12.2612 37.9429 12.2777 37.9705 12.3257L41.3532 18.2144C41.3807 18.2622 41.3643 18.3231 41.3167 18.3507L31.0164 24.3277C30.95 24.3662 30.95 24.4622 31.0164 24.5007L40.8186 30.1886C40.8663 30.2163 40.8826 30.2772 40.8552 30.3249L37.4724 36.2137C37.4448 36.2617 37.3834 36.2782 37.3355 36.2504L27.447 30.5124C27.3803 30.4737 27.2968 30.5218 27.2968 30.5989V41.9C27.2968 41.9552 27.252 42 27.1968 42H20.432C20.3768 42 20.332 41.9552 20.332 41.9V30.7012C20.332 30.6241 20.2485 30.576 20.1818 30.6147L10.4697 36.2504C10.4218 36.2782 10.3604 36.2617 10.3328 36.2137L6.95002 30.3249C6.92259 30.2772 6.93892 30.2163 6.98654 30.1886L16.7888 24.5007C16.8552 24.4622 16.8552 24.3662 16.7888 24.3277L6.48846 18.3508C6.44084 18.3231 6.42451 18.2622 6.45194 18.2144L9.8347 12.3257C9.8623 12.2777 9.92369 12.2612 9.9716 12.289L20.1818 18.2137C20.2485 18.2524 20.332 18.2043 20.332 18.1272V6.1Z"></path></svg>
                                                 </div>
@@ -67,11 +66,10 @@
                                             <div>
                                                 <div class="form-wrap">
                                                     <span class="input-wrap">
-                                                        <input id="inputInner" class="user-input" maxlength="20" name="storeName" type="text" inputmode="text" th:value="${}" autocapitalize="off" autocomplete="off">
+                                                        <input id="inputInner" class="user-input" maxlength="20" name="storeName" type="text" inputmode="text" th:value="*{storeName}" autocapitalize="off" autocomplete="off">
                                                     </span>
                                                 </div>
                                                 <div class="input-length-guide">
-
                                                     <!-- 입력값없을때  -->
                                                     <p class="input-guide-message">필수 항목입니다.</p>
                                                     <span class="input-count-length">0/20</span>
@@ -84,21 +82,22 @@
                                 <div id="imageContainer" class="each-content-container">
                                     <div class="each-left-container">
                                         <div class="each-left-wrap">
-                                            <div class="each-left-content">프로필 이미지
+                                            <div class="each-left-content">가게 프로필 이미지
                                                 <div class="required-icon svg-wrap">
                                                     <svg viewBox="0 0 48 48"><path d="M20.332 6.1C20.332 6.04477 20.3768 6 20.432 6H27.1968C27.252 6 27.2968 6.04477 27.2968 6.1V18.2295C27.2968 18.3066 27.3803 18.3547 27.447 18.316L37.8336 12.289C37.8815 12.2612 37.9429 12.2777 37.9705 12.3257L41.3532 18.2144C41.3807 18.2622 41.3643 18.3231 41.3167 18.3507L31.0164 24.3277C30.95 24.3662 30.95 24.4622 31.0164 24.5007L40.8186 30.1886C40.8663 30.2163 40.8826 30.2772 40.8552 30.3249L37.4724 36.2137C37.4448 36.2617 37.3834 36.2782 37.3355 36.2504L27.447 30.5124C27.3803 30.4737 27.2968 30.5218 27.2968 30.5989V41.9C27.2968 41.9552 27.252 42 27.1968 42H20.432C20.3768 42 20.332 41.9552 20.332 41.9V30.7012C20.332 30.6241 20.2485 30.576 20.1818 30.6147L10.4697 36.2504C10.4218 36.2782 10.3604 36.2617 10.3328 36.2137L6.95002 30.3249C6.92259 30.2772 6.93892 30.2163 6.98654 30.1886L16.7888 24.5007C16.8552 24.4622 16.8552 24.3662 16.7888 24.3277L6.48846 18.3508C6.44084 18.3231 6.42451 18.2622 6.45194 18.2144L9.8347 12.3257C9.8623 12.2777 9.92369 12.2612 9.9716 12.289L20.1818 18.2137C20.2485 18.2524 20.332 18.2043 20.332 18.1272V6.1Z"></path></svg>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="explanation-left">상점을 나타낼 수 있는 사진을 올려주세요.</div>
+                                        <div class="explanation-left">변경할 가게 사진을 올려주세요.</div>
                                     </div>
                                     <div class="each-right-form">
                                         <div class="profile-img-wrapper">
                                             <div class="img-wrapper">
                                                 <div class="img-box">
                                                     <!-- 사용자가 이미지를 선택하면 이 div나타남 -->
-                                                    <!-- 주소는 어떻게하지? -->
-                                                    <div class="profile-image-uploaded"></div>
+                                                    <div class="profile-image-uploaded">
+                                                        <img th:src="@{/api/files/display(filePath=*{fileSavedPath}, fileName=*{fileName})}" th:value="*{fileId}">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="uploader-container">
@@ -110,9 +109,9 @@
                                                             </div>
                                                             이미지 파일 업로드
                                                     </label>
-                                                    
                                                 </div>
-                                                <p>파일 형식은 jpg 또는 png 또는 gif로,<br>
+                                                <p>
+                                                    파일 형식은 jpg 또는 png 또는 gif로,<br>
                                                     사이즈는 가로 200px, 세로 200px 이상으로 올려주세요.
                                                 </p>
                                             </div>
@@ -122,20 +121,20 @@
                                 <div id="introContainer" class="each-content-container">
                                     <div class="each-left-container">
                                         <div class="each-left-wrap">
-                                            <div class="each-left-content">상점 소개
+                                            <div class="each-left-content">가게 소개
                                                 <div class="required-icon svg-wrap">
                                                     <svg viewBox="0 0 48 48"><path d="M20.332 6.1C20.332 6.04477 20.3768 6 20.432 6H27.1968C27.252 6 27.2968 6.04477 27.2968 6.1V18.2295C27.2968 18.3066 27.3803 18.3547 27.447 18.316L37.8336 12.289C37.8815 12.2612 37.9429 12.2777 37.9705 12.3257L41.3532 18.2144C41.3807 18.2622 41.3643 18.3231 41.3167 18.3507L31.0164 24.3277C30.95 24.3662 30.95 24.4622 31.0164 24.5007L40.8186 30.1886C40.8663 30.2163 40.8826 30.2772 40.8552 30.3249L37.4724 36.2137C37.4448 36.2617 37.3834 36.2782 37.3355 36.2504L27.447 30.5124C27.3803 30.4737 27.2968 30.5218 27.2968 30.5989V41.9C27.2968 41.9552 27.252 42 27.1968 42H20.432C20.3768 42 20.332 41.9552 20.332 41.9V30.7012C20.332 30.6241 20.2485 30.576 20.1818 30.6147L10.4697 36.2504C10.4218 36.2782 10.3604 36.2617 10.3328 36.2137L6.95002 30.3249C6.92259 30.2772 6.93892 30.2163 6.98654 30.1886L16.7888 24.5007C16.8552 24.4622 16.8552 24.3662 16.7888 24.3277L6.48846 18.3508C6.44084 18.3231 6.42451 18.2622 6.45194 18.2144L9.8347 12.3257C9.8623 12.2777 9.92369 12.2612 9.9716 12.289L20.1818 18.2137C20.2485 18.2524 20.332 18.2043 20.332 18.1272V6.1Z"></path></svg>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="explanation-left">2~3문장으로 상점의 간단한 소개를 써주세요.</div>
+                                        <div class="explanation-left">2~3문장으로 상점의 간단한 소개를 다시 써주세요.</div>
                                     </div>
                                     <div class="each-right-form">
                                         <div class="form-container">
                                             <div>
                                                 <div class="form-wrap">
                                                     <div class="textarea-wrapper">
-                                                        <textarea minlength="10" maxlength="300" name="storeIntro" class="user-input" id="textareaInner" placeholder="간단한 이력과 소개를 써주세요"></textarea>
+                                                        <textarea th:text="*{storeIntro}" minlength="10" maxlength="300" name="storeIntro" class="user-input" id="textareaInner" placeholder="간단한 이력과 소개를 써주세요"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="input-length-guide">
@@ -162,7 +161,7 @@
                                             <p class="market-category">상점의 카테고리</p>
                                             <div class="category-select-box">
                                                 <span class="category-input-wrapper">
-                                                    <input type="hidden" id="storeCategoryId" name="storeCategoryId" value="">
+                                                    <input type="hidden" id="storeCategoryId" name="storeCategoryId" th:value="*{storeCategoryId}">
                                                     <input readonly type="text" inputmode="text" autocapitalize="off" autocomplete="off" class="category-input" value="카테고리를 선택해주세요" placeholder>
                                                     <div class="arrow-icon svg-wrap">
                                                         <svg viewBox="0 0 48 48"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 14.4065C2 13.1363 3.09843 12.0615 4.39657 12.0615C4.99571 12.0615 5.59485 12.257 6.09414 12.7455L23.9685 29.4526L41.843 12.6478C42.8415 11.7684 44.3394 11.7684 45.338 12.7455C46.2367 13.7226 46.2367 15.1882 45.2381 16.0676L23.9685 36L2.79886 16.0676C2.29957 15.6767 2 14.9928 2 14.4065Z"></path></svg>
@@ -170,9 +169,7 @@
                                                 </span>
                                                 <div class="category-select-dropdown category-market">
                                                     <ul>
-                                                        <!-- 서버에서 카테고리 받아와서 뿌리기 -->
-                                                        <li class="each-category-item item-category" value="100">축산물</li>
-                                                        <li class="each-category-item item-category" value="200">농산물</li>
+
                                                     </ul>
                                                 </div>
                                             </div>
@@ -226,7 +223,7 @@
                                             <p class="region-category">시/군/구</p>
                                             <div class="region-select-box disabled">
                                                 <span class="region-input-wrapper">
-                                                    <input type="text" inputmode="text" name="store-detail-address" autocapitalize="off" autocomplete="off" class="region-input" placeholder="시/군/구를 입력해주세요">
+                                                    <input type="text" inputmode="text" name="store-detail-address" autocapitalize="off" autocomplete="off" class="region-input" th:value="${store.storeAddress.substring(2)}">
                                                 </span>
                                             </div>
                                         </div>
@@ -250,7 +247,7 @@
                                             <div class="category-select-box">
                                                 <span class="category-input-wrapper">
                                                     <input type="hidden" id="storeMarketId" name="storeMarketId" value="">
-                                                    <input readonly type="text" inputmode="text" autocapitalize="off" autocomplete="off" class="category-input" value="소속된 장터를 선택해주세요">
+                                                    <input readonly type="text" inputmode="text" autocapitalize="off" autocomplete="off" class="category-input" value="">
                                                     <div class="arrow-icon svg-wrap">
                                                         <svg viewBox="0 0 48 48"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 14.4065C2 13.1363 3.09843 12.0615 4.39657 12.0615C4.99571 12.0615 5.59485 12.257 6.09414 12.7455L23.9685 29.4526L41.843 12.6478C42.8415 11.7684 44.3394 11.7684 45.338 12.7455C46.2367 13.7226 46.2367 15.1882 45.2381 16.0676L23.9685 36L2.79886 16.0676C2.29957 15.6767 2 14.9928 2 14.4065Z"></path></svg>
                                                     </div>
@@ -361,6 +358,7 @@
 </body>
 <script src="/js/store/event/store-create.js"></script>
 <script src="/js/store/event/store-create-info-check.js"></script>
+<script src="/js/store/event/store-update.js"></script>
 <script src="/js/store/layout/storeLayout.js"></script>
 <script src="/js/store/service/storeService.js"></script>
 </html>

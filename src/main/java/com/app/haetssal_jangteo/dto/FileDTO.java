@@ -13,7 +13,7 @@ public class FileDTO {
     private Long id;
     private Filetype fileType;
     private String fileName;
-    private String fileOriginalName;
+    private String fileOriginName;
     private String fileSavedPath;
     private String filePath;
     private String fileSize;

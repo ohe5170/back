@@ -267,7 +267,7 @@ public class ItemService {
             FileDTO fileDTO = new FileDTO();
             fileDTO.setFileType(image.getContentType().contains("image") ? Filetype.IMAGE : Filetype.DOCUMENT);
             fileDTO.setFileName(uuid.toString() + "_" + image.getOriginalFilename());
-            fileDTO.setFileOriginalName(image.getOriginalFilename());
+            fileDTO.setFileOriginName(image.getOriginalFilename());
             fileDTO.setFileSavedPath(todayPath);
             fileDTO.setFileSize(String.valueOf(image.getSize()));
             fileDAO.save(fileDTO);
