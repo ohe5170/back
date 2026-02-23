@@ -35,10 +35,10 @@ public class StoreMapperTests {
     public void testUpdate() {
         StoreDTO storeDTO = new StoreDTO();
         storeDTO.setId(5L);
-        storeDTO.setStoreCategoryId(200L);
-        storeDTO.setStoreName("테스트 수정 장터");
-        storeDTO.setStoreIntro("테스트 수정 장터 설명");
-        storeDTO.setStoreAddress("서울 성동구");
+        storeDTO.setStoreCategoryId(400L);
+        storeDTO.setStoreName("테스트 수정 장터2");
+        storeDTO.setStoreIntro("테스트 수정 장터 설명2");
+        storeDTO.setStoreAddress("서울 성동구2");
 
         storeMapper.update(storeDTO.toVO());
     }

@@ -65,6 +65,16 @@ public class StoreServiceTests {
     }
 
     @Test
+    public void testUpdate() {
+        StoreDTO storeDTO = new StoreDTO();
+        storeDTO.setId(5L);
+        storeDTO.setStoreCategoryId(500L);
+        storeDTO.setStoreName("테스트 수정 장터3");
+        storeDTO.setStoreIntro("테스트 수정 장터 설명3");
+        storeDTO.setStoreAddress("서울 성동구3");
+    }
+
+    @Test
     public void testFindBySearch() {
         StoreSearch storeSearch = new StoreSearch();
         storeSearch.setRegion("서울");

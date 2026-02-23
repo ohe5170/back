@@ -17,8 +17,6 @@ const regionSpans = document.querySelectorAll(".region-input-wrapper");
 
 // 3. 주판매 카테고리 드롭다운 이벤트
 const categoryBox = document.querySelector(".category-select-box");
-const categoryItems = document.querySelectorAll(".item-category");
-const categorySpan = document.querySelector(".category-input-wrapper");
 
 // 3-1. 장터 선택 드롭다운 이벤트
 const marketIdContainer = document.getElementById("marketIdContainer");
@@ -170,35 +168,41 @@ if(secondRegionInput) {
 }
 
 // 3-1. 주판매 카테고리 드롭다운 이벤트
-categoryBox.addEventListener("click", (e) => {
+categoryBox.addEventListener("click", async (e) => {
     if(e.target.closest(".category-select-dropdown")) {
         e.stopPropagation();
         return;
     }
+
+    await storeService.getCategories(storeLayout.showCategories);
+
     let condition = categoryBox.classList.contains("clicked");
     categoryBox.classList.toggle("clicked", !condition);
-});
 
-// 3-2. 주판매 드롭다운에서 요소 선택했을때
-categoryItems.forEach((item) => {
-    item.addEventListener("click", (e) => {
-        // 사용자가 선택한 요소내용 담기
-        const inputBox = categoryBox.querySelector("input[type='text']");
-        const hiddenInput = document.getElementById("storeCategoryId");
-        const text = item.textContent;
-        const value = item.getAttribute("value");
+    const categoryItems = document.querySelectorAll(".item-category");
+    const categorySpan = document.querySelector(".category-input-wrapper");
 
-        inputBox.value = text;
+    // 3-2. 주판매 드롭다운에서 요소 선택했을때
+    categoryItems.forEach((item) => {
+        item.addEventListener("click", (e) => {
+            // 사용자가 선택한 요소내용 담기
+            const inputBox = categoryBox.querySelector("input[type='text']");
+            const hiddenInput = document.getElementById("storeCategoryId");
+            const text = item.textContent;
+            const value = item.getAttribute("value");
 
-        // 서버로 보낼 진짜 input에 value 설정
-        if(hiddenInput && value) {
-            hiddenInput.value = value;
-        }
+            inputBox.value = text;
 
-        // 박스닫아야하니까 clicked 떼고
-        categoryBox.classList.remove("clicked");
-        // 요소클릭(선택)했으면 selected줘서 테두리 스타일 변경되게끔 하고
-        categorySpan.classList.add("selected");
+            // 서버로 보낼 진짜 input에 value 설정
+            if(hiddenInput && value) {
+                hiddenInput.value = value;
+            }
+
+            // 박스닫아야하니까 clicked 떼고
+            categoryBox.classList.remove("clicked");
+            // 요소클릭(선택)했으면 selected줘서 테두리 스타일 변경되게끔 하고
+            categorySpan.classList.add("selected");
+        });
     });
 });
 
@@ -312,7 +316,7 @@ finalRegiBtn.addEventListener("click", (e) => {
     const isStoreIntroValid = marketInputs[1] && marketInputs[1].value.length >= 10;
     const isImageUploaded = thumbnail && thumbnail.style.backgroundImage !== '';
     const isRegionSelected = regionSpans[1] && regionSpans[1].classList.contains("selected");
-    const isCategorySelected = categorySpan && categorySpan.classList.contains("selected");
+    const isCategorySelected = categoryBox.firstElementChild && categoryBox.firstElementChild.classList.contains("selected");
     const isMarketSelected = document.getElementById("storeMarketId") &&
         document.getElementById("storeMarketId").value !== '';
     const isAuthCompleted = startCheck && startCheck.classList.contains("disabled");
@@ -323,9 +327,9 @@ finalRegiBtn.addEventListener("click", (e) => {
         document.querySelector("form").submit();
     } else {
         let missingFields = [];
-        if(!isStoreNameValid) missingFields.push("상점명");
-        if(!isStoreIntroValid) missingFields.push("상점 소개(최소 10자)");
-        if(!isImageUploaded) missingFields.push("프로필 이미지");
+        if(!isStoreNameValid) missingFields.push("가게명");
+        if(!isStoreIntroValid) missingFields.push("가게 소개(최소 10자)");
+        if(!isImageUploaded) missingFields.push("가게 프로필 이미지");
         if(!isRegionSelected) missingFields.push("지역");
         if(!isCategorySelected) missingFields.push("주판매 카테고리");
         if(!isMarketSelected) missingFields.push("장터 선택");

@@ -103,6 +103,7 @@
         update tbl_store
         set store_name = #{storeName},
             store_intro = #{storeIntro},
+            store_market_id = #{storeMarketId},
             store_category_id = #{storeCategoryId},
             store_address = #{storeAddress},
             updated_datetime = current_timestamp

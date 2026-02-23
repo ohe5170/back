@@ -48,14 +48,14 @@ public class StoreController {
     }
 
     @GetMapping("/update")
-    public String goToUpdate(Long id, Model model) {
-        model.addAttribute("store", storeService.detail(id));
+    public String goToUpdate(String id, Model model) {
+        model.addAttribute("store", storeService.detail(Long.valueOf(id)));
         return "store/store-update";
     }
 
     @PostMapping("/update")
     public RedirectView update(StoreDTO storeDTO,
-                               MultipartFile multipartFile,
+                               @RequestParam("fileStoreImage") MultipartFile multipartFile,
                                RedirectAttributes redirectAttributes) {
         storeService.update(storeDTO, multipartFile);
         redirectAttributes.addAttribute("id", storeDTO.getId());

@@ -53,7 +53,7 @@ public class StoreService {
         UUID uuid = UUID.randomUUID();
         fileDTO.setFileSavedPath(todayPath);
         fileDTO.setFileSize(String.valueOf(multipartFile.getSize()));
-        fileDTO.setFileOriginalName(multipartFile.getOriginalFilename());
+        fileDTO.setFileOriginName(multipartFile.getOriginalFilename());
         fileDTO.setFileName(uuid.toString() + "_" + multipartFile.getOriginalFilename());
         fileDTO.setFileType(multipartFile.getContentType().contains("image") ? Filetype.IMAGE : Filetype.DOCUMENT);
         fileDAO.save(fileDTO);
@@ -92,7 +92,7 @@ public class StoreService {
         UUID uuid = UUID.randomUUID();
         fileDTO.setFileSavedPath(todayPath);
         fileDTO.setFileSize(String.valueOf(multipartFile.getSize()));
-        fileDTO.setFileOriginalName(multipartFile.getOriginalFilename());
+        fileDTO.setFileOriginName(multipartFile.getOriginalFilename());
         fileDTO.setFileName(uuid.toString() + "_" + multipartFile.getOriginalFilename());
         fileDTO.setFileType(multipartFile.getContentType().contains("image") ? Filetype.IMAGE : Filetype.DOCUMENT);
         fileDAO.save(fileDTO);

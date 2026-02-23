@@ -37,16 +37,24 @@ const storeLayout = (() => {
    }
 
    const showCategories = (categories) => {
-      const categoryBox = document.querySelector(".dd-filter-box");
+      const categoryBox = document.querySelector(".dd-filter-box") || document.querySelector(".category-select-dropdown");
 
       let text = ``;
       if(categories) {
          categories.forEach(category => {
-            text += `
-            <li>
-                <button type="button" class="dd-filter-item" value="${category.id}">${category.categoryName}</button>
-            </li>
-            `
+            if(categoryBox.classList.contains("dd-filter-box")) {
+               text += `
+               <li>
+                   <button type="button" class="dd-filter-item" value="${category.id}">${category.categoryName}</button>
+               </li>
+               `
+            } else {
+               text += `
+               <li>
+                   <button type="button" class="each-category-item item-category" value="${category.id}">${category.categoryName}</button>
+               </li>
+               `
+            }
          })
       }
       categoryBox.innerHTML = text;
