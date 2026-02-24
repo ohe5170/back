@@ -31,6 +31,10 @@ select * from tbl_seller;
 
 select * from tbl_delivery;
 
+select * from tbl_cart;
+
+select * from tbl_cart_item;
+
 # 확인용 유저 샘플
 insert into tbl_user (id, user_email, user_phone, user_name, user_intro)
 values (4,'example6@example.com', '01066666666', '홍길동8', '설명6');

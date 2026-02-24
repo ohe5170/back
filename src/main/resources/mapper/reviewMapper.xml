@@ -14,11 +14,9 @@
             review_content,
             review_state,
             created_datetime,
-
             userName,
             userFileName,
             userFileSavedPath,
-
             itemName,
             itemPrice,
             itemStoreid,
