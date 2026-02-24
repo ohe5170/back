@@ -610,6 +610,7 @@ img {
     position: relative;
     display: flex;
     width: 100%;
+    gap: 10px;
 }
 
 .buy-btn {
@@ -628,6 +629,17 @@ img {
     font-weight: bold;
     line-height: 120%;
     background-color: rgb(28, 28, 28);
+    color: white;
+}
+
+.buy-btn.update {
+    border: 1px solid rgb(28, 28, 28);
+    background-color: white;
+    color: rgb(28, 28, 28);
+}
+
+.buy-btn.delete {
+    background-color: rgb(235 75 56);
     color: white;
 }
 

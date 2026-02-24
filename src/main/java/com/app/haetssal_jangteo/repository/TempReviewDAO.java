@@ -13,7 +13,6 @@ import java.util.List;
 public class TempReviewDAO {
     private final ReviewMapper reviewMapper;
 
-
     // 가게 id로 해당 가게 상품의 후기 조회
     public List<StoreReviewDTO> findByStoreId(Long storeId) {
         return reviewMapper.selectByStoreId(storeId);

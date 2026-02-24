@@ -42,26 +42,37 @@ create table tbl_delivery (
 create table tbl_order (
    id bigint unsigned primary key,
    user_id bigint unsigned not null,
+   cart_id bigint unsigned not null,
    order_delivery_type enum('post', 'take'),
    order_state enum('pending', 'complete') default 'pending',
    order_purchase_date datetime default current_timestamp,
    order_take_date datetime not null,
-   constraint fk_payment_user foreign key (user_id)
-   references tbl_user(id)
+   constraint fk_order_user foreign key (user_id)
+   references tbl_user(id),
+   constraint fk_order_cart foreign key (cart_id)
+   references tbl_cart(id)
 );
 
 # 결제 테이블
 # TODO
 
-# 주문 상품 목록 테이블
-create table tbl_order_item (
-    id bigint unsigned primary key,
-    order_id bigint unsigned not null,
+# 장바구니 테이블
+create table tbl_cart (
+    id bigint unsigned auto_increment primary key,
+    user_id bigint unsigned not null,
+    cart_purchase_price varchar(255) default '0',
+    cart_total_price varchar(255) default '0',
+    cart_total_delivery_fee varchar(255) default '0',
+
+);
+
+create table tbl_cart_item (
+    cart_id bigint unsigned not null,
     item_id bigint unsigned not null,
-    constraint fk_list_order foreign key (order_id)
-    references tbl_order(id),
-    constraint fk_list_item foreign key (item_id)
-    references tbl_item(id)
+    constraint fk_cart foreign key (cart_id)
+        references tbl_cart(id),
+    constraint fk_item foreign key (item_id)
+        references tbl_item(id)
 );
 
 -- 판매자 테이블

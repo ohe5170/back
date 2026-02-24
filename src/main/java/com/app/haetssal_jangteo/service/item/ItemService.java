@@ -246,6 +246,8 @@ public class ItemService {
             fileDAO.delete(fileId);
         });
 
+        // 아이템 상태 변경 (soft delete)
+        itemDAO.delete(id);
     }
 
     // 오늘자 경로 생성

@@ -126,16 +126,16 @@
                                             <div class="buy-btn-container">
                                                 <div class="cta-container">
                                                     <div class="cta-btn-container">
-                                                    <th:block th:if="${session.user.id != item.storeOwnerId}">
+                                                    <th:block th:if="${session.user == null || (session.user.id != item.storeOwnerId)}">
                                                         <button type="button" class="buy-btn">
                                                             구매하기
                                                         </button>
                                                     </th:block>
-                                                    <th:block th:if="${session.user.id == item.storeOwnerId}">
-                                                        <a th:href="@{/item/update(id=${item.id})}" class="buy-btn">
+                                                    <th:block th:if="${session.user != null && (session.user.id == item.storeOwnerId)}">
+                                                        <a th:href="@{/item/update(id=${item.id})}" class="buy-btn update">
                                                             수정하기
                                                         </a>
-                                                        <a th:href="@{/item/delete(id=${item.id})}" class="buy-btn">
+                                                        <a th:href="@{/item/delete(id=${item.id})}" class="buy-btn delete">
                                                             삭제하기
                                                         </a>
                                                     </th:block>
