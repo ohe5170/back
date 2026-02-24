@@ -1,4 +1,20 @@
 const itemService = (() => {
+    const getCategories = async (callback) => {
+        const response = await fetch(`/api/item/category`);
+        const categories = await response.json();
+        if(callback) {
+            callback(categories);
+        }
+    }
+
+    const getSubCategories = async (id, callback) => {
+        const response = await fetch(`/api/item/category/${id}`);
+        const subCategories = await response.json();
+        if(callback) {
+            callback(subCategories);
+        }
+    }
+
     const getItemDescImages = async (id, callback) => {
 
         const response = await fetch(`/api/item/images/${id}`)
@@ -16,6 +32,10 @@ const itemService = (() => {
             callback(reviews);
     }
 
-    return {getItemDescImages: getItemDescImages,
-            getItemReviews: getItemReviews}
+    return {
+        getCategories: getCategories,
+        getSubCategories: getSubCategories,
+        getItemDescImages: getItemDescImages,
+        getItemReviews: getItemReviews
+    }
 })();

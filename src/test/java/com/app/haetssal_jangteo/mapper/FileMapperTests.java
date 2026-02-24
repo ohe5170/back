@@ -24,7 +24,7 @@ public class FileMapperTests {
         FileDTO fileDTO = new FileDTO();
         fileDTO.setFileType(Filetype.IMAGE);
         fileDTO.setFileName("itemImages");
-        fileDTO.setFileOriginalName("originProfile3");
+        fileDTO.setFileOriginName("originProfile3");
         fileDTO.setFileSavedPath("../../path3");
         fileDTO.setFileSize("10000");
 

@@ -68,7 +68,7 @@
 //        // 1. 상품 기본 정보 수정
 //        adminDAO.setItem(itemDTO.toVO());
 //
-////        // 2. 태그 수정 로직 (태그 반복문 분리)
+//        // 2. 태그 수정 로직 (태그 반복문 분리)
 ////        if (tagDAO != null && itemDTO.getTags() != null) {
 ////            itemDTO.getTags().forEach(tagDTO -> {
 ////                tagDTO.setItemId(itemDTO.getId()); // ID 설정 수정
@@ -89,7 +89,7 @@
 //                UUID uuid = UUID.randomUUID();
 //                fileDTO.setFilePath(todayPath);
 //                fileDTO.setFileSize(String.valueOf(multipartFile.getSize()));
-//                fileDTO.setFileOriginalName(multipartFile.getOriginalFilename());
+//                fileDTO.setFileOriginName(multipartFile.getOriginalFilename());
 //                fileDTO.setFileName(uuid.toString() + "_" + multipartFile.getOriginalFilename());
 //                fileDTO.setFileItemType(
 //                        multipartFile.getContentType() != null && multipartFile.getContentType().contains("image")

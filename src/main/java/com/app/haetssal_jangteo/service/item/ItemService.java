@@ -44,9 +44,6 @@ public class ItemService {
         String todayPath = getTodayPath();
         String path = rootPath + todayPath;
 
-        // 임시로 상품 가게 id 등록
-        itemDTO.setItemStoreId(2L);
-
         itemDAO.save(itemDTO);
 
         // 옵션이 있다면, 저장
@@ -249,6 +246,8 @@ public class ItemService {
             fileDAO.delete(fileId);
         });
 
+        // 아이템 상태 변경 (soft delete)
+        itemDAO.delete(id);
     }
 
     // 오늘자 경로 생성

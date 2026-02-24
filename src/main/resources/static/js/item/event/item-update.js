@@ -159,7 +159,9 @@ itemNameInput.addEventListener("input", (e) => {
 });
 
 // 상품 카테고리 Event
-itemCategory.addEventListener("click", (e) => {
+itemCategory.addEventListener("click", async (e) => {
+    await itemService.getCategories(itemLayout.showCategories);
+
     const categoryList = categoryA.querySelectorAll(".each-category-item.item-a");
 
     itemCategory.nextElementSibling.classList.toggle("clicked");
@@ -183,7 +185,10 @@ itemCategory.addEventListener("click", (e) => {
 });
 
 // 상세 카테고리 Event
-itemSubCategory.addEventListener("click", (e) => {
+itemSubCategory.addEventListener("click", async (e) => {
+    const categoryId = document.getElementById("itemCategoryId");
+    await itemService.getSubCategories(categoryId.value, itemLayout.showSubCategories);
+
     const categoryList = categoryB.querySelectorAll(".each-category-item.item-b");
 
     itemSubCategory.nextElementSibling.classList.toggle("clicked");

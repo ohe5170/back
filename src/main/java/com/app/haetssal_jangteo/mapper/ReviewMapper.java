@@ -1,6 +1,7 @@
 package com.app.haetssal_jangteo.mapper;
 
 import com.app.haetssal_jangteo.dto.ReviewDTO;
+import com.app.haetssal_jangteo.dto.StoreReviewDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -20,5 +21,5 @@ public interface ReviewMapper {
     public List<ReviewDTO> selectAllByItemId(Long itemId);
 
     // 가게 id로 해당 가게의 상품 후기들 조회
-    public List<ReviewDTO> selectByStoreId(Long storeId);
+    public List<StoreReviewDTO> selectByStoreId(Long storeId);
 }

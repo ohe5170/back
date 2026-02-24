@@ -59,7 +59,7 @@ public class ItemServiceTests {
         UUID uuid = UUID.randomUUID();
         fileDTO.setFileType(Filetype.IMAGE);
         fileDTO.setFileName(uuid.toString() + "_" + "file");
-        fileDTO.setFileOriginalName("itemImage");
+        fileDTO.setFileOriginName("itemImage");
         fileDTO.setFileSavedPath("../../path");
         fileDTO.setFileSize("100");
 
@@ -77,7 +77,7 @@ public class ItemServiceTests {
 
     @Test
     public void testDetail() {
-        Optional<ItemDetailDTO> itemDetailDTO = itemDetailDAO.findItemDetailById(7L);
+        Optional<ItemDetailDTO> itemDetailDTO = itemDetailDAO.findItemDetailById(2L);
 
         ItemDetailDTO dto = itemDetailDTO.get();
 

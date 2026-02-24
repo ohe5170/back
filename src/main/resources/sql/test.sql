@@ -57,6 +57,7 @@ where item_store_id = 8;
 #     market_region, market_name, market_location)
 # values ('서울','가락시장','송파구');
 
+
 insert into tbl_store (
     store_owner_id, store_market_id, store_name, store_intro, store_address)
 values ((select max(id) from tbl_user),
@@ -72,14 +73,6 @@ insert into tbl_category (id, category_name)
 values (1, '과일');
 
 select id from tbl_category;
-
-insert into tbl_category (id, category_name)
-values (400, '반찬.장류'),
-       (500,'가공식품'),
-    (600, '건강식품'),
-    (700, '생활용품'),
-    (800, '주방용품'),
-    (900, '가전');
 
 select
     i.id,
@@ -97,3 +90,4 @@ from tbl_item i
 left join tbl_category c on i.item_category_id = c.id
 left join tbl_sub_category sc on i.item_subcategory_id = sc.id
 where i.item_store_id = 2;
+
