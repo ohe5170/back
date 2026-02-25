@@ -159,9 +159,7 @@ itemNameInput.addEventListener("input", (e) => {
 });
 
 // 상품 카테고리 Event
-itemCategory.addEventListener("click", async (e) => {
-    await itemService.getCategories(itemLayout.showCategories);
-
+itemCategory.addEventListener("click", (e) => {
     const categoryList = categoryA.querySelectorAll(".each-category-item.item-a");
 
     itemCategory.nextElementSibling.classList.toggle("clicked");
@@ -185,10 +183,7 @@ itemCategory.addEventListener("click", async (e) => {
 });
 
 // 상세 카테고리 Event
-itemSubCategory.addEventListener("click", async (e) => {
-    const categoryId = document.getElementById("itemCategoryId");
-    await itemService.getSubCategories(categoryId.value, itemLayout.showSubCategories);
-
+itemSubCategory.addEventListener("click", (e) => {
     const categoryList = categoryB.querySelectorAll(".each-category-item.item-b");
 
     itemSubCategory.nextElementSibling.classList.toggle("clicked");

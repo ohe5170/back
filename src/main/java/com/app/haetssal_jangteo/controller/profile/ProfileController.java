@@ -25,10 +25,11 @@ public class ProfileController {
 
     @GetMapping("modify")
     public String goToModifyForm(Model model) {
-        UserDTO loginUser = (UserDTO) session.getAttribute("user");
-        Long userId = loginUser.getId();
-
-        model.addAttribute("profileImage", profileService.getProfile(userId));
+        UserDTO loggedinUser = (UserDTO) session.getAttribute("user");
+        Long userId = loggedinUser.getId();
+//        이미지만
+        model.addAttribute("profileImage", profileService.getProfileImage(userId));
+//        옵셔널로 이름이랑 프사랑 등등
         model.addAttribute("userInfo", profileService.getUserProfile(userId).orElse(null));
 
         return "user/modify";
@@ -39,11 +40,11 @@ public class ProfileController {
     @ResponseBody
     public String changeProfileImage(FileUserDTO fileUserDTO,
                                      @RequestParam("file") MultipartFile file) {
-        UserDTO loginUser = (UserDTO) session.getAttribute("user");
-        if (loginUser == null) {
+        UserDTO loggedinUser = (UserDTO) session.getAttribute("user");
+        if (loggedinUser == null) {
             return "fail";
         }
-        fileUserDTO.setUserId(loginUser.getId());
+        fileUserDTO.setUserId(loggedinUser.getId());
         profileService.saveProfileImage(fileUserDTO, file);
         return "success";
     }
@@ -52,11 +53,11 @@ public class ProfileController {
     @PostMapping("name")
     @ResponseBody
     public String changeName(@RequestBody UserDTO userDTO) {
-        UserDTO loginUser = (UserDTO) session.getAttribute("user");
-        if (loginUser == null) {
+        UserDTO loggedinUser = (UserDTO) session.getAttribute("user");
+        if (loggedinUser == null) {
             return "fail";
         }
-        userDTO.setId(loginUser.getId());
+        userDTO.setId(loggedinUser.getId());
         profileService.setUserName(userDTO);
         return "success";
     }
@@ -65,11 +66,11 @@ public class ProfileController {
     @PostMapping("intro")
     @ResponseBody
     public String changeIntro(@RequestBody UserDTO userDTO) {
-        UserDTO loginUser = (UserDTO) session.getAttribute("user");
-        if (loginUser == null) {
+        UserDTO loggedinUser = (UserDTO) session.getAttribute("user");
+        if (loggedinUser == null) {
             return "fail";
         }
-        userDTO.setId(loginUser.getId());
+        userDTO.setId(loggedinUser.getId());
         profileService.setUserInfo(userDTO);
         return "success";
     }
@@ -78,13 +79,13 @@ public class ProfileController {
     @PostMapping("check-password")
     @ResponseBody
     public boolean checkPassword(@RequestBody UserDTO userDTO) {
-        UserDTO loginUser = (UserDTO) session.getAttribute("user");
-//        return profileService.checkPassword(loginUser.getId(), userDTO.getUserPassword());
-        Long userId = loginUser.getId();
+        UserDTO loggedinUser = (UserDTO) session.getAttribute("user");
+//        return profileService.checkPassword(loggedinUser.getId(), userDTO.getUserPassword());
+        Long userId = loggedinUser.getId();
         String inputPw = userDTO.getUserPassword();
         String dbPw = profileService.getUserProfile(userId).get().getUserPassword();
-        System.out.println("입력값: [" + inputPw + "]");
-        System.out.println("DB값: [" + dbPw + "]");
+        System.out.println("입력값: " + inputPw);
+        System.out.println("디비비번: " + dbPw);
         System.out.println("같냐: " + dbPw.equals(inputPw));
         return profileService.checkPassword(userId, inputPw);
     }
@@ -93,11 +94,11 @@ public class ProfileController {
     @PostMapping("password")
     @ResponseBody
     public String changePassword(@RequestBody UserDTO userDTO) {
-        UserDTO loginUser = (UserDTO) session.getAttribute("user");
-        if (loginUser == null) {
+        UserDTO loggedinUser = (UserDTO) session.getAttribute("user");
+        if (loggedinUser == null) {
             return "fail";
         }
-        userDTO.setId(loginUser.getId());
+        userDTO.setId(loggedinUser.getId());
         profileService.changePassword(userDTO);
         return "success";
     }
@@ -106,19 +107,19 @@ public class ProfileController {
     @GetMapping("delivery-list")
     @ResponseBody
     public List<DeliveryDTO> getDeliveryList() {
-        UserDTO loginUser = (UserDTO) session.getAttribute("user");
-        return profileService.getDeliveryList(loginUser.getId());
+        UserDTO loggedinUser = (UserDTO) session.getAttribute("user");
+        return profileService.getDeliveryList(loggedinUser.getId());
     }
 
 //    배송지 추가
     @PostMapping("delivery")
     @ResponseBody
     public String addDelivery(@RequestBody DeliveryDTO deliveryDTO) {
-        UserDTO loginUser = (UserDTO) session.getAttribute("user");
-        if (loginUser == null) {
+        UserDTO loggedinUser = (UserDTO) session.getAttribute("user");
+        if (loggedinUser == null) {
             return "fail";
         }
-        deliveryDTO.setUserId(loginUser.getId());
+        deliveryDTO.setUserId(loggedinUser.getId());
         profileService.addDelivery(deliveryDTO);
         return "success";
     }
@@ -127,8 +128,8 @@ public class ProfileController {
     @DeleteMapping("delivery")
     @ResponseBody
     public String removeDelivery(@RequestParam Long id) {
-        UserDTO loginUser = (UserDTO) session.getAttribute("user");
-        if (loginUser == null) {
+        UserDTO loggedinUser = (UserDTO) session.getAttribute("user");
+        if (loggedinUser == null) {
             return "fail";
         }
         profileService.removeDelivery(id);

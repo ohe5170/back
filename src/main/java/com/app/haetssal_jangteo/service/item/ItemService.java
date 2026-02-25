@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(rollbackFor = Exception.class)
-public class ItemService {
+public class   ItemService {
     private final ItemDAO itemDAO;
     private final ItemDetailDAO itemDetailDAO;
     private final CategoryDAO categoryDAO;
@@ -43,6 +43,9 @@ public class ItemService {
         String rootPath = "C:/file/";
         String todayPath = getTodayPath();
         String path = rootPath + todayPath;
+
+        // 임시로 상품 가게 id 등록
+        itemDTO.setItemStoreId(2L);
 
         itemDAO.save(itemDTO);
 
@@ -257,8 +260,6 @@ public class ItemService {
             fileDAO.delete(fileId);
         });
 
-        // 아이템 상태 변경 (soft delete)
-        itemDAO.delete(id);
     }
 
     // 오늘자 경로 생성

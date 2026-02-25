@@ -60,7 +60,6 @@ select
     sc.category_name as itemSubCategoryName,
 
     s.id as storeId,
-    s.store_owner_id as storeOwnerId,
     s.store_name,
     s.store_score,
 
@@ -118,33 +117,16 @@ select
     r.id,
     r.review_item_id,
     r.review_user_id,
+    u.user_name as userName,
     r.review_score_quality,
     r.review_score_delivery,
     r.review_score_kind,
     r.review_content,
     r.review_state,
-    r.created_datetime,
-
-    u.user_name as userName,
-    f1.file_name as userFileName,
-    f1.file_saved_path as userFileSavedPath,
-
-    i.item_name as itemName,
-    i.item_price as itemPrice,
-    i.item_store_id as itemStoreid,
-    f2.file_name as itemFileName,
-    f2.file_saved_path as itemFileSavedPath
+    r.created_datetime
 from tbl_review r
 join tbl_item i on r.review_item_id = i.id
-join tbl_user u on r.review_user_id = u.id
-left join tbl_file_user fu on fu.id = u.id
-left join tbl_file f1 on fu.id = f1.id
-left join (
-    select fi.item_id, min(fi.id) as file_id
-    from tbl_file_item fi
-    group by fi.item_id
-) fi_first on fi_first.item_id = i.id
-left join tbl_file f2 on fi_first.file_id = f2.id;
+join tbl_user u on r.review_user_id = u.id;
 
 drop view vw_store_review;
 

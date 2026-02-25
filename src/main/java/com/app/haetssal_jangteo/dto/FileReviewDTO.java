@@ -16,7 +16,7 @@ public class FileReviewDTO {
     private String fileName;
     private String fileSavedPath;
 
-    public FileReviewVO toVO() {
+    public FileReviewVO toFileReviewVO() {
         return FileReviewVO.builder()
                 .fileId(fileId)
                 .reviewId(reviewId)

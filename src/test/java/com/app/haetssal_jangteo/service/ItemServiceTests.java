@@ -77,7 +77,7 @@ public class ItemServiceTests {
 
     @Test
     public void testDetail() {
-        Optional<ItemDetailDTO> itemDetailDTO = itemDetailDAO.findItemDetailById(2L);
+        Optional<ItemDetailDTO> itemDetailDTO = itemDetailDAO.findItemDetailById(7L);
 
         ItemDetailDTO dto = itemDetailDTO.get();
 

@@ -36,9 +36,17 @@ public class ProfileService {
         return userDAO.findUserById(id);
     }
 
+//    프사 가져오고 없으면 기본으로 설정
+    public FileUserDTO getProfileImage(Long userId) {
+        Optional<FileUserDTO> fileUserDTO = fileUserDAO.findProfileImageByUserId(userId);
+        if (fileUserDTO.isEmpty()) {
+            fileUserDTO = Optional.of(new FileUserDTO());
+            fileUserDTO.get().setFileSavedPath("/images/");
+            fileUserDTO.get().setFileName("haetsal-jangteo-logo.svg");
+            fileUserDTO.get().setUserId(userId);
+        }
 
-    public Optional<FileUserDTO> getProfileImage(Long id) {
-        return fileUserDAO.findProfileImageByUserId(id);
+        return fileUserDTO.orElse(null);
     }
 
     public void saveProfileImage(FileUserDTO fileUserDTO, MultipartFile file) {
@@ -50,7 +58,10 @@ public class ProfileService {
 
         if (alreadyProfile.isPresent()) {
             fileUserDAO.deleteProfileImageByUserId(fileUserDTO.getUserId());
-            fileDAO.delete(alreadyProfile.get().getId());
+
+//            이걸로 파일 다 삭제하니까 일단 주석하고 리뷰이미지 개발 끝나면
+//            이미지에 active inactive 주던가 질문하기
+//            fileDAO.delete(alreadyProfile.get().getId());
         }
 
         FileDTO fileDTO = new FileDTO();
@@ -81,18 +92,6 @@ public class ProfileService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public FileUserDTO getProfile(Long userId) {
-        Optional<FileUserDTO> fileUserDTO = fileUserDAO.findProfileImageByUserId(userId);
-        if (fileUserDTO.isEmpty()) {
-            fileUserDTO = Optional.of(new FileUserDTO());
-            fileUserDTO.get().setFileSavedPath("/images/");
-            fileUserDTO.get().setFileName("haetsal-jangteo-logo.svg");
-            fileUserDTO.get().setUserId(userId);
-        }
-
-        return fileUserDTO.orElse(null);
     }
 
     public UserNameDTO getUserName(Long id) {

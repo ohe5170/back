@@ -54,7 +54,7 @@ const profileService = (() => {
         }
     };
 
-    // 비번 입력한거랑 확인
+    // DB 의 비번이랑 입력한거랑 확인
     const checkPassword = async (oldPassword) => {
         try {
             const response = await fetch("/profile/check-password", {

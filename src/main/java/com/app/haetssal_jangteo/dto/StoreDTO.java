@@ -42,8 +42,6 @@ public class StoreDTO {
                 .storeScore(storeScore)
                 .storeState(storeState)
                 .storeIsConfirmed(storeIsConfirmed)
-                .createdDatetime(createdDatetime)
-                .updatedDatetime(updatedDatetime)
                 .build();
     }
 }

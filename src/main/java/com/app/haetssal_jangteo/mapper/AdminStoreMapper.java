@@ -13,7 +13,7 @@ import java.util.List;
 public interface AdminStoreMapper {
 
     //    전체 가게 조회 (파라미터 없음)
-    List<StoreVO> selectAllMarkets();
+    List<StoreVO> selectAllStores();
 
     //    목록 (페이징 + 검색)
     List<StoreDTO> selectAll(@Param("criteria") Criteria criteria, @Param("search") Search search);

@@ -14,7 +14,6 @@
             itemSubCategoryName,
             storeItemCount,
             storeId,
-            storeOwnerId,
             store_name,
             store_score,
             ownerLatestLogin,

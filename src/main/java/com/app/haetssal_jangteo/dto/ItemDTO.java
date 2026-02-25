@@ -39,7 +39,6 @@ public class ItemDTO {
     private String itemSubCategoryName;
 
 //    상품 가게 정보
-    private Long storeOwnerId;
     private String storeName;
 
 //    상품 옵션 (저장을 위한 값)

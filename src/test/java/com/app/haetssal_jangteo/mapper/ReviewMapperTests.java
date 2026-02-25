@@ -49,7 +49,7 @@ public class ReviewMapperTests {
         FileReviewDTO fileReviewDTO = new FileReviewDTO();
         fileReviewDTO.setFileId(4L);
         fileReviewDTO.setReviewId(2L);
-        fileReviewMapper.insert(fileReviewDTO.toVO());
+        fileReviewMapper.insert(fileReviewDTO.toFileReviewVO());
     }
 
     @Test

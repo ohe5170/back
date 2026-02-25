@@ -1,14 +1,23 @@
 package com.app.haetssal_jangteo.service.review;
 
-import com.app.haetssal_jangteo.dto.PaymentDTO;
-import com.app.haetssal_jangteo.dto.ReviewDTO;
+import com.app.haetssal_jangteo.common.enumeration.Filetype;
+import com.app.haetssal_jangteo.dto.*;
+import com.app.haetssal_jangteo.repository.FileDAO;
 import com.app.haetssal_jangteo.repository.PaymentDAO;
 import com.app.haetssal_jangteo.repository.ReviewDAO;
+import com.app.haetssal_jangteo.repository.UserDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor //주입!
@@ -16,16 +25,58 @@ import java.util.List;
 public class ReviewService {
     private final ReviewDAO reviewDAO;
     private final PaymentDAO paymentDAO;
+    private final FileDAO fileDAO;
+    private final UserDAO userDAO;
 
-//    5번탭에 거래완료된 애들 뿌리기
-    public List<PaymentDTO> getCompletes(Long userId) {
+//    유저 프로필 뿌리기
+    public Optional<UserDTO> getUserProfile(Long id) {
+        return userDAO.findUserById(id);
+    }
+
+//    5번탭에 거래완료된 애들 뿌리기 - 얘네 각각카드에 리뷰작성 버튼으로 리뷰쓰는거라 가져와야함
+    public List<PaymentDTO> getCompletesListByUserId(Long userId) {
         return paymentDAO.findCompletesByUserId(userId);
     }
 
 //    리뷰쓰기
-    public void addReview(ReviewDTO reviewDTO) {
+    public void writeReview(ReviewDTO reviewDTO, List<MultipartFile> files) {
+        String rootPath = "C:/file/";
+        String todayPath = getTodayPath();
+        String path = rootPath + todayPath;
+
         reviewDAO.saveReview(reviewDTO);
 
+        FileDTO fileDTO = new FileDTO();
+        FileReviewDTO fileReviewDTO = new FileReviewDTO();
+
+        fileReviewDTO.setReviewId(reviewDTO.getId());
+
+        files.forEach((eachFile) -> {
+            if(eachFile.getOriginalFilename().isEmpty()) {
+                return;
+            }
+            UUID uuid = UUID.randomUUID();
+            fileDTO.setFilePath(todayPath);
+            fileDTO.setFileSize(String.valueOf(eachFile.getSize()));
+            fileDTO.setFileOriginName(eachFile.getOriginalFilename());
+            fileDTO.setFileName(uuid.toString() + "_" + eachFile.getOriginalFilename());
+            fileDTO.setFileType(eachFile.getContentType().contains("image") ? Filetype.IMAGE : Filetype.DOCUMENT);
+            fileDAO.save(fileDTO);
+
+            fileReviewDTO.setFileId(fileDTO.getId());
+            fileReviewDTO.setReviewId(reviewDTO.getId());
+            reviewDAO.saveImagesInReview(fileReviewDTO.toFileReviewVO());
+
+            File directory = new File(rootPath + "/" + fileDTO.getFilePath());
+            if(!directory.exists()){
+                directory.mkdirs();
+            }
+            try {
+                eachFile.transferTo(new File(path, fileDTO.getFileName()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
 //    2번탭에 작성한 후기 개수 카운트
@@ -34,10 +85,13 @@ public class ReviewService {
     }
 
 //    2번탭에 리뷰목록 뿌리기
-    public List<ReviewDTO> getReviewListsByUserId(Long userId) {
+    public List<ReviewDTO> getReviewListByUserId(Long userId) {
         return reviewDAO.findReviewsByUserId(userId);
 
     }
 
 //
+    public String getTodayPath(){
+        return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+    }
 }

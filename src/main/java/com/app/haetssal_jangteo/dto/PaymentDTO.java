@@ -24,7 +24,7 @@ public class PaymentDTO {
 
     private String marketName;
 
-    public PaymentVO toVO() {
+    public PaymentVO toPaymentVO() {
         return PaymentVO.builder()
                 .id(id)
                 .userId(userId)

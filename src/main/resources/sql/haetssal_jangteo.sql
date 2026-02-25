@@ -42,15 +42,12 @@ create table tbl_delivery (
 create table tbl_order (
    id bigint unsigned primary key,
    user_id bigint unsigned not null,
-   cart_id bigint unsigned not null,
    order_delivery_type enum('post', 'take'),
    order_state enum('pending', 'complete') default 'pending',
    order_purchase_date datetime default current_timestamp,
    order_take_date datetime not null,
-   constraint fk_order_user foreign key (user_id)
-   references tbl_user(id),
-   constraint fk_order_cart foreign key (cart_id)
-   references tbl_cart(id)
+   constraint fk_payment_user foreign key (user_id)
+   references tbl_user(id)
 );
 
 -- 결제 테이블
@@ -109,6 +106,13 @@ create table tbl_market (
                             updated_datetime datetime default current_timestamp
 );
 
+
+-- 카테고리 테이블
+create table tbl_category (
+                              id bigint unsigned PRIMARY KEY,
+                              category_name varchar(100) NOT NULL
+);
+
 -- 가게 테이블
 create table tbl_store (
                            id bigint unsigned auto_increment PRIMARY KEY,
@@ -147,10 +151,10 @@ create table tbl_sub_category (
 
 -- 상품 테이블
 create table tbl_item (
+
     id bigint unsigned auto_increment PRIMARY KEY,
     item_store_id bigint unsigned NOT NULL,
     item_category_id bigint unsigned NOT NULL,
-    item_subcategory_id bigint unsigned NOT NULL,
     item_name varchar(255) NOT NULL,
     item_type varchar(100) NOT NULL default 'normal',
     item_stock varchar(255) default '0',
@@ -164,9 +168,8 @@ create table tbl_item (
     constraint fk_item_store foreign key (item_store_id)
     references tbl_store(id),
     constraint fk_item_category foreign key (item_category_id)
-    references tbl_category(id),
-    constraint fk_item_subcategory foreign key (item_subcategory_id)
-    references tbl_sub_category(id)
+    references tbl_category(id)
+
 );
 
 -- 상품 옵션 테이블
@@ -194,11 +197,11 @@ create table tbl_file (
 
 -- 검색어 테이블
 create table tbl_keyword (
-     id bigint unsigned auto_increment PRIMARY KEY,
-     content varchar(255) NOT NULL,
-     keyword_member_id bigint unsigned NOT NULL,
-     constraint fk_keyword_user foreign key (keyword_member_id)
-     references tbl_user(id)
+                             id bigint unsigned auto_increment PRIMARY KEY,
+                             content varchar(255) NOT NULL,
+                             keyword_member_id bigint unsigned NOT NULL,
+                             constraint fk_keyword_user foreign key (keyword_member_id)
+                                 references tbl_user(id)
 );
 
 -- 후기 테이블
@@ -244,59 +247,48 @@ create table tbl_report (
 # -----------------------------------
 # 첨부파일 관련 table
 create table tbl_file_market (
-                                 id bigint unsigned NOT NULL,
+                                 file_id bigint unsigned NOT NULL,
                                  market_id bigint unsigned NOT NULL,
-                                 constraint fk_file_market foreign key (id)
+                                 constraint fk_file_market foreign key (file_id)
                                      references tbl_file(id),
                                  constraint fk_target_market foreign key (market_id)
                                      references tbl_market(id)
 );
 
 create table tbl_file_item (
-                               id bigint unsigned NOT NULL,
+                               file_id bigint unsigned NOT NULL,
                                item_id bigint unsigned NOT NULL,
-                            file_item_type enum('thumbnail', 'desc', 'seller-info', 'refund') not null,
-                               constraint fk_file_item foreign key (id)
+                               constraint fk_file_item foreign key (file_id)
                                    references tbl_file(id),
                                constraint fk_target_item foreign key (item_id)
                                    references tbl_item(id)
 );
 
 create table tbl_file_user (
-                               id bigint unsigned NOT NULL,
+                               file_id bigint unsigned NOT NULL,
                                user_id bigint unsigned NOT NULL,
-                               constraint fk_file_user foreign key (id)
+                               constraint fk_file_user foreign key (file_id)
                                    references tbl_file(id),
                                constraint fk_target_user foreign key (user_id)
                                    references tbl_user(id)
 );
 
-create table tbl_file_store (
-                                 id bigint unsigned NOT NULL,
-                                 store_id bigint unsigned NOT NULL,
-                                 constraint fk_file_store foreign key (id)
-                                     references tbl_file(id),
-                                 constraint fk_target_store foreign key (store_id)
-                                     references tbl_store(id)
-);
-
 create table tbl_file_report (
-                                 id bigint unsigned NOT NULL,
+                                 file_id bigint unsigned NOT NULL,
                                  report_id bigint unsigned NOT NULL,
-                                 constraint fk_file_report foreign key (id)
+                                 constraint fk_file_report foreign key (file_id)
                                      references tbl_file(id),
                                  constraint fk_target_report foreign key (report_id)
                                      references tbl_report(id)
 );
 
 create table tbl_file_review (
-                                 id bigint unsigned NOT NULL,
                                  file_id bigint unsigned NOT NULL,
                                  review_id bigint unsigned NOT NULL,
                                  constraint fk_file_review foreign key (file_id)
-                                 references tbl_file(id),
+                                     references tbl_file(id),
                                  constraint fk_target_review foreign key (review_id)
-                                 references tbl_review(id)
+                                     references tbl_review(id)
 );
 
 # -------------------------------

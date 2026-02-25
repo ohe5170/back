@@ -127,7 +127,7 @@
                                     <div class="SeacrchPart-SelectWrapper" id="stateSelectWrapper">
                                         <p class="SeacrchPart-Title">상태</p>
                                         <p class="SeacrchPart-Value" id="stateValue"
-                                           th:text="${search != null and search.marketState != null and search.marketState != '' ? (search.marketState == 'pending' ? '입점 대기' : (search.marketState == 'active' ? '운영 중' : '운영 중단')) : '전체'}">전체</p>
+                                           th:text="${search != null and search.marketState != null and search.marketState != '' ? (search.marketState == 'pending' ? '심사중' : (search.marketState == 'denied' ? '심사반려' : (search.marketState == 'open' ? '운영중' : '운영중단'))) : '전체'}">전체</p>
                                         <div class="SeacrchPart-SelectOption off" id="stateSelectOption">
                                             <div class="SeacrchPart-SelectHeader">
                                                 <div class="SelectHeader-Text">상태</div>
@@ -137,13 +137,16 @@
                                                     <div class="SelectBody-Content">
                                                         <div class="SelectBody-OptionList">
                                                             <div class="SelectBody-OptionValue" data-value="pending">
-                                                                <p>입점 대기</p>
+                                                                <p>심사중</p>
                                                             </div>
-                                                            <div class="SelectBody-OptionValue" data-value="active">
-                                                                <p>운영 중</p>
+                                                            <div class="SelectBody-OptionValue" data-value="denied">
+                                                                <p>심사반려</p>
                                                             </div>
-                                                            <div class="SelectBody-OptionValue" data-value="inactive">
-                                                                <p>운영 중단</p>
+                                                            <div class="SelectBody-OptionValue" data-value="open">
+                                                                <p>운영중</p>
+                                                            </div>
+                                                            <div class="SelectBody-OptionValue" data-value="close">
+                                                                <p>운영중단</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -227,9 +230,10 @@
                                         </div>
                                         <div class="EditModal-SelectList off">
                                             <div class="EditModal-OptionWrapper">
-                                                <div class="EditModal-Option" data-value="pending"><p>입점 대기</p></div>
-                                                <div class="EditModal-Option" data-value="active"><p>운영 중</p></div>
-                                                <div class="EditModal-Option" data-value="inactive"><p>운영 중단</p></div>
+                                                <div class="EditModal-Option" data-value="pending"><p>심사중</p></div>
+                                                <div class="EditModal-Option" data-value="denied"><p>심사반려</p></div>
+                                                <div class="EditModal-Option" data-value="open"><p>운영중</p></div>
+                                                <div class="EditModal-Option" data-value="close"><p>운영중단</p></div>
                                             </div>
                                         </div>
                                     </div>
@@ -385,7 +389,7 @@
     const marketEditableIds = ['market-name', 'market-region', 'market-location', 'market-state'];
 
     // state 값 → 한국어 레이블 변환
-    const marketStateToLabel = { pending: '입점 대기', active: '운영 중', inactive: '운영 중단' };
+    const marketStateToLabel = { pending: '심사중', denied: '심사반려', open: '운영중', close: '운영중단' };
 
     // 현재 시간을 'YYYY-MM-DD HH:MM:SS' 형식으로 반환
     function nowDatetime() {

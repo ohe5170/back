@@ -35,24 +35,22 @@ let currentOption = {
 window.addEventListener("DOMContentLoaded", () => {
     const existingOptions = document.querySelectorAll(".option-group:not(.add)");
 
-    if(existingOptions.length > 0) {
-        existingOptions.forEach((optionGroup, index) => {
-            const optionId = optionGroup.querySelector(".option-delete-button")?.id;
-            const optionName = optionGroup.querySelector(".option-name")?.value;
-            const optionDetail = optionGroup.querySelector(".option-detail")?.value;
-            const optionPrice = optionGroup.querySelector(".option-price")?.value;
-            const optionStock = optionGroup.querySelector(".option-stock")?.value;
+    existingOptions.forEach((optionGroup, index) => {
+        const optionId = optionGroup.querySelector(".option-delete-button")?.id;
+        const optionName = optionGroup.querySelector(".option-name").value;
+        const optionDetail = optionGroup.querySelector(".option-detail").value;
+        const optionPrice = optionGroup.querySelector(".option-price").value;
+        const optionStock = optionGroup.querySelector(".option-stock").value;
 
-            optionValues.push({
-                id: optionId,
-                optionName: optionName,
-                optionDetail: optionDetail,
-                optionPrice: optionPrice,
-                optionStock: optionStock,
-                isExisting: true // 기존 옵션 표시
-            });
+        optionValues.push({
+            id: optionId,
+            optionName: optionName,
+            optionDetail: optionDetail,
+            optionPrice: optionPrice,
+            optionStock: optionStock,
+            isExisting: true // 기존 옵션 표시
         });
-    }
+    });
 
     console.log("초기 옵션 데이터:", optionValues);
 });

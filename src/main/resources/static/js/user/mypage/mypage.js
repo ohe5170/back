@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     let reviews = false;
     let likeItems = true;
     let pendingItems = true;
-    let completeItems = true;
+    // let completeItems = true;
 
     // 리뷰 작성 입력값
     let reviewWriteData = {
@@ -54,19 +54,19 @@ document.addEventListener("DOMContentLoaded", (e) => {
     };
 
     // 각각의 상품들이 없을 경우, 빈 목록 페이지 표시
-    if (!likeItems) {
-        if (!likeItemDiv.classList.contains("off")) {
-            emptyContentDiv.classList.remove("off");
-        }
-    } else if (!pendingItems) {
-        if (!pendingItemDiv.classList.contains("off")) {
-            emptyContentDiv.classList.remove("off");
-        }
-    } else if (!completeItems) {
-        if (!completeItemDiv.classList.contains("off")) {
-            emptyContentDiv.classList.remove("off");
-        }
-    }
+    // if (!likeItems) {
+    //     if (!likeItemDiv.classList.contains("off")) {
+    //         emptyContentDiv.classList.remove("off");
+    //     }
+    // } else if (!pendingItems) {
+    //     if (!pendingItemDiv.classList.contains("off")) {
+    //         emptyContentDiv.classList.remove("off");
+    //     }
+    // } else if (!completeItems) {
+    //     if (!completeItemDiv.classList.contains("off")) {
+    //         emptyContentDiv.classList.remove("off");
+    //     }
+    // }
 
     const moveUnderBar = (element) => {
         const left = element.offsetLeft;
@@ -148,11 +148,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
                     }
                     break;
                 case "complete":
-                    if (completeItems) {
-                        completeItemDiv.classList.remove("off");
-                    } else {
-                        emptyContentDiv.classList.remove("off");
-                    }
+                    completeItemDiv.classList.remove("off");
+                    mypageService.goFifthTabAndCompleteItems(mypageLayout.showCompleteItems);  // 데이터 가져와서 그리기
                     break;
             }
 
@@ -384,9 +381,19 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
     // 리뷰 등록 버튼
     reviewWriteSubmit.addEventListener("click", (e) => {
-        // 리뷰 등록하는 로직 작성해야함.
 
-        reviewWriteModal.classList.add("off");
+        // 리뷰 등록하는 로직 작성해야함.
+        const formData = new FormData(document.getElementById("reviewForm"));
+
+        mypageService.writeReview(formData, (result) => {
+            if (result === "success") {
+                alert("리뷰가 등록되었습니다.");
+                reviewWriteModal.classList.add("off");
+                mypageService.goFifthTabAndCompleteItems(mypageLayout.showCompleteItems);
+            } else {
+                alert("리뷰 등록에 실패했습니다.");
+            }
+        });
     });
 
     reviewWriteClose.addEventListener("click", (e) => {

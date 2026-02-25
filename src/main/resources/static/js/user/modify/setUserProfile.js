@@ -75,9 +75,12 @@ userInfoSettingBtns.forEach((button) => {
                 userNameSubmitBtn.classList.toggle("off");
                 break;
             case "user-intro":
-                !emptyIntro.classList.contains("off")
-                    ? emptyIntro.classList.add("off")
-                    : emptyIntro.classList.remove("off");
+                if(emptyIntro){
+                    !emptyIntro.classList.contains("off")
+                        ? emptyIntro.classList.add("off")
+                        : emptyIntro.classList.remove("off");
+                }
+
                 introTextArea.classList.toggle("off");
                 introSubmitBtn.classList.toggle("off");
                 break;

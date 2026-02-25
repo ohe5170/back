@@ -53,7 +53,7 @@
                                 <form name="itemDTO" action="/item/write" method="post" enctype="multipart/form-data">
 
                                     <!-- 상품에 대한 가게 id 받는 곳 -->
-                                    <input type="hidden" name="itemStoreId" th:value="${storeId}" />
+                                    <input type="hidden" />
 
                                     <!-- 상품명 부분 -->
                                     <div id="item-name" class="each-content-container">
@@ -520,6 +520,4 @@
 </body>
 <script src="/js/item/event/item-write.js"></script>
 <script src="/js/item/event/item-option-modal.js"></script>
-<script src="/js/item/service/itemService.js"></script>
-<script src="/js/item/layout/itemLayout.js"></script>
 </html>

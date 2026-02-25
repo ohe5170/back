@@ -23,8 +23,7 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping("/write")
-    public String goToWriteForm(Long id, Model model) {
-        model.addAttribute("storeId", id);
+    public String goToWriteForm() {
         return "item/item-write";
     }
 
