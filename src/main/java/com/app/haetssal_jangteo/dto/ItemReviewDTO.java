@@ -1,6 +1,7 @@
 package com.app.haetssal_jangteo.dto;
 
 
+import com.app.haetssal_jangteo.common.pagination.Criteria;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 public class ItemReviewDTO {
-    private Long itemId;
     private List<ReviewDTO> itemReviews;
+    private Criteria criteria;
+    private int total;
 }

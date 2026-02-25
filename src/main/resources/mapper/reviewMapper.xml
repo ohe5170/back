@@ -33,6 +33,9 @@
         from vw_store_review
         where storeId = #{storeId}
         order by createdDatetime desc
+        <if test="criteria != null">
+            limit #{criteria.count} offset #{criteria.offset}
+        </if>
     </select>
 
     <select id="selectCountByStoreId">
@@ -52,6 +55,9 @@
         from vw_store_review
         where reviewItemId = #{itemId}
         order by createdDatetime desc
+        <if test="criteria != null">
+            limit #{criteria.count} offset #{criteria.offset}
+        </if>
     </select>
 
     <select id="selectCountByItemId">

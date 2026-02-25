@@ -1,5 +1,6 @@
 package com.app.haetssal_jangteo.repository;
 
+import com.app.haetssal_jangteo.common.pagination.Criteria;
 import com.app.haetssal_jangteo.domain.FileReviewVO;
 import com.app.haetssal_jangteo.dto.FileReviewDTO;
 import com.app.haetssal_jangteo.dto.ReviewDTO;
@@ -37,8 +38,8 @@ public class ReviewDAO {
     }
 
     // 상품 id로 관련 후기들 조회
-    public List<ReviewDTO> findReviewsByItemId(Long itemId) {
-        return reviewMapper.selectByItemId(itemId);
+    public List<ReviewDTO> findReviewsByItemId(Long itemId, Criteria criteria) {
+        return reviewMapper.selectByItemId(itemId, criteria);
     }
 
     // 상품 id로 해당 상품 후기 개수 조회
@@ -47,8 +48,8 @@ public class ReviewDAO {
     }
 
     // 가게 id로 해당 가게의 상품 후기 조회
-    public List<ReviewDTO> findReviewsByStoreId(Long storeId) {
-        return reviewMapper.selectByStoreId(storeId);
+    public List<ReviewDTO> findReviewsByStoreId(Long storeId, Criteria criteria) {
+        return reviewMapper.selectByStoreId(storeId, criteria);
     }
 
     // 가게 id로 해당 가게의 상품 후기 개수 조회

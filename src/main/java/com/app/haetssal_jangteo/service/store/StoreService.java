@@ -35,6 +35,7 @@ public class StoreService {
     private final FileDAO fileDAO;
     private final FileItemDAO fileItemDAO;
     private final FileStoreDAO fileStoreDAO;
+    private final ReviewDAO reviewDAO;
 
     // 가게 등록
     public void save(StoreDTO storeDTO, MultipartFile multipartFile) {
@@ -141,8 +142,15 @@ public class StoreService {
                         return itemDTO;
                     }).collect(Collectors.toList());
 
-            // 후기 가져오기 + (나중에)후기 이미지도 같이 가져오기
-            List<ReviewDTO> reviews = null;
+            // 후기 가져오기 + (나중에)후기 이미지도 같이 가져오기 + 3개 정도만 가져오기
+            List<ReviewDTO> reviews = reviewDAO.findReviewsByStoreId(dto.getId(), null);
+//                    .stream()
+//                    .map(reviewDTO -> {
+//                        List<FileReviewDTO> reviewImages = reviewDAO.findImagesInReview(reviewDTO.getId());
+//                        if(!reviewImages.isEmpty()) {
+//                            reviewDTO.setReviewFiles(reviewImages);
+//                        }
+//                    });
 
             // 마지막 로그인 nn전
             String latestLogin = DateUtils.toRelativeTime(dto.getOwnerLatestLogin());
@@ -153,6 +161,9 @@ public class StoreService {
 
             // 상품 개수
             dto.setItemCount(items.size());
+
+            // 후기 중 4개 정도만 가져오기
+            dto.setStoreReviews(reviews.subList(0, Math.min(items.size(), 4)));
 
             // 후기 개수
             dto.setReviewCount(reviews.size());
@@ -204,17 +215,6 @@ public class StoreService {
     public int findTotal(StoreSearch storeSearch) {
         return storeDAO.findTotal(storeSearch);
     }
-
-    // 장터 id로 소속 가게들 조회
-
-    // id로 가게 조회
-
-    // 가게 이름으로 조회
-
-    // 소유주 id로 조회
-
-    // 가게 비활성화
-
 
     // 오늘자 경로 생성
     public String getTodayPath(){

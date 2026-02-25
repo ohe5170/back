@@ -5,6 +5,7 @@ import com.app.haetssal_jangteo.dto.*;
 import com.app.haetssal_jangteo.service.category.CategoryService;
 import com.app.haetssal_jangteo.service.item.ItemService;
 import com.app.haetssal_jangteo.service.market.MarketService;
+import com.app.haetssal_jangteo.service.review.ReviewService;
 import com.app.haetssal_jangteo.service.store.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ public class StoreAPIController {
     private final MarketService marketService;
     private final CategoryService categoryService;
     private final ItemService itemService;
+    private final ReviewService reviewService;
 
     @GetMapping("region/{region}")
     public List<MarketDTO> getMarkets(@PathVariable String region) {
@@ -31,7 +33,7 @@ public class StoreAPIController {
         return marketService.findByRegion(region);
     }
 
-    @GetMapping("/category")
+    @GetMapping("category")
     public List<CategoryDTO> getCategories() {
         return categoryService.findAll();
     }
@@ -44,7 +46,14 @@ public class StoreAPIController {
 
     @GetMapping("detail/items/{page}")
     public ItemWithPagingDTO getItemsForDetail(@PathVariable int page, Long id) {
-        log.info("받아온 가게 id: {}", id);
+        log.info("상품 받아올 가게 id: {}", id);
         return itemService.getItemsForDetail(id, page);
     }
+
+    @GetMapping("reviews/{page}")
+    public StoreReviewDTO getReviewsForDetail(@PathVariable int page, Long id) {
+        log.info("후기 받아올 가게 id: {}", id);
+        return reviewService.getReviewsByStoreId(id, page);
+    }
+
 }

@@ -60,7 +60,7 @@ public class ReviewMapperTests {
 
     @Test
     public void testSelectByItemId() {
-        List<ReviewDTO> foundReviews = reviewMapper.selectByItemId(5L);
+        List<ReviewDTO> foundReviews = reviewMapper.selectByItemId(5L, null);
         log.info("{}...", foundReviews);
     }
 
@@ -72,7 +72,7 @@ public class ReviewMapperTests {
 
     @Test
     public void testSelectByStoreId() {
-        List<ReviewDTO> foundReviews = reviewMapper.selectByStoreId(129L);
+        List<ReviewDTO> foundReviews = reviewMapper.selectByStoreId(129L, null);
         log.info("{}...", foundReviews);
     }
 

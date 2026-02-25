@@ -1,11 +1,13 @@
 package com.app.haetssal_jangteo.service.review;
 
 import com.app.haetssal_jangteo.common.enumeration.Filetype;
+import com.app.haetssal_jangteo.common.pagination.Criteria;
 import com.app.haetssal_jangteo.dto.*;
 import com.app.haetssal_jangteo.repository.FileDAO;
 import com.app.haetssal_jangteo.repository.PaymentDAO;
 import com.app.haetssal_jangteo.repository.ReviewDAO;
 import com.app.haetssal_jangteo.repository.UserDAO;
+import com.app.haetssal_jangteo.util.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,6 +89,58 @@ public class ReviewService {
 //    2번탭에 리뷰목록 뿌리기
     public List<ReviewDTO> getReviewListByUserId(Long userId) {
         return reviewDAO.findReviewsByUserId(userId);
+    }
+
+//    가게 id로 해당 가게의 상품 후기 조회
+    public StoreReviewDTO getReviewsByStoreId(Long storeId, int page) {
+        StoreReviewDTO storeReviewDTO = new StoreReviewDTO();
+        int total = reviewDAO.getReviewCountByStoreId(storeId);
+
+        Criteria criteria = new Criteria(page, total);
+        storeReviewDTO.setTotal(total);
+
+        // 후기 조회 + (이미지도 가져와야 함)
+        List<ReviewDTO> reviews = reviewDAO.findReviewsByStoreId(storeId, criteria);
+
+        criteria.setHasMore(reviews.size() > criteria.getRowCount());
+        storeReviewDTO.setCriteria(criteria);
+
+        if(criteria.isHasMore()) {
+            reviews.remove(reviews.size() - 1);
+        }
+
+        reviews.forEach(review -> {
+            review.setCreatedDatetime(DateUtils.toRelativeTime(review.getCreatedDatetime()));
+        });
+        storeReviewDTO.setStoreReviews(reviews);
+
+        return storeReviewDTO;
+    }
+
+//    상품 id로 해당 상품의 후기 조회
+    public ItemReviewDTO getReviewsByItemId(Long itemId, int page) {
+        ItemReviewDTO itemReviewDTO = new ItemReviewDTO();
+        int total = reviewDAO.getReviewCountByItemId(itemId);
+
+        Criteria criteria = new Criteria(page, total);
+        itemReviewDTO.setTotal(total);
+
+        // 후기 조회 + (이미지도 가져와야 함)
+        List<ReviewDTO> reviews = reviewDAO.findReviewsByItemId(itemId, criteria);
+
+        criteria.setHasMore(reviews.size() > criteria.getRowCount());
+        itemReviewDTO.setCriteria(criteria);
+
+        if(criteria.isHasMore()) {
+            reviews.remove(reviews.size() - 1);
+        }
+
+        reviews.forEach(review -> {
+            review.setCreatedDatetime(DateUtils.toRelativeTime(review.getCreatedDatetime()));
+        });
+        itemReviewDTO.setItemReviews(reviews);
+
+        return itemReviewDTO;
     }
 
 //
