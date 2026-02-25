@@ -124,6 +124,11 @@
     line-height: 120%;
 }
 
+.ItemCart-ItemTitle span:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .ItemCart-ItemOption {
     color: rgb(158, 158, 158);
     font-size: 14px;

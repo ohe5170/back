@@ -54,6 +54,17 @@ public class ItemService {
                 optionDTO.setOptionItemId(itemDTO.getId());
                 itemDAO.saveOption(optionDTO.toVO());
             });
+        } else {
+            // 옵션이 없다면 기본 정보로 최소 하나는 저장
+            ItemOptionVO defaultOption = ItemOptionVO.builder()
+                    .optionItemId(itemDTO.getId())
+                    .optionName(itemDTO.getItemName())
+                    .optionDetail(itemDTO.getItemContent())
+                    .optionPrice(itemDTO.getItemPrice().replace(",", ""))
+                    .optionStock(itemDTO.getItemStock())
+                    .build();
+
+            itemDAO.saveOption(defaultOption);
         }
 
         // 받아온 이미지들이 있으면 저장하기

@@ -80,7 +80,7 @@ create table tbl_cart_item (
     item_name varchar(255) not null,
     item_option varchar(255) not null,
     item_price varchar(255) not null,
-    item_count int not null,
+    item_count int default 1,
     constraint fk_cart foreign key (cart_id)
         references tbl_cart(id),
     constraint fk_item foreign key (item_id)

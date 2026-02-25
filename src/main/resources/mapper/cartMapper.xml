@@ -23,6 +23,7 @@
             itemOption,
             itemPrice,
             itemCount,
+            itemDeliveryFee,
             categoryName,
             subCategoryName,
             storeName,
@@ -32,15 +33,25 @@
         where cartId = #{cartId}
     </select>
 
+    <select id="selectSameItem">
+        select
+            id, cart_id, item_id, item_name, item_option, item_price, item_count
+        from tbl_cart_item
+        where cart_id = #{cartId}
+        and item_name = #{itemName}
+        and item_option = #{itemOption}
+        limit 1
+    </select>
+
     <insert id="insertCartItem" useGeneratedKeys="true" keyProperty="id">
-        insert into tbl_cart_item (cart_id, item_id, item_name, item_option, item_price, item_count)
-        values (#{cartId}, #{itemId}, #{itemName}, #{itemOption}, #{itemPrice}, #{itemCount})
+        insert into tbl_cart_item (cart_id, item_id, item_name, item_option, item_price)
+        values (#{cartId}, #{itemId}, #{itemName}, #{itemOption}, #{itemPrice})
     </insert>
 
     <update id="updateCartItemCount">
         update tbl_cart_item
-        set item_count = #{itemCount}
-        where item_id = #{itemId}
+        set item_count = item_count + 1
+        where id = #{id}
     </update>
 
     <delete id="deleteCartItem">

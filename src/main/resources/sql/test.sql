@@ -12,6 +12,10 @@ select * from tbl_item;
 
 select * from tbl_item_option;
 
+select * from tbl_cart;
+
+select * from tbl_cart_item;
+
 select * from tbl_file;
 
 select * from tbl_review;

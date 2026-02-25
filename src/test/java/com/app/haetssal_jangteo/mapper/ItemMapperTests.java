@@ -109,6 +109,12 @@ public class ItemMapperTests {
     }
 
     @Test
+    public void testSelectOptionById() {
+        Optional<ItemOptionVO> foundOption = itemMapper.selectOptionById(7L);
+        log.info("받아온 옵션 정보: {}", foundOption);
+    }
+
+    @Test
     public void testSelectAllOptions() {
         List<ItemOptionVO> options = itemMapper.selectAllOptions(1L);
         log.info("{}..........", options);

@@ -16,6 +16,7 @@ public class CartItemDTO {
     private String itemOption;
     private String itemPrice;
     private int itemCount;
+    private String itemDeliveryFee;
 
     // 카테고리 이름
     private String categoryName;
@@ -27,6 +28,9 @@ public class CartItemDTO {
     // 해당 상품의 썸네일
     private String fileName;
     private String fileSavedPath;
+
+    // 장바구니에 담을 옵션 id 배열
+    private String[] optionsToAdd;
 
     public CartVO toVO() {
         return CartVO.builder()
@@ -43,7 +47,6 @@ public class CartItemDTO {
                 .itemName(itemName)
                 .itemOption(itemOption)
                 .itemPrice(itemPrice)
-                .itemCount(itemCount)
                 .build();
     }
 }

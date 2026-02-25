@@ -36,6 +36,7 @@ optionCards.forEach((card) => {
         const optionName = card.querySelector(".option-name").innerHTML.trim();
 
         const priceStr = card.dataset.price || "0";
+        const optionId = card.id;
         const optionPrice = Number(priceStr.replace(/,/g, ''));
 
         const optionItems = card.querySelectorAll(".item-list");
@@ -92,6 +93,7 @@ optionCards.forEach((card) => {
         const cartItem = document.createElement("div");
         cartItem.className = "each-cart-wrap";
 
+        cartItem.dataset.optionId = optionId;
         cartItem.dataset.price = optionPrice;
 
         cartItem.innerHTML = `

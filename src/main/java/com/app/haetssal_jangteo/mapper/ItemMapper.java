@@ -43,7 +43,8 @@ public interface ItemMapper {
 //    상품 id로 해당 상품 옵션 전체 조회
     public List<ItemOptionVO> selectAllOptions(Long optionItemId);
 
-//    회원 id로 상품들 조회
+//    옵션 id로 옵션 조회
+    public Optional<ItemOptionVO> selectOptionById(Long id);
 
 //    가게 id로 상품들 조회
     public List<ItemDTO> selectByStoreId(@Param("storeId") Long storeId, @Param("criteria")Criteria criteria);

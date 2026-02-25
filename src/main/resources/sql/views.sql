@@ -159,6 +159,7 @@ select
     ci.item_option as itemOption,
     ci.item_price as itemPrice,
     ci.item_count as itemCount,
+    i.item_delivery_fee as itemDeliveryFee,
 
     ct.category_name as categoryName,
     sct.category_name as subCategoryName,

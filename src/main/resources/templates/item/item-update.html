@@ -427,15 +427,15 @@
                                                         <th:block th:if="*{!itemOptions.isEmpty()}">
                                                             <div th:each="option, status: *{itemOptions}" class="option-group">
                                                                 <div class="option-group-upper">
-                                                                    <input class="option-name" type="text" th:name="|itemOptions[${status.index}].optionName|" th:value="${option.optionName}" readonly>
-                                                                    <input class="option-detail" type="text" th:name="|itemOptions[${status.index}].optionDetail|" th:value="${option.optionDetail}" readonly>
+                                                                    <input class="option-name" type="text" th:value="${option.optionName}" readonly>
+                                                                    <input class="option-detail" type="text" th:value="${option.optionDetail}" readonly>
                                                                 </div>
                                                                 <div class="option-group-bottom">
                                                                     <label class="option-label"> 가격
-                                                                        <input class="option-price" type="text" th:name="|itemOptions[${status.index}].optionPrice|" th:value="${option.optionPrice}" readonly>
+                                                                        <input class="option-price" type="text" th:value="${option.optionPrice}" readonly>
                                                                     </label>
                                                                     <label class="option-label"> 재고
-                                                                        <input class="option-stock" type="text" th:name="|itemOptions[${status.index}].optionStock|" th:value="${option.optionStock}" readonly>
+                                                                        <input class="option-stock" type="text" th:value="${option.optionStock}" readonly>
                                                                     </label>
                                                                 </div>
                                                                 <button th:id="${option.id}" type="button" class="option-delete-button" th:data-index="${status.index}">

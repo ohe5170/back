@@ -194,29 +194,35 @@ function resetCurrentOption() {
 
 // 옵션 뿌리기 기능
 function generateOptionCard() {
-    const optionListContainer = document.querySelector(
-        ".option-list-container",
-    );
-
+    const optionListContainer = document.querySelector(".option-list-container");
     optionListContainer.innerHTML = "";
+
+    let newOptionIndex = 0;
 
     optionValues.forEach((option, index) => {
         // 기존 옵션과 새 옵션 구분
         const addClassName = option.isExisting ? "" : "add";
         const optionId = option.id || "";
 
+        const nameAttrName    = option.isExisting ? "" : `name="itemOptions[${newOptionIndex}].optionName"`;
+        const nameAttrDetail  = option.isExisting ? "" : `name="itemOptions[${newOptionIndex}].optionDetail"`;
+        const nameAttrPrice   = option.isExisting ? "" : `name="itemOptions[${newOptionIndex}].optionPrice"`;
+        const nameAttrStock   = option.isExisting ? "" : `name="itemOptions[${newOptionIndex}].optionStock"`;
+
+        if (!option.isExisting) newOptionIndex++;
+
         const optionCard = `
             <div class="option-group ${addClassName}">
                 <div class="option-group-upper">
-                    <input class="option-name" type="text" name="itemOptions[${index}].optionName" value="${option.optionName}" readonly>
-                    <input class="option-detail" type="text" name="itemOptions[${index}].optionDetail" value="${option.optionDetail}" readonly>
+                    <input class="option-name" type="text" ${nameAttrName} value="${option.optionName}" readonly>
+                    <input class="option-detail" type="text" ${nameAttrDetail} value="${option.optionDetail}" readonly>
                 </div>
                 <div class="option-group-bottom">
                     <label class="option-label"> 가격
-                        <input class="option-price" type="text" name="itemOptions[${index}].optionPrice" value="${option.optionPrice}" readonly>
+                        <input class="option-price" type="text" ${nameAttrPrice} value="${option.optionPrice}" readonly>
                     </label>
                     <label class="option-label"> 재고
-                        <input class="option-stock" type="text" name="itemOptions[${index}].optionStock" value="${option.optionStock}" readonly>
+                        <input class="option-stock" type="text" ${nameAttrStock} value="${option.optionStock}" readonly>
                     </label>
                 </div>
                 <button type="button" id="${optionId}" class="option-delete-button" data-index="${index}">

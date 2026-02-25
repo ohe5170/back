@@ -22,11 +22,14 @@ public interface CartMapper {
     // 장바구니 아이템 목록 조회
     public List<CartItemDTO> selectCartItems(Long cartId);
 
+    // 장바구니에 담긴 '같은' 상품 조회
+    public Optional<CartItemVO> selectSameItem(@Param("cartId")Long cartId, @Param("itemName")String itemName, @Param("itemOption")String itemOption);
+
     // 장바구니에 상품 담기
     public void insertCartItem(CartItemVO cartItemVO);
 
-    // 상품 수량 수정
-//    public void updateCartItemCount(CartItemVO cartItemVO);
+    // 상품 수량 증가
+    public void updateCartItemCount(Long id);
 
     // 장바구니에서 상품 빼기
     public void deleteCartItem(Long id);

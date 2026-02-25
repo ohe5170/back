@@ -33,15 +33,6 @@ public class CartMapperTests {
         log.info("받아온 cart : {}", foundCart);
     }
 
-//    @Test
-//    public void testUpdateCartItemCount() {
-//        CartItemDTO cartItemDTO = new CartItemDTO();
-//        cartItemDTO.setItemId(2L);
-//        cartItemDTO.setItemCount(10);
-//
-//        cartMapper.updateCartItemCount(cartItemDTO.toCartItemVO());
-//    }
-
     @Test
     public void testInsertCartItem() {
         CartItemDTO cartItemDTO = new CartItemDTO();
@@ -51,7 +42,6 @@ public class CartMapperTests {
         cartItemDTO.setItemName("명품 나주 배");
         cartItemDTO.setItemOption("명품 나주 배 10kg 한 박스");
         cartItemDTO.setItemPrice("40,000");
-        cartItemDTO.setItemCount(4);
 
         cartMapper.insertCartItem(cartItemDTO.toCartItemVO());
     }

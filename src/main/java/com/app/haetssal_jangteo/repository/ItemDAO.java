@@ -42,6 +42,11 @@ public class ItemDAO {
         return itemMapper.selectById(id);
     }
 
+//    옵션 id로 옵션 하나 조회
+    public Optional<ItemOptionVO> findOptionById(Long id) {
+        return itemMapper.selectOptionById(id);
+    };
+
 //    상품 id로 해당 상품 옵션들 조회
     public List<ItemOptionVO> findOptionsById(Long id) {
         return itemMapper.selectAllOptions(id);

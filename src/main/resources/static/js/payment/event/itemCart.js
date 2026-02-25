@@ -1,11 +1,6 @@
 // 장바구니 상품 담기는 div
 const itemListContainer = document.querySelector(".ItemCart-ItemListWrapper");
 
-// 상품 뿌리기
-const fetchCartItems = () => {
-    // 장바구니 상품 요청하는 로직 작성해야 함.
-};
-
 // 모든 상품 리스트
 const itemList = document.querySelectorAll(".ItemCart-ItemList");
 
@@ -17,7 +12,7 @@ const totalFeeSpan = document.querySelector("span[name=total-totalFee]");
 const disCountSpan = document.querySelector("span[name=total-discount]");
 const purPriceSpan = document.querySelector("span[name=total-purPrice]");
 
-// 초기화 버튼
+// 장바구니 비우기 버튼
 const resetBtn = document.querySelector(".ItemCart-ResetButton");
 
 // 구매하기 버튼
@@ -38,8 +33,6 @@ const calculateTotalPrice = () => {
     const selectedItems = document.querySelectorAll(
         ".ItemList-ItemContainer.selected",
     );
-
-    console.log(selectedItems);
 
     selectedItems.forEach((item) => {
         console.log(item);
@@ -69,6 +62,8 @@ const calculateTotalPrice = () => {
 calculateTotalPrice();
 
 itemList.forEach((item) => {
+    // 상품 이름 span
+    const itemNameSpan = item.querySelector(".ItemCart-ItemTitle span");
     // 상품 제거 버튼
     const removeItemBtn = item.querySelector(".Button-Container.Remove");
     // 상품 개수 감소 버튼
@@ -82,6 +77,11 @@ itemList.forEach((item) => {
 
     // 선택 버튼 클릭 여부
     let isClicked = false;
+
+    itemNameSpan.addEventListener("click", (e) => {
+        const itemId = itemNameSpan.dataset.id;
+        location.href = `/item/detail?id=${itemId}`;
+    })
 
     minusBtn.addEventListener("click", (e) => {
         let currentCount = itemCount.innerHTML;
@@ -110,18 +110,30 @@ itemList.forEach((item) => {
         calculateTotalPrice();
     });
 
-    removeItemBtn.addEventListener("click", (e) => {
-        let result = confirm("해당 상품을 장바구니에서 제외하시겠습니까?");
+    removeItemBtn.addEventListener("click", async (e) => {
+        const cartItemId = removeItemBtn.firstElementChild.dataset.id;
 
-        if (result) {
-            item.remove();
-            calculateTotalPrice();
+        let check = confirm("해당 상품을 장바구니에서 제외하시겠습니까?");
+
+        if (check) {
+            const result = await itemCartService.deleteCartItem(cartItemId);
+            if(result) {
+                location.reload();
+            }
         }
     });
 });
 
-resetBtn.addEventListener("click", (e) => {
-    location.reload(true);
+resetBtn.addEventListener("click", async (e) => {
+    const cartId = resetBtn.id;
+
+    let check = confirm("장바구니를 비우시겠습니까?");
+    if(check) {
+        let result = await itemCartService.deleteAll(cartId);
+        if(result) {
+            location.reload();
+        };
+    }
 });
 
 purchaseBtn.addEventListener("click", (e) => {

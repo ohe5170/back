@@ -12,6 +12,10 @@
 <body>
     <!-- 전체화면 -->
     <div th:object="${item}" class="full-view">
+        <!-- 해당 상품 id input -->
+        <input type="hidden" id="itemId" th:value="${item.id}">
+        <input tpye="hidden" id="loginUserId" th:value="${session.user?.id}">
+
         <main class="main-layout">
             <!-- 화면을 맨위로 올리는 버튼 -->
             <button id="top" class="go-top-scroll-btn">
@@ -481,57 +485,6 @@
 
                                             <!-- 선택한 리스트들 나열 -->
                                             <div class="selected-list-container">
-                                                <!-- 각 카트들 -->
-                                                <!-- <div class="each-cart-wrap">
-                                                    <div class="cart-item-name">js에서 제품이름</div>
-                                                    <div class="cart-info-wrap"> -->
-
-                                                        <!-- 카트에 상품구성? 설명?같은거 -->
-                                                        <!-- <div class="cart-option-explain"> -->
-
-                                                            <!-- li를 몇개해야할지 어떻게 알지 -->
-                                                            <!-- <li>
-                                                                <div class="cart-item-list">
-                                                                    <div class="cart-bullet">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="1.25" fill="#9E9E9E"></circle></svg>
-                                                                    </div>
-                                                                    <span>js에서 제품구성?설명?</span>
-                                                                    <span> 제품구성?설명?</span>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="cart-item-list">
-                                                                    <div class="cart-bullet">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="1.25" fill="#9E9E9E"></circle></svg>
-                                                                    </div>
-                                                                    <span>js에서 제품구성?설명?</span>
-                                                                    <span> 제품구성?설명?</span>
-                                                                </div>
-                                                            </li>
-                                                        </div>
-                                                        <div class="cart-qtt-price">
-                                                            <div class="qtt">
-                                                                <button disabled type="button">
-                                                                    <div name="minus" class="qtt-minus">
-                                                                        <svg viewBox="0 0 48 48"><path d="M6 24.1C6 22.9402 6.9402 22 8.1 22H39.9C41.0598 22 42 22.9402 42 24.1C42 25.2598 41.0598 26.2 39.9 26.2H8.1C6.9402 26.2 6 25.2598 6 24.1Z"></path></svg>
-                                                                    </div>
-                                                                </button>
-                                                                <input readonly type="number" value="1">
-                                                                <button type="button">
-                                                                    <div name="plus" class="qtt-plus">
-                                                                        <svg viewBox="0 0 48 48"><path fill-rule="evenodd" clip-rule="evenodd" d="M43.7104 21.8549H25.99V4.09524C25.99 2.89796 24.9945 2 23.9005 2C22.8054 2 21.81 2.89796 21.81 4.09524V21.9546H4.0905C2.89593 21.8549 2 22.8526 2 23.9501C2 25.0476 2.89593 26.0454 4.0905 26.0454H21.9095V43.9048C21.9095 45.0023 22.8054 46 23.999 46C25.095 46 26.0905 45.102 26.0905 43.9048V26.0454H43.9085C45.0045 26.0454 46 25.1474 46 23.9501C45.8009 22.8526 44.904 21.8549 43.7104 21.8549C43.7104 21.8549 43.81 21.8549 43.7104 21.8549Z"></path></svg>
-                                                                    </div>
-                                                                </button>
-                                                            </div>
-                                                            <div class="each-price">22500원</div>
-                                                        </div>
-                                                    </div>
-                                                    <button class="delete-cart-btn">
-                                                        <div>
-                                                            <svg width="10" height="10" fill="#1C1C1C" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.28544 5.00257L2.01916 2.73642C1.82521 2.54248 1.82974 2.23083 2.01598 2.02765C2.21448 1.81131 2.5294 1.8394 2.72795 2.02108L2.72969 2.02268L4.99738 4.2905L7.26357 2.02431C7.4575 1.83056 7.7691 1.83508 7.97226 2.02115C8.1886 2.21946 8.16077 2.53473 7.97878 2.73311L7.97723 2.73479L5.70945 5.00257L7.97564 7.26876C8.16953 7.46283 8.16504 7.77425 7.97884 7.97756L7.97724 7.9793L7.97557 7.98097C7.78164 8.17472 7.47008 8.17023 7.26691 7.98417L7.26519 7.98259L4.99738 5.71465L2.73129 7.981C2.53725 8.17469 2.22572 8.17025 2.02253 7.98417L2.01908 7.98101L2.01592 7.97756C1.82971 7.77425 1.82526 7.46279 2.01916 7.26872L4.28544 5.00257Z"></path></svg>
-                                                        </div>
-                                                    </button>
-                                                </div> -->
                                             </div>
                                             <div class="divider-in-cart"></div>
 
@@ -544,34 +497,9 @@
                                             </div>
                                         </div>
 
-
-                                        <!-- 기본 옵션 -->
-                                        <div class="each-product-option-wrap">
-                                            <div class="each-product-option" th:data-price="${item.itemPrice}">
-                                                <div class="each-option">
-                                                    <div class="each-option-card">
-                                                        <div class="option-card">
-                                                            <div class="option-price">
-                                                                <div class="price-wrap">
-                                                                    <th:block th:text="${item.itemPrice}">0</th:block>원
-                                                                </div>
-                                                                <div class="option-name" th:text="${item.itemName}">상품명</div>
-                                                            </div>
-                                                            <ul class="option-explain">
-                                                                <li class="item-list">
-                                                                    <span th:text="${item.itemContent}">상품 설명</span>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- 옵션이 있을 때 -->
                                         <div th:if="${!#lists.isEmpty(item.itemOptions)}">
                                             <div th:each="option : ${item.itemOptions}" class="each-product-option-wrap">
-                                                <div class="each-product-option" th:data-price="${option.optionPrice}">
+                                                <div class="each-product-option" th:id="${option.id}" th:data-price="${option.optionPrice}">
                                                     <div class="each-option">
                                                         <div class="each-option-card">
                                                             <div class="option-card">
