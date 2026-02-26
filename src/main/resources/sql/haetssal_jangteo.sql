@@ -55,7 +55,7 @@ create table tbl_payment (
     id bigint unsigned primary key,
     user_id bigint unsigned not null,
     item_id bigint unsigned not null,
-    payment_state enum('pending', 'shipping', 'complete', 'cancelled') default 'pending',
+    payment_state enum('pending', 'shipping', 'complete', 'canceled') default 'pending',
     constraint fk_pay_user foreign key (user_id)
     references tbl_user(id),
     constraint fk_pay_item foreign key (item_id)

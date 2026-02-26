@@ -137,7 +137,10 @@ resetBtn.addEventListener("click", async (e) => {
 });
 
 purchaseBtn.addEventListener("click", (e) => {
-    alert("상품 구매 페이지로 이동합니다.");
+    // 부트 페이 API 연동
+    let result = confirm("선택하신 상품들도 거래를 진행합니다.\n이대로 결제를 진행하시겠습니까?");
 
-    // 페이지 이동 필요.
+    if(result) {
+
+    } else return;
 });

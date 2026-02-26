@@ -305,7 +305,7 @@ prdOptionBtns.forEach((btn) => {
 
 // 12. 카트에 담고 구매버튼 눌렀을때 이벤트
 buyBtnInCart.addEventListener("click", (e) => {
-
+    // 부트페이 API 연동
 });
 
 // 13. 장바구니 버튼 이벤트
