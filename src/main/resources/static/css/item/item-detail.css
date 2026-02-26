@@ -1691,7 +1691,7 @@ img {
     left: 0px;
     display: block;
     height: 100%;
-    width: 50%;
+    width: var(--bar-width, 0%);
     max-width: 100%;
     background-color: rgb(109, 109, 109);
     border-radius: 6px;

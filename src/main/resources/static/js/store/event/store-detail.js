@@ -61,7 +61,7 @@ window.addEventListener("scroll", async (e) => {
             criteria = await storeService.getItemsForDetail(++page, storeId.value, storeLayout.showItems);
         } else {
             // 후기 받아오기
-            console.log("후기 눌림!");
+            criteria = await storeService.getReviewsForDetail(++page, storeId.value, storeLayout.showReviews);
         }
     }
 
@@ -95,7 +95,8 @@ portals.forEach((portal, i) => {
                 mainContents[i].classList.add("on");
                 break;
             case "reviews":
-                // 후기 요청 필요
+                page = 1;
+                await storeService.getReviewsForDetail(page, storeId.value, storeLayout.showReviews);
                 e.target.classList.add("selected");
                 mainContents[i].classList.add("on");
                 break;
@@ -111,7 +112,7 @@ portals.forEach((portal, i) => {
 });
 
 // 1-2. 프로필 대시보드(기본화면) 맨 아래에서 후기전체보기 버튼 눌렀을때 이벤트
-showAllReview.addEventListener("click", (e) => {
+showAllReview.addEventListener("click", async (e) => {
 
     mainContents[0].classList.remove("on");
     portals[0].classList.remove("selected");
@@ -123,6 +124,7 @@ showAllReview.addEventListener("click", (e) => {
     underline.style.width = `${portals[2].offsetWidth}px`;
 
     // 후기 가져오기
+    await storeService.getReviewsForDetail(page, storeId.value, storeLayout.showReviews);
 
     window.scrollTo({
         top: 0, behavior: "smooth"
@@ -130,7 +132,7 @@ showAllReview.addEventListener("click", (e) => {
 });
 
 // 1-3. 메인헤더쪽 받은 리뷰수 누르면 리뷰탭으로 이동하기
-showReviews.addEventListener("click", (e) => {
+showReviews.addEventListener("click", async (e) => {
     if(!mainContents[2].classList.contains("on")){
         mainContents.forEach((main) => {
             main.classList.remove("on");
@@ -145,6 +147,7 @@ showReviews.addEventListener("click", (e) => {
     }
 
     // 후기 가져오기
+    await storeService.getReviewsForDetail(page, storeId.value, storeLayout.showReviews);
 
     window.scrollTo({
         top: 0, behavior: "smooth"
@@ -254,11 +257,4 @@ onlyPhotoInput.addEventListener("change", (e) => {
         onlyPhoto.classList.remove("checked");
         photoReview.style.display = "none";
     }
-});
-
-// 7. 떨이상품버튼
-magamBtn.addEventListener("click", (e) => {
-    let condition = magamBtn.classList.contains("clicked");
-
-    magamBtn.classList.toggle("clicked", !condition);
 });

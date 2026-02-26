@@ -135,22 +135,23 @@ public class StoreService {
             // item 가져오기 + 썸내일 같이 가져오기
             List<ItemDTO> items = itemDAO.findByStoreId(dto.getId(), null).stream()
                     .map(itemDTO -> {
-                        List<FileItemDTO> thumbnails = fileItemDAO.findImagesByIdAndFileItemType(itemDTO.getId(), "thumbnail").stream().collect(Collectors.toList());
+                        List<FileItemDTO> thumbnails = fileItemDAO.findImagesByIdAndFileItemType(itemDTO.getId(), "thumbnail");
                         if(!thumbnails.isEmpty()) {
                             itemDTO.setItemFiles(thumbnails);
                         }
                         return itemDTO;
                     }).collect(Collectors.toList());
 
-            // 후기 가져오기 + (나중에)후기 이미지도 같이 가져오기 + 3개 정도만 가져오기
-            List<ReviewDTO> reviews = reviewDAO.findReviewsByStoreId(dto.getId(), null);
-//                    .stream()
-//                    .map(reviewDTO -> {
-//                        List<FileReviewDTO> reviewImages = reviewDAO.findImagesInReview(reviewDTO.getId());
-//                        if(!reviewImages.isEmpty()) {
-//                            reviewDTO.setReviewFiles(reviewImages);
-//                        }
-//                    });
+            // 후기 가져오기
+            List<ReviewDTO> reviews = reviewDAO.findReviewsByStoreId(dto.getId(), null).stream()
+                    .map(reviewDTO -> {
+                        List<FileReviewDTO> reviewImages = reviewDAO.findImagesInReview(reviewDTO.getId());
+                        if(!reviewImages.isEmpty()) {
+                            reviewDTO.setReviewFiles(reviewImages);
+                        }
+                        reviewDTO.setCreatedDatetime(DateUtils.toRelativeTime(reviewDTO.getCreatedDatetime()));
+                        return reviewDTO;
+                    }).collect(Collectors.toList());
 
             // 마지막 로그인 nn전
             String latestLogin = DateUtils.toRelativeTime(dto.getOwnerLatestLogin());

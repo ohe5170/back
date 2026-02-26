@@ -28,9 +28,9 @@ public class ItemAPIController {
         return itemService.getItemDescImages(id);
     }
 
-    @GetMapping("/reviews/{page}")
-    public ItemReviewDTO getItemReviews(@PathVariable int page, Long id) {
+    @GetMapping("/reviews/{id}")
+    public ItemReviewDTO getItemReviews(@PathVariable Long id) {
         log.info("후기 받아올 상품 id >>>> {}", id);
-        return reviewService.getReviewsByItemId(id, page);
+        return reviewService.getReviewsByItemId(id);
     }
 }

@@ -12,10 +12,6 @@ const userMenu = document.querySelector("div.UserProfile-Menu-Wrapper");
 
 // 카테고리 부분
 const headerLayout = document.querySelector(".Header-Layout");
-const categoryDiv = document.querySelector(".Category-Section-Region");
-const cateExtendDiv = document.querySelector(".Header-BottomExtended-Region");
-const cateSvg = categoryDiv.firstElementChild;
-const tempColor = categoryDiv.firstElementChild.style.color;
 
 // 로그인 버튼 클릭 여부
 let isClicked = false;
@@ -71,22 +67,3 @@ loginButton.addEventListener("click", (e) => {
     }
     isClicked = !isClicked;
 });
-
-const toggleCategoryStyle = () => {
-    isActive = !isActive;
-
-    cateExtendDiv.style.display = isActive ? "flex" : "none";
-    cateSvg.style.color = isActive ? "rgb(254, 95, 76)" : tempColor;
-    cateSvg.style.transition = "0.2s ease-in-out";
-    headerLayout.style.boxShadow = isActive
-        ? "none"
-        : "rgba(0, 0, 0, 0.08) 0px 1px 6px";
-};
-
-// 카테고리 부분 hover 이벤트
-[categoryDiv, cateExtendDiv].forEach((el) => {
-    el.addEventListener("mouseenter", () => toggleCategoryStyle());
-    el.addEventListener("mouseleave", () => toggleCategoryStyle());
-});
-
-categoryDiv.addEventListener("click", toggleCategoryStyle);

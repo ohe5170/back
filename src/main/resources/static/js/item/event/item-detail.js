@@ -51,12 +51,15 @@ const buyBtnInCart = document.querySelector(".cart-buy-btn");
 
 // 13번 이벤트
 const getMoreBtn = document.querySelector(".get-more-btn");
-const firstCardHeight = document.querySelector(".each-product-option-wrap").getBoundingClientRect().top + scrollY;
+const firstCardHeight = document.querySelector(".each-product-option-wrap")?.getBoundingClientRect().top + scrollY || 0;
 
 // 아직 안쓰는 변수들
 // const showAllReview = document.querySelector(".all-review-btn");
 
 // const toCreatorDetail = document.querySelector(".creator-wrapper");
+
+// 상품 id 값을 담은 input
+const itemId = document.getElementById("itemId");
 
 // 1. 상품상세/리뷰 탭 눌렀을때 이벤트
 portals.forEach((portal, i) => {
@@ -67,6 +70,7 @@ portals.forEach((portal, i) => {
         if(name == "itemDesc") {
             await itemService.getItemDescImages(id, itemLayout.showItemDescImages);
         } else {
+            page = 1;
             await itemService.getItemReviews(id, itemLayout.showItemReviews);
         }
 
@@ -301,7 +305,7 @@ prdOptionBtns.forEach((btn) => {
 
 // 12. 카트에 담고 구매버튼 눌렀을때 이벤트
 buyBtnInCart.addEventListener("click", (e) => {
-``
+
 });
 
 // 13. 장바구니 버튼 이벤트
@@ -335,11 +339,6 @@ getMoreBtn.addEventListener("click",  async (e) => {
     await itemService.addCartItem(cartItemDTO);
 });
 
-
-// 0. 프로필 대시보드(기본화면) 맨 아래에서 후기전체보기 버튼 눌렀을때 가게상세 리뷰로 이동
-// showAllReview.addEventListener("click", (e) => {
-
-// });
 
 // 0. 사이드바 판매자 카드 눌렀을때 가게상세로 이동(기본화면)
 // toCreatorDetail.addEventListener("click", (e) => {

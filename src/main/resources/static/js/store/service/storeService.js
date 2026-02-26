@@ -45,12 +45,21 @@ const storeService = (() => {
         }
     }
 
-    // const getItemsWith
+    const getReviewsForDetail = async (page, id, callback) => {
+        page = page || 1;
+
+        const response = await fetch(`/api/store/reviews/${page}?id=${id}`);
+        const storeReview = await response.json();
+        if(callback) {
+            return callback(storeReview);
+        }
+    }
 
     return {
         getMarkets: getMarkets,
         getCategories: getCategories,
         getList: getList,
-        getItemsForDetail: getItemsForDetail
+        getItemsForDetail: getItemsForDetail,
+        getReviewsForDetail: getReviewsForDetail
     };
 })();

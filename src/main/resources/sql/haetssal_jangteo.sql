@@ -282,9 +282,9 @@ create table tbl_file_report (
 );
 
 create table tbl_file_review (
-                                 id bigint unsigned NOT NULL,
+                                 file_id bigint unsigned NOT NULL,
                                  review_id bigint unsigned NOT NULL,
-                                 constraint fk_file_review foreign key (id)
+                                 constraint fk_file_review foreign key (file_id)
                                      references tbl_file(id),
                                  constraint fk_target_review foreign key (review_id)
                                      references tbl_review(id)

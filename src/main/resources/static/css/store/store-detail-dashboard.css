@@ -283,6 +283,8 @@ svg {
 }
 
 .share-btn-wrap {
+    display: flex;
+    gap: 10px;
     min-width: 90px;
     /* width: 90px; */
 }
@@ -861,10 +863,11 @@ svg {
     left: 0px;
     display: block;
     height: 100%;
-    width: 50%;
+    width: var(--bar-width, 0%);
     max-width: 100%;
     background-color: rgb(109, 109, 109);
     border-radius: 6px;
+    transition: width 0.3s ease;
 }
 
 .keyword-item .review-option:first-child .progress-bar::after {
@@ -905,7 +908,20 @@ svg {
     padding: 40px 0px 30px;
 }
 
+.detail-reviews-container-reviewtab {
+    max-width: 770px;
+    width: 100%;
+    flex: 1 1 auto;
+    margin: 0px;
+}
+
 .each-detail-review-wrap:not(:first-child) > div > div {
+    /*  두번째 자신부터 자식의 자식  */
+    padding-top: 32px;
+    border-top: 1px solid rgb(240, 240, 240);
+}
+
+.each-detail-review-wrap-reviewtab:not(:first-child) > div > div {
     /*  두번째 자신부터 자식의 자식  */
     padding-top: 32px;
     border-top: 1px solid rgb(240, 240, 240);

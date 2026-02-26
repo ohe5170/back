@@ -70,26 +70,7 @@
                 <div></div>
                 <div class="BottomContent-Navigation">
                     <nav class="BottomContent-Category-Section">
-                        <div class="Category-Section-Region">
-                            <!-- 확장 카테고리가 열리면 색을 변경해줘야 함 -->
-                            <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="4.25" y="4.58301" width="12.5" height="1.66667" fill="currentColor"></rect>
-                                <rect x="4.25" y="9.16602" width="12.5" height="1.66667" fill="currentColor"></rect>
-                                <rect x="4.25" y="13.75" width="12.5" height="1.66667" fill="currentColor"></rect>
-                            </svg>
-                            지역선택
-                        </div>
-
-                        <!-- 카테고리를 불러온다면 이걸 js에서 뿌려야함 -->
-                        <div class="Category-Section-Category">축산물</div>
-                        <div class="Category-Section-Category">농산물</div>
-                        <div class="Category-Section-Category">수산물</div>
-                        <div class="Category-Section-Category">반찬.장류</div>
-                        <div class="Category-Section-Category">가공식품</div>
-                        <div class="Category-Section-Category">건강식품</div>
-                        <div class="Category-Section-Category">생활용품</div>
-                        <div class="Category-Section-Category">주방용품</div>
-                        <div class="Category-Section-Category">가전</div>
+                        <a th:href="@{/store/list}" class="Category-Section-Category">장터 선택</a>
                     </nav>
                 </div>
                 <!-- 세부 카테고리 부분 -->

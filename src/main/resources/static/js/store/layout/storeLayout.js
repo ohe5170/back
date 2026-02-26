@@ -201,6 +201,111 @@ const storeLayout = (() => {
       return criteria;
    }
 
+   const showReviews = (storeReview) => {
+      if(!storeReview) return;
+
+      const storeName = document.querySelector(".seller-name").innerHTML;
+
+      const reviews = storeReview.storeReviews;
+      const criteria = storeReview.criteria;
+      const total = storeReview.total;
+
+      if(!reviews || reviews.length === 0) return;
+
+      if(criteria.page === 1) {
+         // 페이지가 1일 때만 분포도 랜더링
+         renderReviewListScore(storeName, reviews);
+      }
+
+      // 오른쪽 리뷰 List
+      const reviewWrapper = document.querySelector('.detail-reviews-wrapper-reviewtab');
+
+      const scoreToQuality = (score) => score == 3 ? '만족해요' : (score == 2 ? '보통이에요' : '아쉬워요');
+      const scoreToDelivery = (score) => score == 3 ? '빨랐어요' : (score == 2 ? '보통이에요' : '아쉬워요');
+      const scoreToKind = (score) => score == 3 ? '만족해요' : (score == 2 ? '보통이에요' : '아쉬워요');
+
+      // 기존 리뷰 카드 제거 (footer는 유지)
+      reviewWrapper.querySelectorAll('.each-detail-review-wrap-reviewtab').forEach(el => el.remove());
+
+      let text = ``;
+      reviews.forEach(review => {
+
+         // 리뷰 이미지
+         let imageHtml = ``;
+         if (review.reviewFiles && review.reviewFiles.length > 0) {
+            review.reviewFiles.forEach(file => {
+               imageHtml += `
+                    <div>
+                        <img class="review-image" src="/api/files/display?filePath=${encodeURIComponent(file.fileSavedPath)}&fileName=${encodeURIComponent(file.fileName)}">
+                    </div>
+                `;
+            });
+         }
+
+         text += `
+        <div class="each-detail-review-wrap-reviewtab">
+            <div class="customer-comment-wrap">
+                <div class="exist-after-first-review-reviewtab">
+                    <div class="review-customer-profile-wrap">
+                        <div class="review-customer-profile">
+                            <img class="customer-image" src="https://cdn.tumblbug.com/profile/default_avatar.png">
+                            <div class="customer-info">
+                                <div class="profile-name">
+                                    <a href="/mypage/userPage?id=${review.reviewUserId}" class="goto-customer-profile">${review.userName}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-comment-content-wrap">
+                        <div class="keywords-box-in-comment">
+                            <div class="keyword-in-comment">
+                                <p class="keyword-name">상품</p>
+                                <p class="keyword-content">${scoreToQuality(review.reviewScoreQuality)}</p>
+                            </div>
+                            <div class="keyword-in-comment">
+                                <p class="keyword-name">주문/배송</p>
+                                <p class="keyword-content">${scoreToDelivery(review.reviewScoreDelivery)}</p>
+                            </div>
+                            <div class="keyword-in-comment">
+                                <p class="keyword-name">친절</p>
+                                <p class="keyword-content">${scoreToKind(review.reviewScoreKind)}</p>
+                            </div>
+                        </div>
+                        <div class="review-comment">${review.reviewContent}</div>
+                    </div>
+                    <div class="review-image-wrap">
+                        <div class="image-list">${imageHtml}</div>
+                    </div>
+                    <div class="review-item-info">
+                        <a class="product-link-in-review" href="/item/detail?id=${review.reviewItemId}">
+                            <img class="goto-product-from-review-image" src="/images/TempItem-Image.png">
+                            <div class="product-name-nextto-image">${review.itemName}</div>
+                        </a>
+                    </div>
+                    <div class="thumbs-wrap">
+                        <div class="thumbs-box">
+                            <div class="review-date">
+                                <span>${review.createdDatetime}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="seller-comment-wrap"></div>
+        </div>
+        `;
+      });
+
+      console.log("page : " + criteria.page);
+      if(criteria.page === 1) {
+         reviewWrapper.innerHTML = text;
+      } else {
+         reviewWrapper.innerHTML += text;
+      }
+
+      return criteria;
+   }
+
    const stateToString = (state) => {
       switch (state) {
          case "PENDING":
@@ -218,11 +323,99 @@ const storeLayout = (() => {
       }
    }
 
+   const renderReviewKeywordStates = (reviews) => {
+      if(!reviews || reviews.length === 0) return;
+
+      const categories = [
+         { key: 'reviewScoreQuality',  selector: '.keyword-item:nth-child(1)' },
+         { key: 'reviewScoreDelivery', selector: '.keyword-item:nth-child(2)' },
+         { key: 'reviewScoreKind',     selector: '.keyword-item:nth-child(3)' },
+      ];
+
+      const scoreToOptionIndex = { 3: 0, 2: 1, 1: 2 };
+
+      categories.forEach(({key, selector}) => {
+         const counts = { 0: 0, 1: 0, 2: 0 };
+
+         reviews.forEach(review => {
+            const score = review[key];
+            const idx = scoreToOptionIndex[score];
+            if(idx !== undefined) counts[idx]++;
+         });
+
+         const total = reviews.length;
+         const item = document.querySelector(selector);
+         if(!item) return;
+
+         const options = item.querySelectorAll('.review-option');
+
+         options.forEach((optionEl, i) => {
+            const rate = total > 0 ? Math.round((counts[i] / total) * 100) : 0;
+
+            // 퍼센트 텍스트
+            optionEl.querySelector('.progress-rate').textContent = `${rate}%`;
+
+            // 프로그레스 바
+            const bar = optionEl.querySelector('.progress-bar');
+            bar.style.setProperty('--bar-width', `${rate}%`);
+         });
+      });
+   }
+
+   const renderReviewListScore = (storeName, reviews) => {
+      // 가게명 치환
+      const titleEl = document.querySelector(
+          '.simple-reviews-container .simple-header-title-reviewtab'
+      );
+      if (titleEl) {
+         titleEl.textContent = `${storeName}의 구매자들은 이렇게 대답했어요`;
+      }
+
+      if (!reviews || reviews.length === 0) return;
+
+      const reviewScoreBox = document.querySelector(".simple-reviews-container.list");
+
+      const categories = [
+         { key: 'reviewScoreQuality',  selector: reviewScoreBox.querySelector(".keyword-item:nth-child(1)") },
+         { key: 'reviewScoreDelivery', selector: reviewScoreBox.querySelector(".keyword-item:nth-child(2)") },
+         { key: 'reviewScoreKind',     selector: reviewScoreBox.querySelector(".keyword-item:nth-child(3)") },
+      ];
+
+      const scoreToOptionIndex = { 3: 0, 2: 1, 1: 2 };
+
+      categories.forEach(({ key, selector }) => {
+         const counts = { 0: 0, 1: 0, 2: 0 };
+
+         reviews.forEach(review => {
+            const score = review[key];
+            const idx = scoreToOptionIndex[score];
+            if (idx !== undefined) counts[idx]++;
+         });
+
+         const total = reviews.length;
+         const item = selector;
+         if (!item) return;
+
+         const options = item.querySelectorAll('.review-option');
+
+         options.forEach((optionEl, i) => {
+            const rate = total > 0 ? Math.round((counts[i] / total) * 100) : 0;
+
+            optionEl.querySelector('.progress-rate').textContent = `${rate}%`;
+
+            const bar = optionEl.querySelector('.progress-bar');
+            bar.style.setProperty('--bar-width', `${rate}%`);
+         });
+      });
+   }
+
    return {
       showMarketDropdown: showMarketDropdown,
       showCategories: showCategories,
       showMarketList: showMarketList,
       showList: showList,
-      showItems:showItems
+      showItems:showItems,
+      showReviews: showReviews,
+      renderReviewKeywordStates: renderReviewKeywordStates,
    };
 })();

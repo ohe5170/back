@@ -1,5 +1,6 @@
 package com.app.haetssal_jangteo.controller.item;
 
+import com.app.haetssal_jangteo.common.search.Search;
 import com.app.haetssal_jangteo.dto.ItemDTO;
 import com.app.haetssal_jangteo.dto.ItemDescImageDTO;
 import com.app.haetssal_jangteo.dto.ItemDetailDTO;

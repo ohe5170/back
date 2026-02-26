@@ -16,7 +16,6 @@ const itemService = (() => {
     }
 
     const getItemDescImages = async (id, callback) => {
-
         const response = await fetch(`/api/item/images/${id}`)
         const itemImages = await response.json();
         if(callback) {
@@ -25,11 +24,13 @@ const itemService = (() => {
     }
 
     const getItemReviews = async (id, callback) => {
+        page = page || 1;
+
         const response = await fetch(`/api/item/reviews/${id}`)
-        // const reviews = await response.json();
-        const reviews = null;
-        if(callback)
-            callback(reviews);
+        const itemReview = await response.json();
+        if(callback) {
+            callback(itemReview);
+        }
     }
 
     const addCartItem = async (cartItemDTO) => {
